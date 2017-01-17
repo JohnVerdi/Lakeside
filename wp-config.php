@@ -1,8 +1,8 @@
 <?php
 # Database Configuration
-define( 'DB_NAME', 'lakeside' );
-define( 'DB_USER', 'root' );
-define( 'DB_PASSWORD', '1q2w3e4r' );
+define( 'DB_NAME', 'lakeside_demo' );
+define( 'DB_USER', 'lakeside_demo' );
+define( 'DB_PASSWORD', 'Jaighie9ah' );
 define( 'DB_HOST', '127.0.0.1' );
 define( 'DB_HOST_SLAVE', '127.0.0.1' );
 define('DB_CHARSET', 'utf8mb4');
@@ -86,7 +86,7 @@ $wpe_no_cdn_uris=array ( );
 
 $wpe_content_regexs=array ( );
 
-$wpe_all_domains=array ( 0 => 'lakeside.dev', );
+$wpe_all_domains=array ( 0 => 'demo.lakeside.dev5.sibers.com', );
 
 $wpe_varnish_servers=array ( 0 => 'pod-34709', );
 
