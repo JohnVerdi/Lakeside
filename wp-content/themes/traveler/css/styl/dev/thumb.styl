@@ -1,0 +1,97 @@
+thumb()
+	prefix = 'thumb';
+
+	sel($varname, $pfx = true, $class = true)
+		return set_sel($varname, $pfx, $class, prefix)
+
+	thumb = sel(prefix, false)
+	head = sel('header')
+	header_left = sel('header-left')
+	header_right = sel('header-right')
+	caption = sel('caption')
+	title = sel('title')
+	desc = sel('desc')
+	meta = sel('meta')
+	progress = sel('progress')
+	social = sel('social')
+	inner = sel('inner')
+	inner_b = sel('inner-border')
+
+	{thumb}
+		&:after
+			content ''
+			line-height 0
+			display table
+			clear both
+		.img-left,
+		.img-right
+			width auto
+		.img-left
+			float left
+			margin-right 15px
+		.img-right
+			float right
+			margin-left 15px
+
+	.box-icon-left + {caption},
+	.box-icon-right + {caption},
+	{header_right} + {caption},
+	{header_left} + {caption},
+	.img-left + {caption},
+	.img-right + {caption}
+		display table
+
+	{head}
+		margin-bottom 15px
+
+	{inner}
+		padding-top 10px
+	{inner_b}
+		border 1px solid darken(white, 10%)
+		padding 5px 7px
+
+
+	{header_left}
+		float left
+		margin-right ($base_space/2)
+	{header_right}
+		float right
+		margin-left ($base_space/2)			
+
+	{title}
+		margin 0
+		line-height 1em
+	h5
+		&{title}
+			font-size _fs + 2
+
+	{desc}
+		margin-bottom 0
+		margin-top ($base_space/5)
+		font-size $font_size - 1
+		color lighten($font_color, 10%)
+		line-height 1.4em
+
+	{caption}
+		{btn}
+			margin-top ($base_space/4)
+
+		{social}
+			margin-top ($base_space/4)	
+
+		{meta}
+			margin-top ($base_space/5)
+			font-style italic
+			margin-bottom 0
+			{icon_class}
+				margin-right 5px
+
+	.text-white
+		{desc}
+			color darken(#fff, 10%)	
+		{title}
+			color #fff			
+
+	{progress}
+		margin-top ($base_space/5)
+		margin-bottom 0

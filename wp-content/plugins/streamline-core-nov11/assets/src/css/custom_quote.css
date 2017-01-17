@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+
+body.customQuote {
+	background:#f7f7f7 !important;
+	font-family: 'Open Sans', sans-serif;
+}
+.header {
+  background: #333;
+  color: white;
+}
+.customQuote .header h1 {
+  font-size: 48px;
+  margin: 20px 0;
+}
+.quoteDetails {
+  background: #ffffff none repeat scroll 0 0;
+  padding: 20px 0;
+}
+.customQuote h1 {
+  font-size: 24px;
+  font-weight: 300;
+}
+.quoteConfirmationNumber {
+  font-size: 30px;
+}
+.quoteAgent {
+  background: #333;
+  color: white;
+  padding: 10px;
+  width: 100%;
+}
+.unitListing {
+  background: #ffffff;
+  padding:15px 0;
+  margin-bottom:15px;
+}
+.unitListing h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin:10px 0 20px;
+  border-bottom:1px solid #eee;
+  padding:0 0 10px 0;
+}
+.unitListing h2 span {
+  font-size: 24px;
+  font-weight: 300;
+  color:#666;
+}
+.unitListing h2 em {
+  font-style: italic;
+  font-weight: 200;
+  color: #ccc;
+}
+
+.prettyBookForm{
+  padding-top: 12px;
+}
+
+.unitLocation {
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 20px;
+}
+.unitBedsBaths {
+  font-size: 18px;
+  font-weight: 300;
+  color: #666666;
+}
+.unitThumbnail {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 240px;
+  width: 100%;
+  background-position:center center;
+}
+.unitPriceBlockTop {
+  border-radius: 15px 15px 0 0;
+  padding: 5px 15px;
+  text-align: center;
+  background:#333;
+  color:#ffffff;
+  position:relative;
+}
+.unitPriceBlockTop .caret {
+  color: #333333;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px dashed;
+}
+.unitPriceBlockBottom {
+  border-radius: 0 0 15px 15px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+.unitPrice {
+  font-weight: 700;
+  font-size: 300%;
+  margin-bottom: 0;
+}
+.unitPriceBlockBottom button {
+  width: 100%;
+  margin: 0 0 10px 0 ;
+}
+
+.cards{
+  margin: 0 auto;
+  width:175px;
+  height: 27px;
+  background: rgba(0, 0, 0, 0) url("../../images/creditcards.png") no-repeat scroll left center;
+}
+
+.unitSafe {
+  background: rgba(0, 0, 0, 0) url("../../images/lock.png") no-repeat scroll left center / 20px auto;
+  color: #333333;
+  font-size: 12px;
+  font-style: italic;
+  height: 25px;
+  line-height: 25px;
+  padding-left: 30px;
+  text-align: left;
+  overflow: hidden;
+}
+.customQuote .copyright p {
+	font-size:10px;
+}
+.customQuote .col-sm-12 {
+  margin-bottom: 20px !important;
+}
+
+.property-info{
+	color: #666;
+	font-size: 2em;
+}
+
+@media screen and (min-width:768px) and (max-width:989px) {	
+.unitThumbnail {
+  height: 450px;
+}
+}
+@media screen and (min-width:481px) and (max-width:767px) {
+	.unitThumbnail {
+  height: 350px;
+} 
+}
+@media screen and (max-width:480px) {
+.unitListing div:first-child {
+  clear:left;
+}
+	
+.unitListing h2 {
+  float:left;
+}
+	.unitListing h2 span {
+  clear: left;
+}
+.unitListing h2 em {
+  display: none;
+}
+.unitLocation {
+  margin: 15px 0;
+}
+.customQuote .header h1 {
+  font-size: 32px;
+}
+.quoteConfirmationNumber {
+  font-size: 16px;
+}
+.unitListing h2 {
+  font-size: 28px;
+}
+.unitThumbnail {
+  height: 275px;
+}
+}
+@media screen and (max-width:480px) {
+.unitThumbnail {
+  height: 175px;
+}
+}
+
+.well.sticky{
+  z-index: 1000;
+  }
+
+  .well.sticky h3{
+    margin-top: 0;
+  }
+
+	.entry-header{
+    display: none;
+  }
+
+  ul.ccards{
+    display: inline-block;
+    list-style-type: none;
+    height: 27px;
+    padding: 0;
+  }
+
+  ul.ccards li{
+    display: block;
+    float: left;
+    width: 44px;
+    height: 27px;
+    background: rgba(0, 0, 0, 0) url("../../images/creditcards.png") no-repeat scroll;
+    text-indent: -9999px;
+    outline: none;
+  }
+
+  ul.ccards li.mastercard{
+    background-position: -44px 0;
+  }
+
+  ul.ccards li.amex{
+    background-position: -88px 0;
+  }
+
+  ul.ccards li.discover{
+    background-position: -132px 0;
+  }
+
+

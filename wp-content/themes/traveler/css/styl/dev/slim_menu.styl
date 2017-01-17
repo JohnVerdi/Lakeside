@@ -1,0 +1,170 @@
+slim_menu()
+	prefix = 'slimmenu'
+
+	sel($var_name, $pfx = true, $class = true)
+		return set_sel($var_name, $pfx, $class, prefix)
+
+	collapse_menu = sel('menu-collapser')
+	collapse_btn = sel('collapse-button')
+	icon_bar = sel('icon-bar')
+	core = sel(prefix, false)
+	sub_collapse = sel('sub-collapser')
+	collapsed = sel('collapsed')
+	sub_menu = sel('sub-menu')
+
+
+	{collapse_menu}
+		position relative
+		background-color lighten(#000, 20%)
+		color #fff
+		width 100%
+		height 48px
+		line-height 48px
+		font-size 16px
+		padding 0 8px
+		box-sizing border-box
+
+	{collapse_btn}
+		position absolute
+		right 8px
+		top 50%
+		width 40px
+		// background-color #0e0e0e
+		border-radius 40px
+		color #fff
+		padding 7px 10px
+		cursor pointer
+		font-size 14px
+		text-align center
+		transform translate(0, -50%)
+		box-sizing border-box
+		{icon_bar}
+			background-color #f5f5f5
+			border-radius 1px
+			box-shadow 0 1px rgba(0, 0, 0, 0.25)
+			display block
+			height 2px
+			width 18px
+			margin 2px 0
+
+	ul{core}
+		list-style none
+		margin 0
+		padding 0
+		width 100%
+		li
+			position relative
+			display inline-block
+			// margin-right 10px
+			// background-color #aaa
+			a
+				display block
+				// color #333
+				// padding 12px 64px 12px 16px
+				padding 12px 16px
+				font-size 16px
+				text-transform uppercase
+				font-family $header_font
+				color $font_color
+				// transition 0.18s
+				// background fade-out(#000, 90%)
+				transition background-color 0.17s ease-out
+			&{sub_menu} a
+				padding 12px 30px 12px 16px
+			&.active, &:hover
+				> a
+					background _base
+					color white
+				{sub_collapse} > i
+					color white
+			{sub_collapse}
+				// background none repeat scroll 0 0 rgba(0, 0, 0, 0.075)
+				position absolute
+				right 6px
+				top 0
+				// width 48px
+				width 20px
+				// background red
+				height 100%
+				text-align center
+				z-index 999
+				cursor pointer
+				&:before
+					content ''
+					display inline-block
+					height 100%
+					vertical-align middle
+					// margin-right -0.25em
+				> i
+					text-align center
+					color #333
+					font-size 18px
+					// color _base
+					// display inline-block
+					vertical-align middle
+			ul
+				margin 0
+				list-style none
+				li
+					// background-color #bbb
+					display block
+					a
+						background-color lighten(#000, 20%)
+						color white
+			> ul
+				display none
+				position absolute
+				left 0
+				top 100%
+				z-index 999
+				// width 100%
+				padding 0
+				min-width 170px
+				> li ul
+					display none
+					position absolute
+					left 100%
+					top 0
+					z-index 999
+					width 100%
+		&{collapsed} li
+			display block
+			width 100%
+			box-sizing border-box
+			ul li a
+				background none
+				color _base
+				&:hover
+					background _base
+					color white
+			a
+				display block
+				border-bottom 1px solid rgba(0, 0, 0, 0.075)
+				box-sizing border-box
+			> ul
+				display none
+				position static
+				width 100%
+				padding-left 50px	
+			{sub_collapse}
+				height 50px
+				width 50px
+				right 0
+				background darken(_base, 20%)
+				> i 
+					color white
+		// > li
+		// 	// margin-right -5px
+		// 	border-left 1px	solid #999
+		// 	&:first-child
+		// 		border-left 0
+		// 	&:last-child
+		// 		margin-right 0
+
+
+
+			
+
+
+
+

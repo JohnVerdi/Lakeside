@@ -1,0 +1,35 @@
+row()
+	.row
+		&.row-wrap
+			> {span_class}
+				margin-bottom 30px
+
+		&.row-full
+			margin-left 0
+			margin-right 0
+
+		&.row-no-gutter,
+		&[data-gutter="0"]
+			margin 0 !important
+			> {span_class}
+				padding 0 !important
+
+		&[data-gutter="10"]
+			margin-left -5px
+			margin-right -5px
+			> {span_class}
+				padding-left 5px
+				padding-right 5px
+
+		&[data-gutter="60"]
+			margin-left -30px
+			margin-right -30px
+			> {span_class}
+				padding-left 30px
+				padding-right 30px
+		&[data-gutter="120"]
+			margin-left -60px
+			margin-right -60px
+			> {span_class}
+				padding-left 60px
+				padding-right 60px

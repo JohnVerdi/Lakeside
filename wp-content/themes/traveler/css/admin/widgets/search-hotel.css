@@ -1,0 +1,11 @@
+.fields-wrap{
+    padding: 0px;
+    list-style:none;
+}
+.st_search_fields_value{
+    display: none;
+}
+
+.fields-wrap >li{
+    padding: 0px 5px;
+}

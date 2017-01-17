@@ -1,0 +1,407 @@
+.st_order_items{
+    width: 100%;
+}
+.icon-st{
+    background: url("logo-st.png") no-repeat center center;
+    width: 24px;
+    height: 24px;
+    margin-left: 7px;
+}
+.st_order_items thead tr th{
+    background: #f8f8f8;
+    padding: 8px;
+    font-size: 11px;
+    text-align: left;
+}
+
+.st_order_items td{
+    padding: 8px;
+    text-align: left;
+    line-height: 26px;
+    vertical-align: top;
+    border-bottom: 1px dotted #ececec;
+}
+.st_order_items td.text-right{
+    text-align: right;
+}
+.st_create_item .form_row{
+    display: block;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.st_create_item .form_row label{
+    width: 150px;
+    display: block;
+    float: left;
+}
+.form_row_spec{
+    display: none;
+}
+.format-setting-inner .select2-container{
+    width: 300px;
+}
+.st-wp-filter{
+    padding: 10px;
+    margin-bottom: 20px;
+}
+#posts-filter .st-wp-filter
+{
+    margin-bottom: 20px;
+}
+.form-row
+{
+    margin-bottom: 30px;
+    display: table;
+    width: 100%;
+}
+.form-label{
+    /*padding-bottom: 9px;*/
+    /*border-bottom: 1px dashed #ccc;*/
+    display: block;
+    /*margin-bottom: 9px;*/
+    float: left;
+    margin-right: 20px;
+    width: 170px;
+}
+.form-row .controls{
+    display: table;
+}
+.select2-container.form-control{
+    width: 250px;
+    display: block!important;
+}
+
+
+#adminmenu div.wp-menu-image.dashicons-building-yl:before
+{
+    content: "\f512";
+    color: #ed8323;
+}
+#adminmenu div.wp-menu-image.dashicons-location-alt-bl:before
+{
+    content: "\f231";
+    color: #2ea2cc;
+}
+#adminmenu div.wp-menu-image.dashicons-desktop-red:before
+{
+    color: #d54e21;
+    content: "\f472";
+}
+#adminmenu div.wp-menu-image.dashicons-tickets-alt-st:before
+{
+    color: #8e44ad;
+    content: "\f524";
+}
+#adminmenu div.wp-menu-image.dashicons-admin-home-st:before{
+    content: "\f102";
+    color: #16a085;
+}
+#adminmenu div.wp-menu-image.dashicons-palmtree-st:before{
+    content: "\f527";
+    color: #3498db;
+}
+#adminmenu div.wp-menu-image.dashicons-dashboard-st:before{
+    content: "\f226";
+    color: #27ae60;
+}
+#adminmenu div.wp-menu-image.dashicons-tag-st:before{
+    content: "\f323";
+    color: #3498db;
+}
+#adminmenu .dashicons-st-traveler{
+    background: url("logo.png") no-repeat;
+    background-size: 21px;
+    background-position: 50% 50%;
+}
+#adminmenu .toplevel_page_st_traveler_options{
+
+}
+
+.wp-picker-container .iris-picker {
+    z-index: 9999;
+}
+.wp-admin .wrap.settings-wrap .ui-tabs-nav li a
+{
+    padding: 8px 5px 8px 12px;
+    border-bottom: 1px solid #DBDBDB;
+    margin-left: 2px;
+}
+
+.wp-admin #option-tree-header #option-tree-logo a:before
+{
+    content: "";
+    display: none;
+}
+.wp-admin #option-tree-header #option-tree-logo a img{
+    height: 48px;
+}
+.wp-admin #option-tree-header #option-tree-logo a{
+    height: auto;
+    text-align: center;
+    border-right: 0px;
+    margin-right: 10px;
+}
+.wp-admin #option-tree-options-layouts-form{
+    top: auto;
+    bottom: -54px;
+}
+.wp-admin .wrap.settings-wrap .ui-tabs-nav li a
+{
+    color: #818181;
+}
+.wp-admin #option-tree-header #option-tree-version span, #option-tree-header #theme-version span{
+    border-left: 0px;
+    font-size: 25px;
+    margin-top: 13px;
+    font-weight: bold;
+    color: white;
+}
+.wp-admin #option-tree-header li{
+
+    padding: 14px 0px;
+}
+.wp-admin  .wrap.settings-wrap .ui-tabs-nav li.ui-state-active a
+{
+    border-bottom-color:transparent ;
+}
+
+/* Upload font icon */
+.container-upload-font{
+    width: 100% !important;
+}
+.st-cont-item{
+    width: 100%;
+    float: left;
+    margin-bottom: 15px;
+}
+.st-cont-item i:before{
+    margin-right: 15px;
+}
+@media(min-width: 480px){
+    .st-cont-item{
+        width: 50%;
+    }
+}
+@media(min-width: 768px){
+    .st-cont-item{
+        width: 33.3333%;
+    }
+}
+div[id^="setting_tab_icon"] .format-setting{ overflow: inherit !important;}
+.iconpicker-popover {background-color: white;}
+
+#setting_multi_location .select-wrapper{
+    background: #FFF !important;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+}
+#setting_multi_location .select-wrapper .chosen-container{
+    clear: both;
+}
+#setting_multi_location .select-wrapper > span{
+    display: none;
+}
+.selectize-input{
+    width: 300px !important;
+}
+.list-location-wrapper{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #CCC;
+  margin-top: 5px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.selectize-dropdown [data-selectable] .highlight{position: inherit !important; padding-left: 0 !important; padding-right: 0 !important;}
+.form-control-admin{
+    width: 250px !important;
+    max-width: 100% !important;
+}
+textarea.form-control-admin{
+    resize: none;
+}
+span.require{
+    color: #F00;
+}
+.danger p{
+    color: #F00;
+}
+#setting_menu_style .option-tree-ui-radio-images p{display: block !important}
+
+/*  Bootstrap Clearfix */
+
+/*  Tablet  *//*
+
+@media (min-width:767px){  
+  */
+/* Column clear fix *//*
+
+   .vc_col-lg-1:nth-child(12n+1),
+   .vc_col-lg-2:nth-child(6n+1),
+   .vc_col-lg-3:nth-child(4n+1),
+   .vc_col-lg-4:nth-child(3n+1),
+   .vc_col-lg-6:nth-child(2n+1),
+   .vc_col-md-1:nth-child(12n+1),
+   .vc_col-md-2:nth-child(6n+1),
+   .vc_col-md-3:nth-child(4n+1),
+   .vc_col-md-4:nth-child(3n+1),
+   .vc_col-md-6:nth-child(2n+1){
+    clear: none;
+  }
+   .vc_col-sm-1:nth-child(12n+1),
+   .vc_col-sm-2:nth-child(6n+1),
+   .vc_col-sm-3:nth-child(4n+1),
+   .vc_col-sm-4:nth-child(3n+1),
+   .vc_col-sm-6:nth-child(2n+1){
+    clear: left;
+  }
+}
+*/
+
+/*
+*//*  Medium Desktop  *//*
+@media (min-width:992px){
+
+  *//* Column clear fix *//*
+   .vc_col-lg-1:nth-child(12n+1),
+   .vc_col-lg-2:nth-child(6n+1),
+   .vc_col-lg-3:nth-child(4n+1),
+   .vc_col-lg-4:nth-child(3n+1),
+   .vc_col-lg-6:nth-child(2n+1),
+   .vc_col-sm-1:nth-child(12n+1),
+   .vc_col-sm-2:nth-child(6n+1),
+   .vc_col-sm-3:nth-child(4n+1),
+   .vc_col-sm-4:nth-child(3n+1),
+   .vc_col-sm-6:nth-child(2n+1){
+    clear: none;
+  }
+   .vc_col-md-1:nth-child(12n+1),
+   .vc_col-md-2:nth-child(6n+1),
+   .vc_col-md-3:nth-child(4n+1),
+   .vc_col-md-4:nth-child(3n+1),
+   .vc_col-md-6:nth-child(2n+1){
+    clear: left;
+  }
+}*/
+.wp-admin .qtip{
+  width: auto !important;
+  max-width: 450px;
+}
+.wp-admin .fc-day-grid-container{
+  height: auto !important;
+}
+.btn{
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -moz-user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.qtip .fc-event
+{
+    border-radius: 0px;
+}
+.qtip .calendar-wrapper {position: relative;}
+.qtip .calendar-content.fc-unthemed {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 4px;
+}
+.qtip .calendar-wrapper .overlay {
+  position: absolute; top: 45% ; left: 45% ; z-index: 2  ;     
+  -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);}
+.qtip .calendar-content.fc-unthemed .fc-toolbar button :not (.fc-right button:last-child){margin-right: 5px}
+.qtip .calendar-content.fc-unthemed .fc-center h2 {font-size: 2em}
+.qtip .calendar-content.fc-unthemed th { border-left: 0 ; border-right : 0 ; padding :  1em 0;}
+.qtip .calendar-content.fc-unthemed td{border-width: 0 ; text-align: center}
+.qtip .calendar-content.fc-unthemed  .fc-basic-view .fc-head{
+  background-color :rgba(204, 204, 204, 0.2);
+  border-bottom: 1px solid #ccc ;
+}
+.qtip .calendar-content.fc-unthemed .fc-content-skeleton .fc-day-number {text-align: center}
+.qtip .calendar-content.fc-unthemed .fc-day-grid-container {margin-top : 30px}
+/*.calendar-content.fc-unthemed .fc-event-container:hover .bgr-default {display: block}
+.calendar-content.fc-unthemed .fc-event-container .bgr-default {display: none}*/
+.qtip .calendar-content.fc-unthemed .fc-basic-view .fc-body .fc-row {min-height: auto}
+.qtip .calendar-content.fc-unthemed .fc-content-skeleton thead {display: none}
+.qtip .calendar-content.fc-unthemed .tooltip-inner {min-width: 150px ;  background-color: #666666; color: white; padding : 10px ; line-height: 1.5em ; opacity: 1  ; border-radius: 4px}
+.qtip .calendar-content.fc-unthemed .tooltip-arrow  {border-top-color: #666666!important ; opacity: 1 }
+.qtip .calendar-content.fc-unthemed .tooltip.in {opacity: 1 !important}
+.qtip .calendar-content.fc-unthemed .fc-content-skeleton .fc-event {border: none ; background: none ; color: #666666 ; font-size: 14px}
+.qtip .calendar-content.fc-unthemed .btn.btn-available ,.calendar-content.fc-unthemed .btn-disabled{    
+  height: auto;
+    width: 100%;
+    line-height: 35px;
+    color: white;
+}
+.qtip .calendar-content.fc-unthemed .btn.btn-available {background-color: white  ; border:  1px solid #ccc ; color: #666 }
+.qtip .calendar-content.fc-unthemed .btn.btn-available:hover , .calendar-content.fc-unthemed .st-active .btn.btn-available, .calendar-content.fc-unthemed .btn.btn-available.selected {color: white}
+.qtip .calendar-content.fc-unthemed .btn-disabled {background-color : #ccc;}
+.qtip .calendar-content.fc-unthemed .fc-day-grid-event .fc-content {overflow: initial;}
+.qtip .calendar-content.fc-unthemed .fc-content {margin : 0 2px;}
+.qtip .calendar-content.fc-unthemed .fc-content .btn {padding : 0;}
+.qtip .calendar-content.fc-unthemed .fc-content span{ line-height: 35px}
+.qtip .calendar-bottom {margin-top: 20px ;  padding-bottom: 20px ; }.calendar-bottom .item {display: inline-block ; margin-right: 30px}
+.qtip .calendar-bottom .color {display: inline-block; width: 20px ; height: 20px}
+.qtip .calendar-bottom .color.available   {border: 1px solid #ccc }
+.qtip .calendar-bottom .cellgrey .color {background-color : #ccc }
+.qtip .triangle {    
+    position: relative;
+    display: inline-block;
+    right: 12px; 
+    bottom: 12px;
+    position: absolute;
+}
+.qtip .triangle::before {
+  content: "";
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;    
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg); 
+    border-top-color: #ccc;
+} 
+.qtip .calendar-content.fc-unthemed button.btn-disabled .triangle::before  {border-top-color: #fff; }
+.qtip .calendar-content.fc-unthemed .fc-today {background: none} 
+.qtip .calendar-content.fc-unthemed .st-active .triangle::before , .calendar-content.fc-unthemed .btn.btn-available:hover .triangle::before{border-top-color: white}
+.qtip .calendar-content.fc-unthemed button {position: relative;}
+.qtip .calendar-wrapper .calendar-wrapper-inner {position: relative;}
+.qtip .calendar-wrapper {clear: both}
+.qtip .calendar-content.fc-unthemed .btn[disabled] {opacity: 1}
+
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}
+.iconpicker-popover.popover{
+  background: #FFF;
+  z-index: 9 !important;
+}
+.iconpicker .iconpicker-item.iconpicker-selected {
+    color: #1fc1db !important;
+    box-shadow: 0 0 0 1px #ddd !important;
+}

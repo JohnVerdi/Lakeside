@@ -1,0 +1,23 @@
+#main-header {background-color: white ; }
+
+/*sticky options ====================================================================================*/
+/*.sticky {
+    background: #eee;
+    padding-left: 10px;
+    padding-right: 10px;
+}*/
+
+body.menu_style1 #st_header_wrap .is-sticky >*{ width: 100% }
+body.menu_style1.boxed .is-sticky ,body.menu_style1.boxed .is-sticky #st_header_wrap_inner {width: inherit;}
+
+/*all div as child of boxed is width: inherit  !important */
+body.boxed #st_header_wrap,
+body.boxed #st_header_wrap_inner,
+body.boxed #st_header_wrap_inner>*,
+body.boxed #st_header_wrap_inner .is-sticky,
+body.boxed #st_header_wrap_inner .is-sticky >*
+{width: inherit !important;}
+
+
+body.menu_style1 .menu-item:hover .sub-toggle,.current-menu-ancestor >.sub-toggle{color: white ; }
+#menu1 {background-color: white;}
