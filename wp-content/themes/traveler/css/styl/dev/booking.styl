@@ -1,0 +1,858 @@
+booking()
+	.booking-list
+		list-style none
+		padding 0
+		margin-bottom 30px
+		> li
+			margin-bottom 10px
+			position relative
+	.booking-item
+		cursor pointer
+		display block
+		position relative
+		// padding 0 15px
+		// padding 20px 0
+		padding 17px
+		// border-bottom 1px solid darken(#fff, 10%)
+		border 1px solid darken(#fff, 10%)
+		color $font_color
+		// transition border 0.3s, transition 0.2s
+		transition 0.2s
+		// margin-bottom 10px
+		&:hover, &.active
+			color $font_color
+			border 1px solid _base
+			// transform translate3d(0, -2px, 0)
+			// top -2px
+			// margin-top -2px
+			box-shadow 0 2px 1px fade-out(#000, 80%)
+			.booking-item-number
+				background lighten(#000, 50%)
+			.booking-item-img-wrap .booking-item-img-num
+				opacity 1
+				background fade-out(black, 50%)
+		&.booking-item-small
+			padding 11px
+			.booking-item-title
+				font-size 14px
+				margin-bottom 0
+			.booking-item-rating-stars
+				font-size 12px
+				margin-bottom 0
+				color _base
+				// color _baseI
+			.booking-item-price
+				font-size 20px
+				font-weight 400
+				margin-bottom 2px
+				display inline
+			.booking-item-price-from
+				font-size 12px
+				margin-bottom 2px		
+	.booking-item-title
+		margin-bottom 7px
+	.booking-item-description
+		font-size $font_size - 1
+		line-height 1.5em
+		// padding-top 5px
+		// margin-top 15px
+		// border-top 1px solid darken(#fff, 6%)	
+	.booking-item-img-wrap
+		position relative
+		// opacity 0.3
+		.booking-item-img-num
+			opacity 0.5
+			transition 0.2s
+			position absolute
+			bottom 0
+			right 0
+			color white
+			background fade-out(black, 99%)
+			padding 5px 7px
+			font-size 13px
+			line-height 1em
+			> .fa
+				margin-right 3px			
+	.booking-item-last-booked
+		font-size 11px		
+	.booking-item-rating
+		margin-bottom 3px
+		padding-bottom 3px
+		border-bottom 1px solid darken(#fff, 3%)
+		display inline-block
+		.booking-item-rating-stars
+			display inline-block
+			margin-right 17px
+			margin-bottom -5px
+			color _base
+			.fa
+				margin-right 0
+		.booking-item-rating-number
+			margin-right 7px
+			> b
+				font-size 25px
+	.booking-item-address
+		line-height 1em
+		// margin-bottom 10px
+		font-size 13px			
+	.booking-item-price-from
+		display block
+		font-size $font_size - 2px
+		line-height 1em
+		// margin-bottom 5px
+	.booking-item-price
+		font-size 47px
+		// color _base
+		color darken($font_color, 15%)
+		line-height 1em
+		display inline-block
+		margin-bottom 12px
+	.booking-item-number
+		position absolute
+		width 20px
+		height 20px
+		line-height 20px
+		background lighten(#000, 90%)
+		text-align center
+		color white
+		display block
+		top 2px
+		right 2px
+		font-size 10px
+		transform translate3d(0,0,0)
+		transition 0.2s
+		// backface-visibility hidden
+		// z-index 1
+	.booking-item-flight-details
+		overflow hidden
+		.booking-item-departure,
+		.booking-item-arrival
+			float left
+			width 47%
+			.fa-plane
+				float left
+				display block
+				font-size 30px
+				margin-right 5px
+				position relative
+				top 4px
+			h5
+				// margin-bottom 7px
+				margin-bottom 0
+			.booking-item-date
+				margin-bottom 7px
+				font-size 12px
+				line-height 1em
+				padding-left 32px		
+		.booking-item-departure
+			margin-right 6%
+		.booking-item-destination
+			font-size $font_size - 2
+			line-height 1.3em
+	.booking-item-airline-logo
+		> p
+			margin-bottom 0
+			font-size 12px
+			margin-top 5px
+			line-height 1.3em
+		> img
+			width 40px
+	.booking-item-flight-class
+		// margin-top 5px
+		margin-bottom 7px
+		margin-top -5px
+		// text-align right
+		font-size $font_size - 3
+		color lighten($font_color, 20%)
+		line-height 1em
+		// margin-right 2px
+	// .booking-item-btn
+	// 	margin-top 10px
+
+	.booking-item-features
+		list-style none
+		// overflow hidden
+		// width 75%
+		// float left
+		margin 0
+		padding 0
+		// margin-bottom -20px
+		// overflow hidden
+		> li 
+			float left
+			position relative
+			// padding-bottom 15px
+			margin-right 7px
+			margin-bottom 7px
+			&:hover
+				> i
+					border-color darken(_base, 15%)
+			.booking-item-feature-sign
+				position absolute
+				bottom 2px
+				left 0
+				display block
+				text-align center
+				font-size 10px
+				line-height 1em
+				width 100%
+				// margin-top 3px
+			> i 
+				height 35px
+				width 35px
+				text-align center
+				line-height 35px
+				// background darken(white, 7%)
+				transition 0.3s
+				font-size 23px
+				// background _base
+				// display block
+				display block
+				border-radius 5px
+				border 1px solid darken(white, 20%)
+				color darken(_fc, 10%)
+				// height 25px
+	.booking-item-features-dark
+		// width 25%
+		> li > i
+			background lighten(black, 30%)
+			border 1px solid lighten(black, 20%)
+			color white
+	.booking-item-features-rentals
+		margin-top 10px
+		// margin-bottom 0
+		> li
+			margin-bottom 0		
+	.booking-item-car-title
+		margin-top 7px
+		font-size $font_size - 2
+		line-height 1em
+		margin-bottom 0
+	.booking-item-features-sign > li
+		padding-bottom 15px	
+	.booking-item-features-small > li
+		margin-right 5px
+		margin-bottom 5px 
+		> i
+			// padding 3px
+			width 30px
+			height 30px
+			line-height 30px
+			font-size _fs + 3
+			> img
+				width 20px
+	.booking-item-features-expand
+		display block
+		.booking-item-feature-title
+			position relative
+			line-height 37px
+			margin-left 7px
+			color darken(_fc, 10%)
+		> li 
+			float none
+			display block
+			overflow hidden
+			&:after
+				content '.'
+				display block
+				height 0
+				clear both
+				visibility hidden
+			> i
+				float left	
+	.booking-item-features-2-col
+		> li
+			float left
+			width 50%
+			margin-right 0			
+
+	.booking-item-container
+		.booking-item-details
+			height 0
+			overflow hidden
+			transition opacity 0.3s, transform 0.3s, height 0.3s
+			opacity 0
+			transform translate3d(0, -10px, 0)
+			h5
+				font-size $font_size - 1
+				font-weight 400
+				margin-bottom 20px
+				&.list-title
+					margin-bottom 0
+			.list
+				margin-bottom 20px	
+		&.active .booking-item-details
+			height auto
+			overflow auto
+			padding 15px
+			border 1px solid darken(#fff, 10%)
+			border-top none 
+			position relative
+			font-size $font_size - 3
+			line-height 1.6em
+			opacity 1
+			transform translate3d(0, 0, 0)
+
+	.booking-title
+		margin-bottom 25px
+		margin-top 15px
+		> small
+			font-size $font_size - 2
+			margin-left 5px 
+
+	.booking-filters
+		border-radius 5px
+		font-size $font_size - 3
+		background lighten(#000, 30%);
+		color white
+		// padding 15px 20px
+		padding 15px 0
+		width 263px
+		border 1px solid lighten(black, 15%)
+		> h3
+			padding 0 20px
+		.booking-filters-list
+			> li
+				margin-top 15px
+				// padding-top 15px
+				padding 15px 20px 0 20px
+				border-top 1px solid lighten(#000, 23%)
+				.booking-filters-title
+					margin-bottom 5px
+					small
+						font-size 11px
+						font-weight 400
+						// width 30px
+						position relative
+						top 10px
+						float right
+						line-height 1.3em
+						color darken(white, 20%)
+				.booking-filters-sub-title
+					font-size 15px
+					line-height 1em
+					margin-top 10px
+		.irs-from, .irs-to, .irs-single
+			color white
+		.irs-grid-text
+			color darken(white, 15%)
+		&.booking-filters-white
+			color _fc
+			background darken(white, 2%)
+			border-color darken(white, 20%)
+			.irs-from, .irs-to, .irs-single
+				color _fc
+			.booking-filters-list > li
+				border-color darken(white, 20%)
+
+	.booking-sort
+		// color white
+		// margin-bottom 15px
+		font-size $font_size - 4
+		.booking-sort-title
+			font-size $font_size
+			> a
+				color $font_color
+
+	
+	.booking-item-meta
+		.booking-item-rating
+			border none
+			padding 0
+			margin-bottom 30px
+			display block
+		.booking-item-rating-stars
+			font-size 30px
+			margin-bottom -3px
+			margin-right 10px
+		.booking-item-rating-number
+			font-size 20px
+			b
+				font-size 30px
+	.booking-item-raiting-list,
+	.booking-item-raiting-summary-list
+		font-size $font_size - 1
+		margin-bottom 30px
+		> li 
+			margin-bottom 5px
+			overflow hidden
+			> div
+				height 26px
+				// display inline-block
+				float left
+				line-height 26px
+				&.booking-item-raiting-list-title
+					width 24%
+					// margin-right 3%
+				&.booking-item-raiting-list-bar
+					width 60%
+					background darken(#fff, 10%)
+					// margin-right 3%
+					height 20px
+					margin-top 3px
+					> div
+						background _base
+						height 100%
+				&.booking-item-raiting-list-number
+					margin-left 2%
+					width 10%
+	.booking-item-raiting-summary-list
+		> li 
+			> div
+				&.booking-item-raiting-list-title
+					width 48%
+			.booking-item-rating-stars
+				font-size 14px
+				line-height 26px
+				margin 0
+				color _base
+
+
+	.booking-item-reviews
+		> li
+			margin-bottom 20px
+			.booking-item-review-person 
+				p
+					line-height 1em
+			.booking-item-review-person-avatar
+				display table
+				margin-bottom 8px
+				transition 0.3s
+				&:hover
+					box-shadow 0 0 0 2px _base
+				> img
+					max-width 70px
+			.booking-item-review-person-name
+				margin-bottom 5px
+				// line-height 1em		
+			.booking-item-review-person-loc
+				margin-bottom 0px
+				font-size $font_size - 3
+			.booking-item-review-content
+				padding 15px 17px
+				border 1px solid darken(white, 10%)
+				position relative
+				transition 0.2s
+				&:before
+					z-index 2
+					content ''
+					position absolute
+					width 0
+					height 0
+					border-top 15px solid transparent
+					border-right 20px solid darken(white, 7%)
+					border-bottom 15px solid transparent
+					left -20px
+					top 14px
+				> h5
+					margin-bottom 0
+				.booking-item-raiting-summary-list > li > div.booking-item-raiting-list-title
+					width 75px
+				.booking-item-raiting-summary-list > li .booking-item-rating-stars
+					margin-bottom 0
+				.booking-item-review-more,
+				.booking-item-review-more-content
+					display none
+					transition 0.2s
+				.booking-item-review-expand
+					position relative
+					height 30px
+					cursor pointer
+					span
+						color _base
+						line-height 30px
+						height 30px
+						display block
+						position absolute
+						font-size 14px
+						&.booking-item-review-expand-less
+							display none
+				&.expanded
+					.booking-item-review-more
+						display inline
+					.booking-item-review-more-content
+						display block
+					.booking-item-review-expand	span
+						&.booking-item-review-expand-less
+							display block
+						&.booking-item-review-expand-more
+							display none
+
+			.booking-item-raiting-summary-list
+				margin-bottom 10px				
+
+			.booking-item-rating-stars
+				font-size 14px
+				color _base
+				margin-bottom 5px
+			.booking-item-review-rate
+				line-height 30px
+				font-size $font_size - 2
+				margin-bottom 0
+				// margin-top 10px
+				.fa
+					margin-left 7px	
+
+	// .booking-list-small
+	// 	> li
+	// 		.booking-item
+	// 			padding 11px
+	// 		.booking-item-title
+	// 			font-size 14px
+	// 			margin-bottom 0
+	// 		.booking-item-rating-stars
+	// 			font-size 12px
+	// 			margin-bottom 0
+	// 			color _base
+	// 		.booking-item-price
+	// 			font-size 20px
+	// 			font-weight 400
+	// 			margin-bottom 2px
+	// 		.booking-item-price-from
+	// 			font-size 12px
+	// 			margin-bottom 2px
+
+	.booking-item-raiting-summary-list 
+		&.stats-list-select > li .booking-item-rating-stars
+			color darken(white, 30%)
+			> li
+				cursor pointer
+				transition 0.3s
+				&.hovered
+					color darken(white, 50%)
+				&.selected
+					color _base
+
+	// .booking-item-payment-total
+	// 	padding 15px
+	// 	// background _base
+	// 	// background darken(white, 2%)
+	// 	color darken($font_color, 30%)
+	// 	border 2px solid fade-out(_base, 10%)
+
+	.booking-item-deails-date-location
+		padding 15px 17px
+		background darken(white, 3%)
+		border-radius 5px
+		border 1px solid _base
+		> ul
+			font-size $font_size - 2
+			list-style none
+			margin 0 0 30px 0
+			padding 0
+			> li
+				margin-bottom 15px
+				p
+					margin-bottom 5px
+					> i
+						margin-right 7px
+						height 23px
+						width 23px
+						line-height 23px
+						font-size $font_size - 3
+				h5
+					font-size $font_size
+					margin-bottom 5px
+					color darken($font_color, 30%)
+
+	.booking-item-price-calc
+		font-size $font_size - 1
+		.checkbox 
+			margin-bottom 5px
+			margin-top 0
+			label
+				font-weight 100
+		.icheck
+			width 20px
+			height 20px
+			line-height 18px
+			top 2px
+		.list
+			margin-bottom 10px
+			> li
+				margin-bottom 7px
+				> small
+					display block
+					font-size 11px
+				> p
+					height 25px
+					line-height 25px
+					margin-bottom 0
+					span
+						float right
+				&:last-child
+					// margin-top 7px
+					padding-top 7px
+					border-top 1px solid darken(white, 20%)
+					color darken($font_color, 20%)
+					> p > span
+						font-size $font_size + 1
+						font-weight 600
+						// color _base
+
+	.booking-item-passengers
+		> li
+			margin-top 20px
+			padding-top 20px
+			border-top 2px dashed darken(white, 10%)
+			&:last-child
+				margin-bottom 20px
+				padding-bottom 20px
+				border-bottom 2px dashed darken(white, 10%)
+		label
+			font-weight 100
+			font-size $font_size - 1
+			// display table
+
+	// .booking-item-sex-select
+	// 	.fa
+	// 		font-size 16px
+	// 		margin-right 5px
+	// 		display inline-block
+	// 		line-height 1em
+	// 		cursor pointer
+	// 		opacity 0.7
+	// 		transition 0.3s
+	// 		&:last-child 
+	// 			margin-right 0
+	// 		&:hover,
+	// 		&.selected
+	// 			opacity 1
+	// 		&.selected
+	// 			color _base
+
+	.booking-item-payment-total-flight
+		list-style none
+		margin 0
+		padding 0
+		background darken(white, 5%)
+		margin-right 30px
+		> li
+			padding 10px 15px
+			background lighten(black, 30%)
+			color darken(white, 10%)
+			&:first-child
+				// border none
+				border-bottom 1px dashed lighten(black, 10%)
+				border-radius 5px 5px 0 0
+				> h5
+					line-height 1em
+					margin 3px 0
+					color lighten(_base, 15%)
+			&:last-child
+				border-radius 0 0 5px 5px
+			&.booking-item-payment-total-flight-wait
+				background lighten(black, 20%)
+				// border-color #000
+				> p
+					font-size 13px
+					line-height 1.4em
+					margin 0
+					text-align center
+			h5
+				color white
+			.booking-item-flight-details
+				.booking-item-departure .fa-plane,
+				.booking-item-arrival .fa-plane
+					font-size 20px
+			.booking-item-flight-details .booking-item-departure h5, 
+			.booking-item-flight-details .booking-item-arrival h5
+				font-size 14px
+			.booking-item-flight-details .booking-item-departure .booking-item-date, 
+			.booking-item-flight-details .booking-item-arrival .booking-item-date
+				padding-left 23px
+				font-size 11px
+			.booking-item-flight-details .booking-item-destination
+				font-size 12px
+			.booking-item-flight-duration
+				> p
+					margin-bottom 5px
+					line-height 1em
+					font-size 13px
+				> h5
+					font-weight 400
+
+	.booking-item-payment-flight
+		.booking-item-flight-details
+			.booking-item-departure .fa-plane,
+			.booking-item-arrival .fa-plane
+				font-size 20px
+		.booking-item-flight-details .booking-item-departure h5, 
+		.booking-item-flight-details .booking-item-arrival h5
+			font-size 14px
+		.booking-item-flight-details .booking-item-departure .booking-item-date, 
+		.booking-item-flight-details .booking-item-arrival .booking-item-date
+			padding-left 23px
+			font-size 11px
+		.booking-item-flight-details .booking-item-destination
+			font-size 12px
+		.booking-item-flight-duration
+			> p
+				margin-bottom 5px
+				line-height 1em
+				font-size 13px
+			> h5
+				font-weight 400
+
+	.booking-item-dates-change
+		border-radius 5px
+		padding 15px 20px
+		border 1px solid _base
+		box-shadow 0 2px 1px fade-out(#000, 85%)
+
+
+	.booking-item-payment
+		// padding 10px 15px
+		box-shadow 0 2px 1px fade-out(#000, 90%)
+		border 1px solid fade-out(#000, 85%)
+		> header
+			padding 10px 15px
+			// background fade-out(#000, 95%)
+			// background fade-out(_base, 90%)
+			// background fade-out(#000, 97%)
+			background darken(white, 3%)
+			// margin-bottom 10px
+			// padding-bottom 7px
+			// border-bottom 1px solid fade-out(#000, 85%)
+			.booking-item-payment-img
+				float left
+				display block
+				width 30%
+				margin-right 5%
+			.booking-item-payment-title
+				font-size _fs
+				margin-bottom 0
+			.booking-item-rating-stars
+				font-size _fs - 3
+		.booking-item-payment-total
+				margin-bottom 0
+				padding 8px 30px 8px 15px
+				font-size _fs - 2
+				> span
+					font-size _fs + 10
+					color darken(_fc, 10%)
+					font-weight 400
+					letter-spacing -2px
+
+		.booking-item-payment-details
+			list-style none
+			// margin 15px 0
+			margin 0
+			padding 15px
+			border-top 1px solid darken(white, 15%)
+			border-bottom 1px solid darken(white, 15%)
+			// border-top none
+			> li
+				margin-bottom 20px
+				overflow hidden
+				&:last-child
+					margin-bottom 0
+				> h5
+					line-height 1em
+				> p
+					margin-bottom 0
+					color darken(_fc, 10%)
+				.booking-item-payment-item-title
+					color darken(_fc, 30%)
+				.booking-item-payment-date,
+				.booking-item-payment-date-separator
+					float left
+					display block
+				.booking-item-payment-date-separator
+					width 15%
+					text-align center
+				.booking-item-payment-date
+					// width 30%
+					.booking-item-payment-date-day
+						// font-size _fs - 2
+						margin-bottom 5px
+						line-height 1em
+						color darken(_fc, 10%)
+					.booking-item-payment-date-weekday
+						font-size _fs - 2
+						margin-bottom 0
+						line-height 1em
+						color lighten(_fc, 5%)
+				.booking-item-payment-price
+					margin 0
+					padding 0
+					list-style none
+					> li
+						width 70%
+						overflow hidden
+						font-size _fs - 2
+						border-bottom 1px dashed darken(white, 15%)
+						.booking-item-payment-price-title
+						.booking-item-payment-price-amount
+							float left
+							margin 0
+						.booking-item-payment-price-amount
+							float right
+							> small
+								margin-left 3px
+
+
+	.booking-item-details
+		.booking-item-header
+			margin-bottom 20px
+			margin-top 17px
+			padding-top 3px
+			border-top 1px solid darken(white, 5%)
+		.booking-item-header-price
+			font-size _fs + 5
+			text-align right
+			line-height 1em
+			big
+				font-size _fs * 3
+				line-height 1em
+			small
+				font-size _fs - 1		
+
+
+	.booking-details-tabbable
+		.nav > li 
+			> a > .fa
+				margin-right 5px
+				opacity 0.6
+				font-size 13px
+				position relative
+				top -1px
+			&.active > a > .fa
+				opacity 1
+
+	.booking-list-wishlist
+		> li
+			padding-top 30px
+			padding-right 25px
+			.booking-item-wishlist-title
+				position absolute
+				top 0
+				left 0
+				height 30px
+				line-height 30px
+				padding 0 10px
+				border 1px solid darken(white, 5%)
+				background darken(white, 3%)
+				border-bottom none
+				font-size _fs - 2
+				border-radius 3px 3px 0 0
+				> span
+					font-size _fs - 5
+					color lighten(_fc, 20%)
+					margin-left 5px
+			.booking-item-wishlist-remove
+				position absolute
+				top 30px
+				right 0
+				display block
+				width 25px
+				height 25px
+				line-height 25px
+				background lighten(black, 90%)
+				// color white
+				color _fc
+				text-align center
+				transition 0.1s
+				&:hover
+					background lighten(black, 30%)
+					color white

@@ -1,0 +1,326 @@
+owl_carousel()
+	prefix = 'owl'
+	sel($var_name, $pfx = true, $class = true)
+		return set_sel($var_name, $pfx, $class, prefix)
+
+	carousel = sel('carousel')
+	wrapper = sel('wrapper')
+	wrapper_out = sel('wrapper-outer')
+	item = sel('item')
+	controls = sel('controls')
+	page = sel('page')
+	buttons = sel('buttons')
+	numbers = sel('numbers')
+	origin = sel('origin')
+	fade_out = sel('fade-out')
+	fade_in = sel('fade-in')
+	backSlide_out = sel('backSlide-out')
+	backSlide_in = sel('backSlide-in')
+	goDown_out = sel('goDown-out')
+	goDown_in = sel('goDown-in')
+	fadeUp_in = sel('fadeUp-in')
+	fadeUp_out = sel('fadeUp-out')
+	slider = sel('slider')
+	slider_no_pagi = sel('slider-no-pagi')
+	caption = sel('caption')
+	pagi = sel('pagination')
+	carousel_area = sel('carousel-area')
+
+
+	{carousel} {wrapper}
+		&:after
+			content '.'
+			display block
+			clear both
+			visibility hidden
+			line-height 0
+			height 0
+
+	{carousel}
+		display none
+		position relative
+		// width 100%
+		-ms-touch-action pan-y
+		margin 0 -15px
+		padding 0 45px
+		&[data-nav="false"]
+			padding 0 !important
+			{buttons}
+				display none !important
+		&[data-pagination="false"]
+			{pagi}
+				display none !important
+		&{slider}
+			margin 0
+			padding 0
+			{controls} {buttons}
+				div.owl-next
+					right 30px
+				div.owl-prev
+					left 30px
+			&[data-nav="top-right"]
+				{buttons}
+					div
+						top 20px
+						margin 0
+						width 25px
+						height 25px
+						line-height 25px
+						font-size _fs + 1
+						&.owl-next
+							right 15px
+						&.owl-prev
+							left auto
+							right 50px
+			
+			{item}
+				padding 0
+		{wrapper}
+			display none
+			position relative
+			transform translate3d(0,0,0)
+		{wrapper_out}
+			overflow hidden
+			position relative
+			width 100%
+			&.autoHeight
+				transition height 500ms ease-in-out
+		{item}
+			float left
+			padding 0 15px
+			&.loading
+				min-height 150px
+				background url(AjaxLoader.gif) no-repeat center center
+			{caption}
+				position absolute
+				z-index 99
+				background fade-out(black, 50%)
+				padding 10px 15px
+				color white
+				width 50%
+
+	// {carousel_top_area} {item}
+	// 	height 700px
+
+	//.top-area
+	//	{carousel_area} {item}
+	//		height 700px
+
+	.special-area
+		{carousel_area} {item}
+			height 500px
+
+	[data-inner-pagination="true"]
+		{controls} {pagi}
+			margin 0
+			position absolute
+			bottom 30px
+			width 100%
+	[data-white-pagination="true"]
+		{controls} {pagi} {page} span
+			background white
+
+
+	{controls}
+		user-select none
+		-webkit-tap-highlight-color fade-out(black, 99%)
+		// margin-top 10px
+		text-align center
+		{pagi}
+			margin-top 10px
+		{page},
+		{buttons} div
+			cursor pointer
+			color #fff
+			display inline-block
+			zoom 1
+			*display inline
+			margin 5px
+			// padding 3px 10px
+			// border-radius 30px
+			// background _base
+			border-radius 50%
+			// opacity 0.5
+			&:hover
+				opacity 1
+				text-decoration none
+		{page}
+			display inline-block
+			zoom 1
+			*display inline
+			span
+				display block
+				width 12px
+				height 12px
+				// margin 5px 7px
+				opacity 0.5
+				// border-radius 20px
+				border-radius 50%
+				background _base
+				transition 0.3s
+			&.active span
+				opacity 1
+		&.clickable {page}
+			&:hover span
+				opacity 1
+		span{numbers}
+			height auto
+			width auto
+			color white
+			padding 2px 10px
+			font-size 12px
+			border-radius 30px
+
+	{controls} {buttons}
+		div
+			position absolute
+			top 50%
+			width 30px
+			height 30px
+			line-height 30px
+			display block
+			box-shadow 0 0 0 1px white
+			margin -30px 0 0 0
+			background fade-out(black, 80%)
+			transition 0.3s
+			font-size _fs + 3
+			&:hover
+				background _base
+				box-shadow 0 0 0 1px _base
+			&:before
+				font-family _fa
+			&.owl-next
+				right 0
+				&:before
+					content _faArrNext
+			&.owl-prev
+				left 0
+				&:before
+					content _faArrPrev		
+
+	.grabbing
+		cursor url(../img/grabbing.png) 8 8, move
+
+	{carousel}
+		{wrapper},
+		{item}
+			backface-visibility hidden
+			transform translate3d(0,0,0)
+
+	// TRANSITIONS
+	{origin}
+		perspective 1200px
+		perspective-x 50%
+		perspective-y 50%
+
+	{fade_out}
+		z-index 10
+		animation fadeOut .7s both ease
+	{fade_in}
+		animation fadeIn .7s both ease
+	{backSlide_out}
+		animation backSlideOut 1s both ease
+	{backSlide_in}
+		animation backSlideIn 1s both ease
+	{goDown_out}
+		animation scaleToFade .7s ease both
+	{goDown_in}
+		animation goDown .6s ease both
+	{fadeUp_in}
+		animation scaleUpFrom .5s ease both
+	{fadeUp_out}
+		animation scaleUpTo .5s ease both
+
+	@keyframes empty
+		0%
+			opacity 1
+	@keyframes fadeIn
+		0%
+			opacity 0
+		100%
+			opacity 1
+	@keyframes fadeOut
+		0%
+			opacity 1
+		100%
+			opacity 0
+	@keyframes backSlideOut
+		25%
+			opacity .5
+			transform translateZ(-500px)
+		75%
+			opacity .5
+			transform translateZ(-500px) translateX(-200%)
+		100%
+			opacity .5
+			transform translateZ(-500px) translateX(-200%)
+	@keyframes backSlideIn
+		0%, 25%
+			opacity .5 
+			transform translateZ(-500px) translateX(200%)
+		75%
+			opacity .5
+			transform translateZ(-500px)
+		100%
+			opacity 1
+			transform translateZ(0) translateX(0)
+	@keyframes scaleToFade
+		to
+			opacity 0
+			transform scale(.8)
+	@keyframes goDown
+		from
+			transform translateY(-100%)
+	@keyframes scaleUpFrom
+		from
+			opacity 0
+			transform scale(1.5)
+	@keyframes scaleUpTo
+		to
+			opacity 0
+			transform scale(1.5)
+
+
+	.owl-cap-title
+		// display inline-block
+		// margin-bottom 15px
+		line-height 1em
+		// margin 0
+		font-size 120px
+		display table
+		margin 10px auto
+		padding 10px 0
+		border-bottom 1px solid fade-out(white, 80%)
+		border-top 1px solid fade-out(white, 80%)
+		text-transform uppercase
+		@media _to_screen_md
+			font-size 60px
+	.owl-cap-price
+		margin-bottom 15px
+		small
+			font-size 20px
+			opacity 0.8
+			display block
+		h5
+			font-size 50px
+			color lighten(_base, 10%)
+			line-height 1em
+			margin 0
+	.owl-cap-weather
+		opacity .8
+		.im
+			font-size 60px
+		span
+			font-size 25px
+			position relative
+			top -10px
+			margin-right 15px
+			&:after
+				content ''
+				height 7px
+				width 7px
+				position absolute
+				top 3px
+				right -7px
+				border 2px solid white
+				border-radius 50%

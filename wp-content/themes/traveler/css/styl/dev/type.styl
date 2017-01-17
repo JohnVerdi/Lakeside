@@ -1,0 +1,148 @@
+type()
+	body
+		color $font_color
+		font-family $body_font
+		font-size $font_size
+		line-height $line_height
+		font-weight 300
+
+	a
+		color $base_color
+		text-decoration none
+		&:hover
+			color darken($base_color, 20%)
+			text-decoration none
+
+	h1, h2, h3, h4, h5, .text-hero
+		font-family $header_font
+		margin-top 0
+		font-weight 100
+		color darken($font_color, 25%)
+		line-height 1.3em
+		// margin-bottom 20px
+		&.bolded
+			font-weight 400
+		b
+			font-weight 300
+			line-height 1em
+		small
+			font-size 50%
+			font-weight inherit
+					
+
+	h1
+		font-size $h1_size
+
+	h2
+		font-size $h2_size
+
+	h3
+		font-size $h3_size
+
+	h4
+		font-size $h4_size
+
+	h5	
+		font-size $h5_size
+		font-weight 300
+
+	* > small, small
+		color lighten($font_color, 10%)
+		font-size $font_size - 4
+		line-height $line_height - 0.2
+
+	big
+		color darken($font_color, 10%)
+		font-size $font_size + 2
+		line-height $line_height + 0.18
+
+	.page-title
+		font-size 75px
+		margin 30px 0
+		@media _to_screen_md
+			font-size 50px
+
+	.text-white
+		color white
+		big, h1, h2, h3, h4, h5, small, .text-hero, a, a:hover
+			color white
+
+	a.text-white:hover
+		color white
+				
+
+	.text-udl
+		text-decoration underline
+	
+	a.text-udl:hover
+		text-decoration underline
+
+	.text-default
+		color _fc
+
+	.text-color
+		color _base !important
+
+	.text-darken
+		color darken(_fc, 25%)
+
+	a.text-darken
+		color darken(_fc, 25%)
+		&:hover
+			color darken(_fc, 45%)
+
+	.text-smaller
+		font-size 75%
+	.text-small
+		font-size $font_size - 2
+		line-height 1.5em
+		p
+			margin-bottom 4px
+			font-size _fs - 3
+			line-height 1.4em
+		h5
+			font-size _fs
+			line-height 1em
+			margin-bottom 4px
+
+	.text-tiny
+		font-size _fs - 4
+
+	.text-bigger
+		font-size 125%
+		line-height 1.5em
+
+	.text-darken
+		color darken($font_color, 15%)
+
+	.text-gray
+		color gray
+
+	.lh1em
+		line-height 1em
+
+	.text-hero
+		font-size 200px
+		line-height 1em
+
+	.text-lg
+		font-size 100px
+		line-height 1em
+
+	.uc, .text-uc
+		text-transform uppercase
+
+	blockquote
+		position relative
+		padding 0 0 0 40px
+		margin 10px 20px
+		border none
+		line-height 1.6em
+		&:before
+			content '\f10e'
+			font-family _fa
+			top 0
+			left 0
+			font-size 30px
+			position absolute
+

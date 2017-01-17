@@ -1,0 +1,283 @@
+hover_image()
+	hover = '.hover-img'
+
+
+
+	title = '.hover-title'
+	title_center = '.hover-title-center'
+	title_top_right = '.hover-title-top-right'
+	title_top_left = '.hover-title-top-left'
+	title_bottom_right = '.hover-title-bottom-right'
+	title_bottom_left = '.hover-title-bottom-left'
+	title_top_center = '.hover-title-center-top'
+	title_bottom_center = '.hover-title-center-bottom'
+	title_top = '.hover-title-top'
+	
+
+
+	_center = '.hover-center'
+	top_right = '.hover-top-right'
+	top_left = '.hover-top-left'
+	bottom_right = '.hover-bottom-right'
+	bottom_left = '.hover-bottom-left'
+	top_center = '.hover-top-center'
+	bottom_center = '.hover-bottom-center'
+	_top = '.hover-top'
+
+
+
+	inner_wrap = '.hover-inner-wrap'
+	inner = '.hover-inner'
+
+	icon = '.hover-icon'
+	icon_top_right = '.hover-icon-top-right'
+	icon_top_left = '.hover-icon-top-left'
+	icon_bottom_right = '.hover-icon-bottom-right'
+	icon_bottom_left = '.hover-icon-bottom-left'
+	icon_top_center = '.hover-icon-center-top'
+	icon_bottom_center = '.hover-icon-center-bottom'
+
+	icon_group = '.hover-icon-group'
+	icon_group_top_right = '.hover-icon-group-top-right'
+	icon_group_top_left = '.hover-icon-group-top-left'
+	icon_group_bottom_left = '.hover-icon-group-bottom-left'
+	icon_group_bottom_right = '.hover-icon-group-bottom-right'
+	icon_group_top_center = '.hover-icon-group-center-top'
+	icon_group_bottom_center = '.hover-icon-group-center-bottom'
+
+
+	{hover}
+		// fix dragging bug
+		z-index 1
+		display block
+		position relative
+		// background darken($base_color, 80%)
+		overflow hidden
+		transition 0.3s
+		background black
+		.curved
+			> img
+				border-radius 5px
+
+		>img
+			transition 4s
+			backface-visibility hidden
+
+
+		{icon_group},
+		{icon_group_top_right},
+		{icon_group_top_left},
+		{icon_group_bottom_left},
+		{icon_group_bottom_right},
+		{icon_group_top_center},
+		{icon_group_bottom_center}
+			list-style none
+			margin 0
+			padding 0
+			width 100%
+			text-align center
+			> li
+				display inline-block
+				margin 0 5px
+
+		{icon_group_top_left},
+		{icon_group_bottom_left}
+			text-align left
+
+		{icon_group_top_right},
+		{icon_group_bottom_right}
+			text-align right
+
+		{icon},
+		{icon_group},
+		[class^="hover-icon-"],
+		[class*=" hover-icon-"]
+			display block
+			transition 0.3s
+			position absolute
+			opacity 0
+
+		[class^="hover-icon-"],
+		[class*=" hover-icon-"]
+			transform translate(0, 100%)	
+
+		{inner_wrap}
+		>{inner}
+			position absolute
+			width 101%
+			height 100%
+			padding ($base_space/2)
+			top 0
+			left 0
+			box-sizing border-box
+			opacity 0
+			transform translate(0, 100%)
+			transition 0.3s
+			&.hover-inner-sm
+				padding 10px
+
+		{inner}
+			width 101%
+			height 100%
+			padding ($base_space/2)
+			box-sizing border-box
+			background _base
+			color #fff !important
+			h1,h2,h3,h4,h5
+				color #fff
+
+		.hover-inner-bg-black
+			background fade-out(#000, 50%) !important
+
+		.hover-inner-block
+			height auto
+
+		.hover-inner-bottom
+			top auto
+			bottom 0	
+
+	
+
+		{title}, 
+		[class^="hover-title-"],
+		[class*=" hover-title-"]
+			// font-size _fs + 1
+			z-index 2
+			position absolute
+			bottom 0
+			left 0
+			margin 0
+			background fade-out(_base, 25%)
+			color #fff
+			width 100%
+			padding 0 7px
+			line-height 32px
+			box-sizing border-box
+			height 32px
+			opacity 0
+			transform translate(0, 100%)
+			transition 0.3s
+			backface-visibility hidden
+		
+		{title_top},
+		{title_top_left},
+		{icon_top_left},
+		{icon_group_top_left}
+			bottom auto
+			top 0
+		{title_top_right},
+		{icon_top_right},
+		{icon_group_top_right}
+			bottom auto
+			top 0
+			left auto
+			right 0
+		{title_bottom_right},
+		{icon_bottom_right},
+		{icon_group_bottom_right}
+			left auto
+			right 0
+
+		{title_center},
+		{title_top_right},
+		{title_top_left},
+		{title_bottom_right},
+		{title_bottom_left},
+		{title_top_center},
+		{title_bottom_center}
+			display table
+			width auto
+
+		{title_top_right},
+		{title_top_left},
+		{title_bottom_right},
+		{title_bottom_left},
+		{icon_top_right},
+		{icon_top_left},
+		{icon_bottom_right},
+		{icon_bottom_left},
+		{icon_group_top_right},
+		{icon_group_top_left},
+		{icon_group_bottom_right},
+		{icon_group_bottom_left}
+			margin ($base_space/2)
+
+		{title_center},
+		{icon}
+			top 50%
+			left 50%
+			transform translate3d(-50%, 50%, 0)
+
+		{icon_group}
+			top 50%
+			transform translate3d(0, 50%, 0)	
+
+
+		{title_top_center},
+		{title_bottom_center},
+		{icon_top_center},
+		{icon_bottom_center},
+		{icon_group_top_center},
+		{icon_group_bottom_center}
+			margin ($base_space/2) 0
+			left 50%
+			transform translate(-50%, 100%)
+
+		{title_top_center},
+		{icon_top_center},
+		{icon_group_top_center}
+			bottom auto
+			top 0
+
+		{icon_bottom_left},
+		{icon_bottom_right},
+		{icon_bottom_center},
+		{icon_group_bottom_left},
+		{icon_group_bottom_right},
+		{icon_group_bottom_center}
+			bottom 0		
+		
+		.hover-hold
+			opacity 1
+			transform translate(0, 0)
+			&{title_center},
+			&{icon}
+				transform translate(-50%, -50%)
+			&{title_top_center},
+			&{title_bottom_center},
+			&{icon_top_center},
+			&{icon_bottom_center},
+			&{icon_group_top_center},
+			&{icon_group_bottom_center}
+				transform translate(-50%, 0%)
+			&{icon_group}
+				transform translate3d(0, -50%, 0)
+
+
+		&:hover
+			{title}, 
+			[class^="hover-title-"],
+			[class*=" hover-title-"],
+			[class^="hover-icon-"],
+			[class*=" hover-icon-"],
+			{icon},
+			{inner_wrap},
+			> {inner},
+			{icon_group}
+				opacity 1
+				transform translate(0, 0)
+			{title_center},
+			{icon}
+				transform translate3d(-50%, -50%, 0)
+			{icon_group}
+				transform translate3d(0, -50%, 0)	
+			{title_top_center},
+			{title_bottom_center},
+			{icon_bottom_center},
+			{icon_top_center},
+			{icon_group_top_center},
+			{icon_group_bottom_center}
+				transform translate(-50%, 0%)
+			>img
+				opacity 0.7
+				transform scale(1.2)

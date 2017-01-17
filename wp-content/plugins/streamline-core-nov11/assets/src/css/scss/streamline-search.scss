@@ -1,0 +1,212 @@
+/*** begin listing style 1 ***/
+.listing-1 .propertyTitle a{
+  display: inline-block;
+}
+
+.listing-1 .propertyCost .h6{
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.listing-1 .property {
+    background: #fff none repeat scroll 0 0;
+    margin: 0 0 15px
+}
+
+.listing-1 .propertyInfo {
+    background: #fff none repeat scroll 0 0;    
+    letter-spacing: 1px;
+    padding: 20px 0 0;
+    position: relative
+}
+
+.listing-1 .propertyTitle {
+    color: #333;
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+.listing-1 .propertyTitle div {
+    line-height: 21px
+}
+
+.listing-1 .propertyLocation {
+    color: #666;
+    font-size: 14px
+}
+
+.listing-1 .propertyDescription {
+    display: none
+}
+
+.listing-1 .propertyPets {
+    background: #eaeaea url(../../images/pet.png) no-repeat scroll center center;
+    border-radius: 25px;
+    display: none;
+    height: 50px;
+    position: absolute;
+    right: 25px;
+    text-indent: -9999em;
+    top: -24px;
+    width: 50px;
+    z-index: 3
+}
+
+.listing-1 .propertyPhoto {
+    display: block;
+    height: 262px;
+    position: relative
+}
+
+.listing-1 .propertyPhoto a.thumb {
+    display: block;
+    height: 262px
+}
+
+.listing-1 .propertyPhoto a.thumb img {
+    height: 262px;
+    width: 100%
+}
+
+.listing-1 .propertyInfo2 {
+    background: #fff none repeat scroll 0 0;
+    font-size: 14px;
+    font-weight: 300;
+    min-height: 65px;
+    padding: 10px 0;
+    position: relative;
+    text-transform: uppercase
+}
+
+.listing-1 .propertySleeps {
+    float: left;
+    text-align: center;
+    width: 33%
+}
+
+.listing-1 .propertyBedrooms {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    float: left;
+    text-align: center;
+    width: 32%
+}
+
+.listing-1 .propertyCost {
+    float: left;
+    text-align: center;
+    width: 33%
+}
+
+/*** end listing style 1 ***/
+
+/*** begin listing style 2 ***/
+.listing-2 .panel-body{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.listing-2 .star-rating-text{
+  display:inline-block; 
+  vertical-align: top;
+  line-height: 26px;
+}
+
+.listing-2 .reviews-wrapper{
+  height: 32px;
+}
+/*** end listing style 2 ***/
+
+/*** begin listing style 3 ***/
+.listing-3 h3.listing-name{
+  display: inline-block;
+}
+
+.listing-3 .btn-fav{
+  line-height: 26px;
+  vertical-align: top;
+  font-size: 20px;
+  margin-left: 24px;
+}
+
+.listing-3 .petFriendly{
+  display: inline-block;
+  line-height: 24px;
+  vertical-align: top;
+}
+
+.listing-3 .property-outer, .listing-4 .property-outer{
+  position: relative;
+}
+
+.listing-3 .property-thumb img{
+  width: 100%;
+}
+
+.listing-3 .star-rating{
+  float: right;
+}
+/*** end listing style 3 ***/
+
+/*** begin listing style 4 ***/
+.listing-4 .listing-name{
+  margin-top: 0;
+}
+
+.listing-4 .location-name{
+  font-size: 0.9em;
+  color: #666666;
+}
+/*** END LISTING STYLE 4 ***/
+
+.btn-fav .fa-heart-o{
+  color: #FF6FCF;
+}
+
+.btn-fav:hover .fa-heart-o{
+  color: #EE0285;
+}
+
+.btn-fav .fa-heart, .favorites .fa-heart{
+  color: #EE0285;
+}
+
+.listing-4 .petFriendly{
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 1.5em;
+  color: #fff;  
+  text-shadow: 0 2px 2px #232323;
+  text-decoration: none;
+  z-index: 1;
+}
+
+.listing-1 .petFriendly, .listing-2 .petFriendly{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: #fff;  
+  text-shadow: 0 2px 2px #232323;
+  text-decoration: none;
+  z-index: 1;
+}
+
+.listing-1 .btn-fav, .listing-2 .btn-fav{  
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 1.5em;
+  display: inline-block;  
+  z-index: 1;
+}
+
+.listing-4 .btn-fav{
+  height: 31px;
+  line-height: 31px;
+  display: inline-block;
+  margin-left: 12px;
+  vertical-align: top;
+}

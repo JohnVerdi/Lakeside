@@ -1,0 +1,96 @@
+user_profile()
+	.user-profile-sidebar
+		border-radius 5px
+		margin-right 30px
+		padding 20px 0
+		background lighten(black, 30%)
+		color white
+		margin-bottom 30px
+		.user-profile-avatar
+			padding 0 20px
+			margin-bottom 20px
+			img
+				max-width 120px
+				margin-bottom 15px
+				border-radius 50%
+			h5
+				color white
+				margin-bottom 0
+				font-size _fs + 2
+			p
+				font-size _fs - 4
+
+		.user-profile-nav
+			> li
+				border-bottom 1px solid lighten(black, 25%)
+				&:first-child
+					border-top 1px solid lighten(black, 25%)
+				&.active > a
+					background _base
+					color white
+					cursor default
+					&:hover
+						background _base
+						color white
+						> i
+							color white
+				> a
+					padding 10px 20px
+					color darken(white, 15%)
+					display block
+					font-size _fs - 1
+					&:hover
+						color white
+						background lighten(black, 25%)
+						transition 0.3s
+						> i
+							color _base
+					> i
+						margin-right 7px
+						display inline-block
+						width 20px
+						text-align center
+						transition 0.3s
+
+	.user-profile-statictics
+		> li
+			margin-right 20px
+			text-align center
+			padding 20px
+			border 1px solid darken(white, 10%)
+			border-radius 5px
+			width 153px
+			&:last-child
+				margin-right 0
+			.user-profile-statictics-icon
+				font-size 70px
+				display inline-block
+				margin-bottom 10px
+				color darken(white, 45%)
+			h5
+				font-size 30px
+				margin-bottom 0
+				line-height 1em
+				margin-bottom 3px
+				color _base
+			p
+				margin-bottom 0
+				line-height 1em
+				font-size _fs - 1
+
+	.table-booking-history
+		font-size _fs - 2
+		.booking-history-type
+			text-align center
+			> i
+				display block
+				font-size 25px
+				color darken(_fc, 15%)
+				margin-bottom 2px
+			> small
+				line-height 1em
+				// margin-top -2px
+				display block
+		.booking-history-title
+			width 22%
+			color darken(_fc, 25%)

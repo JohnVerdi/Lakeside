@@ -1,0 +1,68 @@
+btn()
+	.btn
+		transition 0.2s
+		border-radius 3px
+		&:hover
+			border-radius 10px
+		> .fa, > .im
+			margin 0 5px
+	.btn-primary
+		background _base
+		border-color darken(_base, 10%)
+		&:hover
+			background darken(_base, 10%)
+			border-color darken(_base, 20%)
+	.btn-primary-invert
+		background _baseI
+		border-color darken(_baseI, 10%)
+		color white
+		&:hover
+			color white
+			background darken(_baseI, 10%)
+			border-color darken(_baseI, 20%)
+
+	.btn-paypal
+		background _c_paypal
+		color white
+		border-color darken(_c_paypal, 10%)
+		&:hover
+			color white
+			background darken(_c_paypal, 10%)
+			border-color darken(_c_paypal, 20%)
+
+	.btn-ghost
+		background none
+		&.btn-primary
+			color _base
+			&:hover
+				background _base
+		&.btn-success
+			color _c_success
+			&:hover
+				background _c_success
+		&.btn-info
+			color _c_info
+			&:hover
+				background _c_info
+		&.btn-warning
+			color _c_warning
+			&:hover
+				background _c_warning
+		&.btn-danger
+			color _c_danger
+			&:hover
+				background _c_danger
+		&.btn-primary-invert
+			color _baseI
+			&:hover
+				background _baseI
+		&:hover
+			color white
+		&.btn-default:hover
+			color darken(_fc, 40%)
+		&.btn-white
+			border-color white
+			color white
+			&:hover
+				background white
+				color _fc

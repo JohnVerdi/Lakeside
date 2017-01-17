@@ -1,0 +1,116 @@
+root{
+  display: block;
+}
+
+.area h3{
+  background-color: #fff;
+  border: dotted 1px #ccc;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+  margin-bottom: 0 !important;
+  padding: 1px 0px 1px 10px;
+}
+
+.pmt-_right{
+  float: right;
+}
+
+a.pmt-li-toggle{
+  color: #06C;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.area .area{
+  margin: 10px;
+}
+
+.area label{
+  font-weight: 700;
+}
+
+.resortpro-widget-dialog{
+  background-color: red;
+  display: none;
+}
+
+.connectedSortable-left,
+.connectedSortable-right{
+  border: #000 1px dotted;
+  list-style-type: none;
+  margin: 10px 0;
+  min-width: 330px;
+  padding: 10px;
+}
+
+.connectedSortable-left{
+  float: right;
+}
+
+.connectedSortable-right{
+  float: left;
+}
+
+.connectedSortable-left li,
+.connectedSortable-right li{
+  cursor: pointer;
+  font-size: 1.2em;
+  margin: 0 5px 5px;
+  padding: 5px;
+  width: 330px;
+}
+
+.resortpro-widget-selected-filters{
+  float: left;
+  font-weight: 700;
+  padding: 3px;
+  text-align: center;
+  width: 360px;
+}
+
+.resortpro-widget-available-filters{
+  float: right;
+  font-weight: 700;
+  margin-right: 5px;
+  padding: 3px;
+  text-align: center;
+  width: 360px;
+}
+
+.resortpro-widget-button{
+  background: #21759B!important;
+  color: #fff!important;
+}
+
+.resortpro-searching-by{
+  font-weight: 700;
+}
+
+.resortpro-switcher{
+  float: right;
+}
+
+.resortpro-switchable{
+  display: none;
+  font-size: 12px;
+  padding: 2px;
+  text-align: right;
+}
+
+.resortpro-switchable input,
+.resortpro-switchable select{
+  width: 150px;
+}
+
+.resortpro-widget-dialog textarea{
+  font-size: 10px !important;
+}
+
+.resortpro-switchable .form-control{
+  display: inline-block !important;
+}
+
+.resortpro-switchable label{
+  font-weight: 400;
+}

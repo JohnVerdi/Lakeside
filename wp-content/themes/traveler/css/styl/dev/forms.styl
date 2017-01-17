@@ -1,0 +1,177 @@
+forms()
+	label
+		font-weight 400
+		display block
+
+	.form-group
+		position relative
+		&.form-group-ghost
+			placeholder-color fade-out(white, 50%)
+			label
+				color white
+			.input-icon
+				color white
+			&.form-group-focus .input-icon-hightlight
+				color lighten(_base, 20%) !important
+			.form-control
+				background fade-out(white, 90%)
+				border-color white
+				color white
+				&:hover
+					cursor pointer
+				&:active, &:focus
+					border-color lighten(_base, 20%)
+		&.form-group-lg
+			margin-bottom 25px
+			.input-icon
+				width 45px
+				height 45px
+				line-height 45px
+				font-size 22px
+			&.form-group-icon-left .form-control
+				padding-left 45px
+			&.form-group-icon-right .form-control
+				padding-right 45px
+			label
+				font-size _fs + 2
+				margin-bottom 7px
+			.form-control
+				height 45px
+				padding 10px 18px
+				font-size _fs - 1
+		&.form-group-sm
+			margin-bottom 10px
+			label
+				margin-bottom 3px
+				font-size _fs - 1
+			.form-control
+				height 25px
+				padding 3px 7px
+				font-size _fs - 2
+				line-height 1.4em
+		&.form-group-icon-left .form-control
+			padding-left 32px
+		&.form-group-icon-right .form-control
+			padding-right 32px
+		.input-icon
+			position absolute
+			width 32px
+			height 32px
+			line-height 32px
+			display block
+			top 31px
+			left 1px
+			text-align center
+			color darken(white, 30%)
+			transition 0.3s
+			z-index 2
+			&.input-icon-show
+				transform translate3d(0, -10px, 0)
+				opacity 0
+				+ label + .form-control
+					padding 6px 12px
+					transition 0.3s
+		&.form-group-icon-right .input-icon
+			right 1px
+			left auto
+		&.form-group-focus
+			.input-icon
+				transition 0.3s
+				&.input-icon-hightlight
+					color _base
+				&.input-icon-show
+					transform translate3d(0, 0, 0)
+					opacity 1
+					+ label + .form-control
+						padding-left 32px
+				&.input-icon-bounce
+					animation 1s bounce
+				&.input-icon-swing
+					animation 1s swing	
+				&.input-icon-tada
+					animation 1s tada
+				&.input-icon-shake
+					animation 1s shake
+		&.form-group-filled
+			.input-icon-show
+				transform translate3d(0, 0, 0)
+				opacity 1
+				+ label + .form-control
+					padding-left 32px
+			label
+				transition 0.3s
+				&.label-anim
+					color _base
+					animation label-anim 0.5s
+				&.label-highlight
+					color _base
+
+	.form-control
+		border-radius 0
+		box-shadow none
+		line-height 1.6em
+		&:active, &:focus
+			box-shadow none
+			border 1px solid _base
+			
+	.help-block
+		font-size $font_size - 2
+		margin-top 7px
+
+	.checkbox, .radio
+		margin-bottom 15px
+		margin-top 0
+
+	.checkbox-inline,
+	.radio-inline
+		label
+			cursor pointer
+
+	.radio-inline + .radio-inline, 
+	.checkbox-inline + .checkbox-inline
+		margin-left 15px
+
+
+	label.label-focus
+		// transition 0.3s
+		color _base
+		animation label-anim 0.5s
+
+	@keyframes label-anim
+		from
+			opacity 0
+			transform translate3d(0, 10px, 0)
+		to
+			opacity 1
+			transform translate3d(0, 0, 0)
+
+	.btn-group-select-num
+		// margin-top 3px
+		>.btn
+			border-radius 50% !important
+			height 28px
+			line-height 26px
+			width 28px
+			padding 0
+			background none
+			color _fc
+			border 1px solid transparent
+			&:hover
+				color _fc
+				border-color _fc
+				background none
+			&.active,
+			&.active:hover
+				background _base
+				border-color darken(_base, 10%)
+				box-shadow none
+				color white
+
+	.form-group-lg .btn-group-select-num
+		margin-top 3px
+		> .btn
+			height 35px
+			line-height 35px
+			width 35px
+
+

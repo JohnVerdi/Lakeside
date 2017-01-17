@@ -1,0 +1,181 @@
+ionrangeslider()
+	prefix = 'irs'
+	sel($var_name, $pfx = true, $class = true)
+		return set_sel($var_name, $pfx, $class, prefix)
+
+	core = sel(prefix, false)
+	line = sel('line')
+	line_l = sel('line-left')
+	line_m = sel('line-mid')
+	line_r = sel('line-right')
+	diap = sel('diapason')
+	slider = sel('slider')
+	min = sel('min')
+	max = sel('max')
+	from = sel('from')
+	to = sel('to')
+	single = sel('single')
+	grid = sel('grid')
+	w_grid = sel('with-grid')
+	grid_p = sel('grid-pol')
+	grid_t = sel('grid-text')
+	dis_mask = sel('disable-mask')
+	dis = sel('disabled')
+
+
+	{core}
+		position relative
+		display block
+		height 40px
+	{line}
+		position relative
+		display block
+		overflow hidden
+		height 12px
+		top 25px
+		// background black
+		background darken(white, 20%)
+	{line_l},
+	{line_m},
+	{line_r}
+		position absolute
+		display block
+		top 0
+		// background gray
+		height 12px
+	{line_l}
+		left 0
+		width 10%
+	{line_m}
+		left 10%
+		width 10%
+	{line_r}
+		right 0
+		width 10%
+	{diap}
+		position absolute
+		display block
+		left 0
+		width 100%
+		height 12px
+		top 25px
+		background _base
+	{slider}
+		position absolute
+		display block
+		left 0
+		// width 100%
+		width 5px
+		height 18px
+		top 22px
+		background darken(_base, 20%)
+		cursor pointer
+		&.single
+			left 10px
+			&:before
+				content ''
+				position absolute
+				display block
+				top -30%
+				left -30%
+				width 160%
+				height 160%
+				// background fade-out(#000, 99%)
+		&.from
+			left 100px
+			&:before
+				content ''
+				position absolute
+				display block
+				top -30%
+				left 0
+				width 200%
+				height 170%
+				// background fade-out(#000, 99%)
+		&.to
+			left 300px
+			&:before
+				content ''
+				position absolute
+				display block
+				top -30%
+				right 0
+				width 200%
+				height 170%
+				// background fade-out(#000, 99%)
+		&.last
+			z-index 2
+	{min},
+	{max}
+		position absolute
+		display block
+		cursor default
+		// color #999
+		color darken(white, 30%)
+		font-size 10px
+		line-height 1.333
+		top 4px
+		// padding 1px 3px
+		// background gray
+	{min}
+		left 0	
+	{max}
+		right 0
+	{from},
+	{to},
+	{single}
+		position absolute
+		display block
+		top 2px
+		left 0
+		cursor default
+		white-space nowrap
+		color darken(white, 60%)
+		font-size 13px
+		line-height 1.333
+		// padding 1px 5px
+		// background _base
+	{grid}
+		position absolute
+		display none
+		bottom 0
+		left 0
+		width 100%
+		height 20px
+	{w_grid}
+		height 60px
+	{w_grid} {grid}
+		display block
+	{grid_p}
+		position absolute
+		top 0
+		left 0
+		width 1px
+		height 8px
+		// background #000
+		background darken(white, 30%)
+		&.small
+			height 4px
+	{grid_t}
+		position absolute
+		bottom 0
+		left 0
+		width 100px
+		white-space nowrap
+		text-align center
+		font-size 9px
+		line-height 9px
+		color darken(white, 50%)
+	{dis_mask}
+		position absolute
+		display block
+		top 0
+		left 0
+		width 100%
+		height 100%
+		cursor default
+		background fade-out(#000, 100%)
+		z-index 2
+	{dis}
+		opacity 0.4							
+
