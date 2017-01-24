@@ -237,7 +237,7 @@
             wp_enqueue_script( 'st-moment' , get_template_directory_uri() . '/js/moment.js' , array( 'jquery', ) , null , true );
             wp_enqueue_script( 'st-moment-timezone' , get_template_directory_uri() . '/js/moment-timezone-with-data-2010-2020.js' , array( 'jquery', ) , null , true );
             wp_enqueue_script('slimmenu', get_template_directory_uri() . '/js/jquery.slimmenu.min.js', array('jquery'), null, true);
-            //wp_enqueue_script('bootstrap-datepicker.js', get_template_directory_uri() . '/js/bootstrap-datepicker.js', array('jquery'), null, true);
+            wp_enqueue_script('bootstrap-datepicker.js', get_template_directory_uri() . '/js/bootstrap-datepicker.js', array('jquery'), null, true);
             wp_enqueue_script('bootstrap-timepicker.js', get_template_directory_uri() . '/js/bootstrap-timepicker.js', array('jquery'), null, true);
             wp_enqueue_script('jquery.form', get_template_directory_uri() . '/js/jquery.form.js', array('jquery'), null, true);
             wp_enqueue_script('ionrangeslider.js', get_template_directory_uri() . '/js/ionrangeslider.js', array('jquery'), null, true);

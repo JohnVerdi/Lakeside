@@ -38,6 +38,8 @@ register_sidebar( array(
         'after_title'   => '</h1>',
     ) );
     
+if( isset($post_id)){
+	wp_get_post_revisions( $post_id, $args );
+}
 
-wp_get_post_revisions( $post_id, $args );
 
