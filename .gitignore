@@ -10,3 +10,4 @@ wp-content/uploads/
 /sitemap.xml
 /sitemap.xml.gz
 .idea/
+/wp-content/object-cache.php

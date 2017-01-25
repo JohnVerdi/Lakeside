@@ -169,8 +169,8 @@ class ResortProWrapper extends StreamlineCore_Wrapper{
     return false;
   }
 
-  public static function get_bedroom_types() {
-    return parent::get_bedroom_types();
+  public static function get_bedroom_types($params) {
+    return parent::get_bedroom_types($params);
   }
 
   private static function get_bedroom_types_api() {
