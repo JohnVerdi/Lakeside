@@ -31,7 +31,7 @@ $loading_img=st()->get_option('search_preload_image');
                         <div class="spinner-clock-minute"></div>
                     </div>
                     <h2 class="mb5">
-                        <?php  echo sprintf(st_get_language('looking_for_s'),apply_filters('st_search_preload_page',false)) ?>
+                        <?php  echo sprintf(st_get_language('looking_for_s'), 'Rooms') ?>
                     </h2>
                     <p class="text-bigger"><?php st_the_language('it_will_take_couple_seconds')  ?></p>
                 </div>
