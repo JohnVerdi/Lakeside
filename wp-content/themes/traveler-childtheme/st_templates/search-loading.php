@@ -1,5 +1,9 @@
 <?php
 /**
+ * Preloader block
+ *
+ * Route /search-result-hotel-1
+ *
  * @package WordPress
  * @subpackage Traveler
  * @since 1.0
