@@ -28,7 +28,7 @@
 </style>
 <div id="primary" class="container content-area" ng-controller="PropertyController as pCtrl">
     <main id="main" class="site-main" role="main" ng-init="propertyId=<?php echo $property['id']; ?>;initializeData();getRatesDetails(<?php echo $property['id']; ?>);getRoomDetails(<?php echo $property['id']; ?>);">
-
+<?php //print_r($property);exit; ?>
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">

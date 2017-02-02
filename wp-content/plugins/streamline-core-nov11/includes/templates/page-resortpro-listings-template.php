@@ -29,12 +29,12 @@ $box_class = ($options['page_layout'] == 'boxed') ? 'container' : 'container-flu
                     <div class="row search_results_filter_area">
 
                         <?php if (is_active_sidebar('top_search_widget')): ?>
-                            <div class="col-md-12">      
+                            <div class="col-md-12">
                                 <?php dynamic_sidebar('top_search_widget'); ?>
-                            </div>    
+                            </div>
                         <?php endif; ?>
 
-                        <div class="col-md-12">                              
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="loading" ng-show="loading">
@@ -46,7 +46,7 @@ $box_class = ($options['page_layout'] == 'boxed') ? 'container' : 'container-flu
                                     <?php if($use_favorites): ?>
                                     <div>
                                         <p>
-                                            <i class="fa fa-heart"></i>  
+                                            <i class="fa fa-heart"></i>
                                             <a href="<?php echo get_permalink(get_page_by_slug('favorites')) ?>">
                                                 Favorites (<span ng-bind="wishlist.length"></span>)
                                             </a>
@@ -68,7 +68,7 @@ $box_class = ($options['page_layout'] == 'boxed') ? 'container' : 'container-flu
                             </div>
                         </div>
 
-                        <?php if ($options['property_show_sorting_options']): ?>
+<!--                        --><?php //if ($options['property_show_sorting_options']): ?>
 
                             <div class="col-md-12">
                                 <div class="row row-sort">
@@ -116,12 +116,12 @@ $box_class = ($options['page_layout'] == 'boxed') ? 'container' : 'container-flu
 
                                 </div>
                             </div>
-                        <?php endif; ?>
+<!--                        --><?php //endif; ?>
 
                         <div class="col-md-12">
-                            <div class="row listings_wrapper_box" ng-init="limit = searchSettings.propertyPagination">
-
-                                <div ng-repeat="property in propertiesObj| orderBy: customSorting : sort | filter: priceRange | filter: amenityFilter | filter: amenityFilterOr | filter: bedroomFilter | filter: locationFilter | filter: neighborhoodFilter | filter: viewNameFilter | limitTo: limit as results">
+                            <button  ng-click="sortBy(checkFavoritesRev(property))" ng-class="{reverse: reverse}">sort</button>
+                            <div class="row listings_wrapper_box " ng-init="limit = searchSettings.propertyPagination">
+                                <div class="row row-wrap loop_hotel loop_grid_hotel style_box" ng-repeat="property in propertiesObj| orderBy: customSorting:reverse as results">
                                     <?php
                                     include($template);
                                     ?>
