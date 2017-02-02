@@ -15,21 +15,14 @@ $room=new STRoom();
 $fields=$room->get_search_fields();
 $st_direction = !empty($st_direction)? $st_direction :  "horizontal";
 
-if(!isset($field_size)) $field_size=''; 
+if(!isset($field_size)) $field_size='';
 ?>
     <h2 class='mb20'><?php echo esc_html($st_title_search) ?></h2>
-    <?php $id_page = st()->get_option('hotel_room_search_result_page');
-          if(!empty($id_page)){
-              $link_action = get_the_permalink($id_page);
-          }else{
-              $link_action = home_url( '/' );
-          }
-    ?>
-    <form role="search" method="get" class="search main-search" action="<?php echo esc_url($link_action) ?>">
-        <?php if(empty($id_page)): ?>   
-        <input type="hidden" name="post_type" value="hotel_room">
-        <input type="hidden" name="s" value="">
-        <?php endif ?>
+    <form role="search" method="get" class="search main-search" action="<?php echo get_the_permalink(6098) ?>">
+<!--        --><?php //if(empty($id_page)): ?>
+<!--        <input type="hidden" name="post_type" value="hotel_room">-->
+<!--        <input type="hidden" name="s" value="">-->
+<!--        --><?php //endif ?>
         <?php if(STInput::get('layout')):?>
         <input type="hidden" name="layout" value="<?php echo STInput::get('layout') ?>">
         <?php endif;?>
@@ -78,7 +71,7 @@ if(!isset($field_size)) $field_size='';
 	            </div>
             </div>
         </div>
-        <?php 
+        <?php
         $option = st()->get_option('hotel_room_allow_search_advance');
         $fields=$room->get_search_adv_fields();
         if( $option =='on' and !empty($fields)):?>
@@ -123,7 +116,7 @@ if(!isset($field_size)) $field_size='';
                     }?>
 
                 </div>
-            </div> 
+            </div>
         </div>
         <!--End search Advance-->
         <?php endif;?>

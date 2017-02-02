@@ -1,3 +1,9 @@
+<?php
+/**
+ * Header template
+ */
+;?>
+
 <header id="main-header" class="st_menu" >
     <div class="header-top <?php echo apply_filters('st_header_top_class','') ?>">
         <div class="container">
@@ -37,6 +43,6 @@
                 }
                 ?>
             </div>
-        </div>    
+        </div>
     </div><!-- End .main_menu_wrap-->
 </header>
