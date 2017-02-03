@@ -1112,8 +1112,40 @@ class ResortPro
         return $output;
     }
 
+
+// add the filter
     public function search_results($params = array(), $return_units = false)
     {
+
+        $request = new SibersStrimlineAPI();
+
+var_dump($request->request());exit;
+        if (!empty($raw_start_date) && !empty($raw_end_date)) {
+            if( version_compare ( '5.3', PHP_VERSION, '<' ) ){
+                $start = new \DateTime($raw_start_date);
+                $start_date = $start->format('m/d/Y');
+
+                $end = new \DateTime($raw_end_date);
+                $end_date = $end->format('m/d/Y');
+            } else {
+                $start_date = date('Y-m-d', strtotime($raw_start_date)); // now
+                $end_date = date('Y-m-d', strtotime($raw_end_date)); // two days from now
+            }
+
+            $params = array(
+                'sd' => $start_date,
+                'ed' => $end_date
+            );
+        }
+        function filter_http_request_timeout( $array ) {
+            return $array;
+        }
+        add_filter( 'http_request_timeout', 'filter_http_request_timeout', 99999, 1 );
+
+        $results = StreamlineCore_Wrapper::search( $params );
+
+
+
         $options = StreamlineCore_Settings::get_options();
 
         $search_layout = $options['search_layout'];
@@ -1282,6 +1314,21 @@ class ResortPro
         $max_occupants = (isset($options['inquiry_adults_max']) && $options['inquiry_adults_max'] > 0) ? $options['inquiry_adults_max'] : 1;
         $max_occupants_small = (isset($options['inquiry_children_max']) && $options['inquiry_children_max'] > 0) ? $options['inquiry_children_max'] : 1;
         $max_pets = (isset($options['inquiry_pets_max']) && $options['inquiry_pets_max'] > 0) ? $options['inquiry_pets_max'] : 1;
+        $selectedBedrooms = array();
+        if(isset($_GET['bedrooms'])){
+            $selectedBedrooms = $_GET['bedrooms'];
+        }
+        $selectedLocation = array();
+        if(isset($_GET['locations'])){
+            $selectedLocation = $_GET['locations'];
+        }
+        $selectedRentalType = array();
+        if(isset($_GET['rental_type'])){
+            $selectedRentalType = $_GET['rental_type'];
+        }
+        $locationResorts = ResortProWrapper::get_location_resorts();
+        $rentalTypes = ResortProWrapper::get_home_types();
+        $bedRooms = ResortProWrapper::get_group_types();
 
         ob_start();
         include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template.php');

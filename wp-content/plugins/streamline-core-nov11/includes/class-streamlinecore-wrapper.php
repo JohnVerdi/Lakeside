@@ -36,7 +36,7 @@ class StreamlineCore_Wrapper{
       'neighborhood_area_id'  => null,
       'occupants_small'       => 0,
       'page_number'           => 1,
-      'page_results_number'   => 10,
+      'page_results_number'   => 1000,
       'resort_area_id'        => null,
       'skip_units'            => 0,
       'sort_by'               => 'price_complex',
@@ -77,7 +77,6 @@ class StreamlineCore_Wrapper{
       $args['feedback_random'] = 'yes';
       $args['feedback_limit'] = 3;
     }
-
     return self::_api_request( 'GetPropertyListWordPress', $args );
   }
 
@@ -457,7 +456,6 @@ class StreamlineCore_Wrapper{
 
     // set request json
     $request_json = json_encode( array( 'methodName' => $method_name, 'params' => array_merge( array( 'company_code' => $company_code ), $args ) ) );
-
     // preform request
     $response = wp_remote_post( $endpoint, array(
       'headers' => array( 'Content-Type: application/json', 'Content-Length: ' . strlen( $request_json ) ),

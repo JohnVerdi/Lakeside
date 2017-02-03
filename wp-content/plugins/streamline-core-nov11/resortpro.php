@@ -41,6 +41,12 @@ require_once( 'widget/class.ResortProFeaturedPropertyWidget.php' );
 require_once( 'widget/class.ResortProTestimonialWidget.php' );
 
 
+//Load sibers data
+require_once( 'sibers/classes/AngryCurl.class.php' );
+require_once( 'sibers/classes/SibersStrimlineAPI.php' );
+
+
+
 function resortpro_register_widgets()
 {
     register_widget('ResortProMapWidget');
