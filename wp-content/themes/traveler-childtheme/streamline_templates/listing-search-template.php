@@ -12,7 +12,7 @@
                 <div class="property_overlay">
                     <div class="row">
                         <div class="col-md-9">
-                            <div style="padding-left:12px">                            
+                            <div style="padding-left:12px">
                                 <h3 class="listing-name row-space-top-1">
                                     <a ng-href="{[goToProperty(property.seo_page_name, search.start_date, search.end_date, search.occupants, search.occupants_small, search.pets)]}">
                                         <strong ng-bind="getUnitName(property)"></strong>
@@ -25,10 +25,10 @@
                                 <?php if($use_favorites): ?>
                                 <a ng-if="!checkFavorites(property)" class="btn-fav" ng-click="addToFavorites(property)" data-toggle="tooltip" data-placement="right" title="Add to favorites">
                                     <i class="fa fa-heart-o"></i>
-                                </a>                            
+                                </a>
                                 <a ng-if="checkFavorites(property)" class="btn-fav" ng-click="removeFromFavorites(property)" data-toggle="tooltip" data-placement="right" title="Remove from favorites">
                                     <i class="fa fa-heart"></i>
-                                </a>                        
+                                </a>
                                 <?php endif; ?>
 
                                 <h4 class="location-name">
@@ -41,8 +41,8 @@
                         </div>
                         <div class="col-md-3 right_side">
                             <div style="padding-right:12px">
-                                                    
-                                <div class="price_wrapper2 text-right" ng-if="!isSimplePricing(property)">                
+
+                                <div class="price_wrapper2 text-right" ng-if="!isSimplePricing(property)">
                                     <span class="h3 text-contrast price-amount" ng-bind="getTotalPrice(property,0)"></span><br />
                                     <span ng-bind="getTotalAppend(property)"></span>
                                 </div>
