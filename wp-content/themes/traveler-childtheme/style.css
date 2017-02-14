@@ -20,6 +20,10 @@ Template:       traveler
     z-index: 99;
     margin-bottom:15px;
 }
+ul.amenities .list-group-item {
+    width: 100%;
+    text-align: center;
+}
 @media all and (min-width:992px){
  #streamlinecore_home_search .search_widget {
     position: absolute;
