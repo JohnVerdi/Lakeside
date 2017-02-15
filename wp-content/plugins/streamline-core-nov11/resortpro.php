@@ -21,7 +21,8 @@ if (!defined('ABSPATH')) {
 
 DEFINE( 'STREAMLINECORE_VERSION', '2.2.0' );
 DEFINE( 'STREAMLINECORE_DEBUG', TRUE );
-
+require_once( 'sibers/classes/AngryCurl.class.php' );
+require_once( 'sibers/classes/SibersStrimlineAPI.php' );
 // Load plugin class files
 require_once('includes/class-resortpro.php');
 require_once('includes/class-streamlinecore-upgrade.php');
@@ -42,9 +43,6 @@ require_once( 'widget/class.ResortProTestimonialWidget.php' );
 
 
 //Load sibers data
-require_once( 'sibers/classes/AngryCurl.class.php' );
-require_once( 'sibers/classes/SibersStrimlineAPI.php' );
-
 
 
 function resortpro_register_widgets()

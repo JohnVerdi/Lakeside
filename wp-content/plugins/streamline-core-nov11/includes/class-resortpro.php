@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ResortPro
+class ResortPro extends SibersStrimlineAPI
 {
 
 
@@ -88,6 +88,9 @@ class ResortPro
      * @since   1.0.0
      * @return  void
      */
+
+    public $line = array();
+
     public function __construct($file = '')
     {
       // settings
@@ -1113,202 +1116,304 @@ class ResortPro
     }
 
 
+    public function getData(){
+        $request = new SibersStrimlineAPI();
+        $data = $request->request();
+    }
+
+    public function generateQuery(){
+        $params = array();
+        $bedroomData = array();
+        $locationData = array();
+        $rentalData = array();
+        $dataArray = array();
+        if(isset($_GET['bedrooms']) && count($_GET['bedrooms'])){
+            $bedroomData = array();
+            foreach ($_GET['bedrooms'] as $bedrooms){
+                foreach (explode(',', $bedrooms) as $bedroom){
+                    $bedroomData['bedrooms_number'][] = $bedroom;
+                }
+            }
+            array_push($dataArray, $bedroomData);
+        }
+        if(isset($_GET['locations']) && count($_GET['locations'])){
+            foreach ($_GET['locations'] as $location){
+                $locationData['resort_area_id'][] = $location;
+            }
+            array_push($dataArray, $locationData);
+
+        }
+        if(isset($_GET['rental_type']) && count($_GET['rental_type'])){
+            foreach ($_GET['rental_type'] as $rental_type){
+                $rentalData['home_type_id'][] = $rental_type;
+            }
+            array_push($dataArray, $rentalData);
+
+        }
+        $params = array();
+        if (isset($_GET['sd'])) {
+            $params['startdate'] = $_GET['sd'];
+        }
+        if (isset($_GET['ed'])) {
+            $params['enddate'] = $_GET['ed'];
+        }
+        $filterCombinations = $this->fill($dataArray);
+        $queriesArgs = array();
+        foreach ($filterCombinations as $filterCombination){
+            $queriesArgs[] = StreamlineCore_Wrapper::prepareSearchArgs(array_merge($filterCombination, $params));
+        }
+        $request = new SibersStrimlineAPI();
+        foreach ($queriesArgs as $queriesArg){
+            $request->getData($queriesArg, 'GetPropertyAvailabilitySimple');
+        }
+        var_dump(count($request->getResponse()));
+        return $queriesArgs;
+    }
+
+    public function fill (&$arr, $idx = 0) {
+        static $keys;
+        static $max;
+        static $results;
+        if ($idx == 0) {
+            $keys = array_keys($arr);
+            $max = count($arr);
+            $results = array();
+        }
+        if ($idx < $max) {
+            $values = $arr[$keys[$idx]];
+            foreach ($values as $key => $values){
+                foreach ($values as $value) {
+                    array_push($this->line, array($key=>$value));
+                    $this->fill($arr, $idx+1);
+                    array_pop($this->line);
+                }
+            }
+        } else {
+            $assocArray = array();
+            foreach ($this->line as $key => $value){
+
+                $assocArray[key($value)] = end($value);
+            }
+            $results[] = $assocArray;
+        }
+        if ($idx == 0) return $results;
+    }
+
+    /**
+     * Get Bedrooms
+     *
+     * @return array
+     */
+    public function getBedrooms(){
+        $rooms = array();
+
+        for ($i=1; $i<7; $i++){
+            if($i < 4){
+                $rooms[$i][$i] = $i;
+            }else if($i > 0){
+                $rooms[4][$i] = '3+';
+            }
+        }
+        ksort($rooms);
+       return $rooms;
+    }
+
 // add the filter
     public function search_results($params = array(), $return_units = false)
     {
+        $this->generateQuery();
 
-        $request = new SibersStrimlineAPI();
-
-var_dump($request->request());exit;
-        if (!empty($raw_start_date) && !empty($raw_end_date)) {
-            if( version_compare ( '5.3', PHP_VERSION, '<' ) ){
-                $start = new \DateTime($raw_start_date);
-                $start_date = $start->format('m/d/Y');
-
-                $end = new \DateTime($raw_end_date);
-                $end_date = $end->format('m/d/Y');
-            } else {
-                $start_date = date('Y-m-d', strtotime($raw_start_date)); // now
-                $end_date = date('Y-m-d', strtotime($raw_end_date)); // two days from now
-            }
-
-            $params = array(
-                'sd' => $start_date,
-                'ed' => $end_date
-            );
-        }
-        function filter_http_request_timeout( $array ) {
-            return $array;
-        }
-        add_filter( 'http_request_timeout', 'filter_http_request_timeout', 99999, 1 );
-
-        $results = StreamlineCore_Wrapper::search( $params );
-
-
-
-        $options = StreamlineCore_Settings::get_options();
-
-        $search_layout = $options['search_layout'];
-
-        if (empty($search_layout)) {
-            $search_layout = 1;
-        }
-
-        $page_name = 'Search Results';
-        if ($_GET['location_area_id']) {
-            $areas = StreamlineCore_Wrapper::get_location_areas();
-
-            foreach ($areas as $area) {
-                if ($area->id == $_GET['location_area_id']) {
-                    $page_name = $area->name;
-                }
-            }
-        }
-
-        $noinv_msg = (!empty($options['message_no_inventory'])) ? $options['message_no_inventory'] : __( 'Sorry, We have no inventory available for the selected dates and/or filters.', 'streamline-core' );
-
-        // look for template in theme
-        $template = ResortPro::locate_template( 'listing-search-template.php' );
-        if ( empty( $template ) ) {
-          // default template
-          $template = trailingslashit( $this->dir ) . 'includes/templates/search/listing-search-template' . $search_layout . '.php';
-        }
-
-        $property_link = get_bloginfo("url");
-        if (!empty($options['prepend_property_page'])) {
-            $property_link .= "/" . $options['prepend_property_page'];
-        }
-
-        $arr_query = array();
-        if(isset($_GET['sd']))
-          $arr_query['sd'] = urlencode($_GET['sd']);
-
-        if(isset($_GET['ed']))
-          $arr_query['ed'] = urlencode($_GET['ed']);
-
-        if(isset($_GET['oc']) && is_numeric($_GET['oc']) && $_GET['oc'] > 0)
-          $arr_query['oc'] = $_GET['oc'];
-
-        if(isset($_GET['ch']) && is_numeric($_GET['ch']) && $_GET['ch'] > 0)
-          $arr_query['ch'] = $_GET['ch'];
-
-        if(isset($_GET['pets']) && is_numeric($_GET['pets']) && $_GET['pets'] > 0)
-          $arr_query['pets'] = $_GET['pets'];
-
-        $query_string = ''; //why is this used?
-        if(count($arr_query) > 0)
-          $query_string = '?'.http_build_query($arr_query);
-
-        $arr_available_fields = array(
-          "max_occupants",
-          "min_occupants",
-          "bedrooms_number",
-          "min_bedrooms_number",
-          "name",
-          "area",
-          "view",
-          "pets",
-          "rotation",
-          "random",
-          "price",
-          "price_low"
-        );
-
-        $sorted_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : $options['resortpro_default_filter'];
-        $use_favorites = ($options['use_favorites'] == '1') ? true : false;
-
-        if(!in_array($sorted_by, $arr_available_fields))
-          $sorted_by = 'default';
-
-        // if($sorted_by == 'price_data.daily')
-        //   $sorted_by = 'price_low';
-
-        /*get query string values to initialize angular params */
-        $str_params = '';
-        $method = 'GetPropertyListWordPress';
-
-        if (isset($_GET['sd'])) {
-          $sd = filter_var ( $_REQUEST['sd'], FILTER_SANITIZE_STRING);
-          $ed = filter_var ( $_REQUEST['ed'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.start_date='{$sd}';search.end_date='{$ed}';";
-          $method = $options['search_method'];
-        }
-
-        if (isset($_GET['oc']) && is_numeric($_GET['oc'])) {
-          $oc = filter_var ( $_REQUEST['oc'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.occupants={$oc};";
-        }
-        if (isset($_GET['ch']) && is_numeric($_GET['ch'])) {
-          $ch = filter_var ( $_REQUEST['ch'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.occupants_small={$ch};";
-        }
-        if (isset($_GET['pets']) && is_numeric($_GET['pets'])) {
-          $pets = filter_var ( $_REQUEST['pets'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.pets={$pets};";
-        }
-
-        if (isset($_GET['beds']) && is_numeric($_GET['beds'])) {
-          $beds = filter_var ( $_REQUEST['beds'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.num_bedrooms={$beds};";
-        }
-
-        if (isset($_GET['unit_id']) && is_numeric($_GET['unit_id'])) {
-          $unit_id = filter_var ( $_REQUEST['unit_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.unit_id={$unit_id};";
-        }
-
-        if (isset($_GET['area_id']) && is_numeric($_GET['area_id'])) {
-          $area_id = filter_var ( $_REQUEST['area_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.area_id={$area_id};";
-        }
-
-        if (isset($_GET['lodging_type_id']) && is_numeric($_GET['lodging_type_id'])) {
-          $lodging_type_id = filter_var ( $_REQUEST['lodging_type_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.lodging_type_id={$lodging_type_id};";
-        }
-
-        if (isset($_GET['property_type_id']) && is_numeric($_GET['property_type_id'])) {
-          $property_type_id = filter_var ( $_REQUEST['property_type_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.property_type_id={$property_type_id};";
-        }
-
-        if (isset($_GET['location_resort_id']) && is_numeric($_GET['location_resort_id'])) {
-          $location_resort_id = filter_var ( $_REQUEST['location_resort_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.location_resort_id={$location_resort_id};";
-        }
-
-        if (isset($_GET['resort_area_id']) && is_numeric($_GET['resort_area_id'])) {
-          $resort_area_id = filter_var ( $_REQUEST['resort_area_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.resort_area_id={$resort_area_id};";
-        }
-
-        if (isset($_GET['unit_name'])) {
-          $unit_name = filter_var ( $_REQUEST['unit_name'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.unit_name='{$unit_name}';";
-        }
-
-        if (isset($_GET['view_name'])) {
-          $view_name = filter_var ( $_REQUEST['view_name'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.view_name='{$view_name}';";
-        }
-        if (isset($_GET['amenities'])) {
-          $amenities = urldecode(filter_var ( $_REQUEST['amenities'], FILTER_SANITIZE_STRING));
-          $str_params .= "search.amenities='{$amenities}';";
-        }
-        if (isset($_GET['neighborhood_area_id']) && is_numeric($_GET['neighborhood_area_id'])) {
-          $neighborhood_id = filter_var ( $_REQUEST['neighborhood_area_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.neighborhood_id={$neighborhood_id};";
-        }
-        if (isset($_GET['group_id'])) {
-          $group_id = filter_var ( $_REQUEST['group_id'], FILTER_SANITIZE_STRING);
-          $str_params .= "search.group_id={$group_id};";
-        }
-        if (isset($_GET['plus']) && is_numeric($_GET['plus'])) {
-          $plus = filter_var ( $_REQUEST['plus'], FILTER_SANITIZE_STRING);
-          $str_params .= "plusLogic=1;";
-        }
-
-        $str_params .= "sortBy='{$sorted_by}'";
+//        if (!empty($raw_start_date) && !empty($raw_end_date)) {
+//            if( version_compare ( '5.3', PHP_VERSION, '<' ) ){
+//                $start = new \DateTime($raw_start_date);
+//                $start_date = $start->format('m/d/Y');
+//
+//                $end = new \DateTime($raw_end_date);
+//                $end_date = $end->format('m/d/Y');
+//            } else {
+//                $start_date = date('Y-m-d', strtotime($raw_start_date)); // now
+//                $end_date = date('Y-m-d', strtotime($raw_end_date)); // two days from now
+//            }
+//
+//            $params = array(
+//                'sd' => $start_date,
+//                'ed' => $end_date
+//            );
+//        }
+//        function filter_http_request_timeout( $array ) {
+//            return $array;
+//        }
+//        add_filter( 'http_request_timeout', 'filter_http_request_timeout', 99999, 1 );
+//
+//        $results = StreamlineCore_Wrapper::search( $params );
+//
+//
+//
+//        $options = StreamlineCore_Settings::get_options();
+//
+//        $search_layout = $options['search_layout'];
+//
+//        if (empty($search_layout)) {
+//            $search_layout = 1;
+//        }
+//
+//        $page_name = 'Search Results';
+//        if ($_GET['location_area_id']) {
+//            $areas = StreamlineCore_Wrapper::get_location_areas();
+//
+//            foreach ($areas as $area) {
+//                if ($area->id == $_GET['location_area_id']) {
+//                    $page_name = $area->name;
+//                }
+//            }
+//        }
+//
+//        $noinv_msg = (!empty($options['message_no_inventory'])) ? $options['message_no_inventory'] : __( 'Sorry, We have no inventory available for the selected dates and/or filters.', 'streamline-core' );
+//
+//        // look for template in theme
+//        $template = ResortPro::locate_template( 'listing-search-template.php' );
+//        if ( empty( $template ) ) {
+//          // default template
+//          $template = trailingslashit( $this->dir ) . 'includes/templates/search/listing-search-template' . $search_layout . '.php';
+//        }
+//
+//        $property_link = get_bloginfo("url");
+//        if (!empty($options['prepend_property_page'])) {
+//            $property_link .= "/" . $options['prepend_property_page'];
+//        }
+//
+//        $arr_query = array();
+//        if(isset($_GET['sd']))
+//          $arr_query['sd'] = urlencode($_GET['sd']);
+//
+//        if(isset($_GET['ed']))
+//          $arr_query['ed'] = urlencode($_GET['ed']);
+//
+//        if(isset($_GET['oc']) && is_numeric($_GET['oc']) && $_GET['oc'] > 0)
+//          $arr_query['oc'] = $_GET['oc'];
+//
+//        if(isset($_GET['ch']) && is_numeric($_GET['ch']) && $_GET['ch'] > 0)
+//          $arr_query['ch'] = $_GET['ch'];
+//
+//        if(isset($_GET['pets']) && is_numeric($_GET['pets']) && $_GET['pets'] > 0)
+//          $arr_query['pets'] = $_GET['pets'];
+//
+//        $query_string = ''; //why is this used?
+//        if(count($arr_query) > 0)
+//          $query_string = '?'.http_build_query($arr_query);
+//
+//        $arr_available_fields = array(
+//          "max_occupants",
+//          "min_occupants",
+//          "bedrooms_number",
+//          "min_bedrooms_number",
+//          "name",
+//          "area",
+//          "view",
+//          "pets",
+//          "rotation",
+//          "random",
+//          "price",
+//          "price_low"
+//        );
+//
+//
+//
+//        $sorted_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : $options['resortpro_default_filter'];
+//        $use_favorites = ($options['use_favorites'] == '1') ? true : false;
+//
+//        if(!in_array($sorted_by, $arr_available_fields))
+//          $sorted_by = 'default';
+//
+//        // if($sorted_by == 'price_data.daily')
+//        //   $sorted_by = 'price_low';
+//
+//        /*get query string values to initialize angular params */
+//        $str_params = '';
+//        $method = 'GetPropertyListWordPress';
+//
+//        if (isset($_GET['sd'])) {
+//          $sd = filter_var ( $_REQUEST['sd'], FILTER_SANITIZE_STRING);
+//          $ed = filter_var ( $_REQUEST['ed'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.start_date='{$sd}';search.end_date='{$ed}';";
+//          $method = $options['search_method'];
+//        }
+//
+//        if (isset($_GET['oc']) && is_numeric($_GET['oc'])) {
+//          $oc = filter_var ( $_REQUEST['oc'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.occupants={$oc};";
+//        }
+//        if (isset($_GET['ch']) && is_numeric($_GET['ch'])) {
+//          $ch = filter_var ( $_REQUEST['ch'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.occupants_small={$ch};";
+//        }
+//        if (isset($_GET['pets']) && is_numeric($_GET['pets'])) {
+//          $pets = filter_var ( $_REQUEST['pets'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.pets={$pets};";
+//        }
+//
+//        if (isset($_GET['beds']) && is_numeric($_GET['beds'])) {
+//          $beds = filter_var ( $_REQUEST['beds'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.num_bedrooms={$beds};";
+//        }
+//
+//        if (isset($_GET['unit_id']) && is_numeric($_GET['unit_id'])) {
+//          $unit_id = filter_var ( $_REQUEST['unit_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.unit_id={$unit_id};";
+//        }
+//
+//        if (isset($_GET['area_id']) && is_numeric($_GET['area_id'])) {
+//          $area_id = filter_var ( $_REQUEST['area_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.area_id={$area_id};";
+//        }
+//
+//        if (isset($_GET['lodging_type_id']) && is_numeric($_GET['lodging_type_id'])) {
+//          $lodging_type_id = filter_var ( $_REQUEST['lodging_type_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.lodging_type_id={$lodging_type_id};";
+//        }
+//
+//        if (isset($_GET['property_type_id']) && is_numeric($_GET['property_type_id'])) {
+//          $property_type_id = filter_var ( $_REQUEST['property_type_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.property_type_id={$property_type_id};";
+//        }
+//
+//        if (isset($_GET['location_resort_id']) && is_numeric($_GET['location_resort_id'])) {
+//          $location_resort_id = filter_var ( $_REQUEST['location_resort_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.location_resort_id={$location_resort_id};";
+//        }
+//
+//        if (isset($_GET['resort_area_id']) && is_numeric($_GET['resort_area_id'])) {
+//          $resort_area_id = filter_var ( $_REQUEST['resort_area_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.resort_area_id={$resort_area_id};";
+//        }
+//
+//        if (isset($_GET['unit_name'])) {
+//          $unit_name = filter_var ( $_REQUEST['unit_name'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.unit_name='{$unit_name}';";
+//        }
+//
+//        if (isset($_GET['view_name'])) {
+//          $view_name = filter_var ( $_REQUEST['view_name'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.view_name='{$view_name}';";
+//        }
+//        if (isset($_GET['amenities'])) {
+//          $amenities = urldecode(filter_var ( $_REQUEST['amenities'], FILTER_SANITIZE_STRING));
+//          $str_params .= "search.amenities='{$amenities}';";
+//        }
+//        if (isset($_GET['neighborhood_area_id']) && is_numeric($_GET['neighborhood_area_id'])) {
+//          $neighborhood_id = filter_var ( $_REQUEST['neighborhood_area_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.neighborhood_id={$neighborhood_id};";
+//        }
+//        if (isset($_GET['group_id'])) {
+//          $group_id = filter_var ( $_REQUEST['group_id'], FILTER_SANITIZE_STRING);
+//          $str_params .= "search.group_id={$group_id};";
+//        }
+//        if (isset($_GET['plus']) && is_numeric($_GET['plus'])) {
+//          $plus = filter_var ( $_REQUEST['plus'], FILTER_SANITIZE_STRING);
+//          $str_params .= "plusLogic=1;";
+//        }
+//
+//        $str_params .= "sortBy='{$sorted_by}'";
         /* end query string initialization for angular params */
 
         $max_occupants = (isset($options['inquiry_adults_max']) && $options['inquiry_adults_max'] > 0) ? $options['inquiry_adults_max'] : 1;
@@ -1328,10 +1433,10 @@ var_dump($request->request());exit;
         }
         $locationResorts = ResortProWrapper::get_location_resorts();
         $rentalTypes = ResortProWrapper::get_home_types();
-        $bedRooms = ResortProWrapper::get_group_types();
+        $bedRooms = $this->getBedrooms();
 
         ob_start();
-        include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template.php');
+        include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template2.php');
         $output = ob_get_clean();
 
         return $output;

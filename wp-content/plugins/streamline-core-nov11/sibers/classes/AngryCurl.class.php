@@ -55,30 +55,29 @@ class AngryCurl extends RollingCurl {
     
     private $use_proxy_list       =   false;
     private $use_useragent_list   =   false;
-    
+
     /**
      * AngryCurl constructor
      *
      * @throws AngryCurlException
-     * 
+     *
      * @param string $callback Callback function name
      * @param bool $debug_log Enable/disable writing log to $debug_info var (false by default to reduce memory consumption)
-     * 
+     *
      * @return void
      */
     function __construct($callback = null, $debug_log = false)
     {
         self::$debug_log = $debug_log;
-        
         # writing debug
         self::add_debug_msg("# Building");
-        
+
         # checking if cURL enabled
         if(!function_exists('curl_init'))
         {
             throw new AngryCurlException("(!) cURL is not enabled");
         }
-        
+
         parent::__construct($callback);
     }
 
@@ -90,9 +89,9 @@ class AngryCurl extends RollingCurl {
     public function init_console()
     {
         self::$console_mode = true;
-        
+
         echo "<pre>";
-        
+
         # Internal Server Error fix in case no apache_setenv() function exists
         if (function_exists('apache_setenv'))
         {
@@ -103,7 +102,7 @@ class AngryCurl extends RollingCurl {
         for ($i = 0; $i < ob_get_level(); $i++)
             ob_end_flush();
         ob_implicit_flush(1);
-        
+
         # writing debug
         self::add_debug_msg("# Console mode activated");
     }
@@ -114,13 +113,13 @@ class AngryCurl extends RollingCurl {
      * @access public
      *
      * @throws AngryCurlException
-     * 
+     *
      * @param string $url Request URL
      * @param enum(GET/POST) $method
      * @param array $post_data
      * @param array $headers
      * @param array $options
-     * 
+     *
      * @return bool
      */
     public function request($url, $method = "GET", $post_data = null, $headers = null, $options = null)
@@ -134,7 +133,7 @@ class AngryCurl extends RollingCurl {
         {
             throw new AngryCurlException("(!) Option 'use_proxy_list' is set, but no alive proxy available");
         }
-        
+
         if($this->n_useragent > 0 && $this->use_useragent_list)
         {
             $options[CURLOPT_USERAGENT]=$this->array_useragent[ mt_rand(0, $this->n_useragent-1) ];
@@ -148,7 +147,7 @@ class AngryCurl extends RollingCurl {
         parent::request($url, $method, $post_data, $headers, $options);
         return true;
     }
-    
+
     /**
      * Starting connections function execution overload
      *
@@ -175,21 +174,21 @@ class AngryCurl extends RollingCurl {
         {
             throw new AngryCurlException(" (!) Wrong threads amount in execute():\t$window_size");
         }
-        
+
         # writing debug
         self::add_debug_msg(" * Starting connections");
         //var_dump($this->__get('requests'));
-        
+
         $time_start = microtime(1);
         $result = parent::execute($window_size);
         $time_end = microtime(1);
-        
+
         # writing debug
         self::add_debug_msg(" * Finished in ".round($time_end-$time_start,2)."s");
-        
+
         return $result;
     }
-    
+
     /**
      * Flushing requests map for re-using purposes
      *
@@ -199,12 +198,12 @@ class AngryCurl extends RollingCurl {
     {
         $this->__set('requests', array());
     }
-    
+
     /**
      * Useragent list loading method
      *
      * @access public
-     * 
+     *
      * @param string/array $input Input proxy data, could be an array or filename
      * @return integer Amount of useragents loaded
      */
@@ -212,20 +211,20 @@ class AngryCurl extends RollingCurl {
     {
         # writing debug
         self::add_debug_msg("# Start loading useragent list");
-        
+
         # defining proxiess
         if(is_array($input))
         {
             $this->array_useragent = $input;
         }
         else
-        {        
+        {
             $this->array_useragent = $this->load_from_file($input);
         }
-        
+
         # setting amount
         $this->n_useragent = count($this->array_useragent);
-        
+
         # writing debug
         if($this->n_useragent > 0)
         {
@@ -235,10 +234,10 @@ class AngryCurl extends RollingCurl {
         {
             throw new AngryCurlException("# (!) No useragents loaded");
         }
-        
+
         # Setting flag to prevent using AngryCurl without useragents
         $this->use_useragent_list = true;
-        
+
         return $this->n_useragent;
     }
 
@@ -248,20 +247,20 @@ class AngryCurl extends RollingCurl {
      * @access public
      *
      * @throws AngryCurlException
-     * 
+     *
      * @param string/array $input Input proxy data, could be an array or filename
      * @param integer $window_size Max number of simultaneous connections when testing
      * @param enum(http/socks5) $proxy_type
      * @param string $proxy_test_url URL needed for proxy test requests
      * @param regexp $proxy_valid_regexp Regexp needed to be shure that response hasn`t been modified by proxy
-     * 
+     *
      * @return bool
      */
     public function load_proxy_list($input, $window_size = 5, $proxy_type = 'http', $proxy_test_url = 'http://google.com', $proxy_valid_regexp = null)
     {
         # writing debug
         self::add_debug_msg("# Start loading proxies");
-        
+
         # defining proxiess
         if(is_array($input))
         {
@@ -270,15 +269,15 @@ class AngryCurl extends RollingCurl {
         else
         {
             $this->array_proxy = $this->load_from_file($input);
-        }        
-        
+        }
+
         # checking $window_size var
         if( intval($window_size) < 1 || !is_int($window_size) )
         {
             throw new AngryCurlException(" (!) Wrong threads amount in load_proxy_list():\t$window_size");
         }
 
-        
+
         # setting proxy type
         if($proxy_type == 'socks5')
         {
@@ -289,11 +288,11 @@ class AngryCurl extends RollingCurl {
         {
             self::add_debug_msg(" * Proxy type set to:\tHTTP");
         }
-            
+
         # setting amount
         $this->n_proxy = count($this->array_proxy);
         self::add_debug_msg(" * Loaded proxies:\t{$this->n_proxy}");
-        
+
         # filtering alive proxies
         if($this->n_proxy>0)
         {
@@ -302,36 +301,36 @@ class AngryCurl extends RollingCurl {
             # by array_values bug was fixed in random array indexes using mt_rand in request()
             $this->array_proxy = array_values( array_unique( $this->array_proxy) );
             $n_dup -= count($this->array_proxy);
-            
+
             self::add_debug_msg(" * Removed duplicates:\t{$n_dup}");
             unset($n_dup);
-            
+
             # updating amount
             $this->n_proxy = count($this->array_proxy);
             self::add_debug_msg(" * Unique proxies:\t{$this->n_proxy}");
-            
+
             # setting url for testing proxies
             $this->proxy_test_url = $proxy_test_url;
             self::add_debug_msg(" * Proxy test URL:\t{$this->proxy_test_url}");
-            
+
             # setting regexp for testing proxies
             if( !empty($proxy_valid_regexp) )
             {
                 self::$proxy_valid_regexp = $proxy_valid_regexp;
                 self::add_debug_msg(" * Proxy test RegExp:\t".self::$proxy_valid_regexp);
             }
-            
-            $this->filter_alive_proxy($window_size); 
+
+            $this->filter_alive_proxy($window_size);
         }
         else
         {
             throw new AngryCurlException(" (!) Proxies amount < 0 in load_proxy_list():\t{$this->n_proxy}");
         }
-        
+
         # Setting flag to prevent using AngryCurl without proxies
-        $this->use_proxy_list = true;   
+        $this->use_proxy_list = true;
     }
-    
+
     /**
      * Filtering proxy array method, choosing alive proxy only
      *
@@ -341,7 +340,7 @@ class AngryCurl extends RollingCurl {
     {
         static $rid = 0;
         $rid++;
-    
+
         if($info['http_code']!==200)
         {
             self::add_debug_msg("   $rid->\t".$request->options[CURLOPT_PROXY]."\tFAILED\t".$info['http_code']."\t".$info['total_time']."\t".$info['url']);
@@ -356,7 +355,7 @@ class AngryCurl extends RollingCurl {
             self::add_debug_msg("   $rid->\t".$request->options[CURLOPT_PROXY]."\tOK\t".$info['http_code']."\t".$info['total_time']."\t".$info['url']);
             self::$array_alive_proxy[] = $request->options[CURLOPT_PROXY];
     }
-    
+
     /**
      * Filtering proxy array, choosing alive proxy only
      *
@@ -370,13 +369,13 @@ class AngryCurl extends RollingCurl {
     {
         # writing debug
         self::add_debug_msg("# Start testing proxies");
-        
+
         # checking $window_size var
         if( intval($window_size) < 1 || !is_int($window_size) )
         {
             throw new AngryCurlException(" (!) Wrong threads amount in filter_alive_proxy():\t$window_size");
         }
-        
+
         $buff_callback_func = $this->__get('callback');
         $this->__set('callback',array('AngryCurl', 'callback_proxy_check'));
 
@@ -390,13 +389,13 @@ class AngryCurl extends RollingCurl {
 
         # run
         $this->execute($window_size);
-        
+
         #flushing requests
         $this->__set('requests', array());
 
         # writing debug
         self::add_debug_msg("# Alive proxies:\t".count(self::$array_alive_proxy)."/".$this->n_proxy);
-        
+
         # updating params
         $this->n_proxy = count(self::$array_alive_proxy);
         $this->array_proxy = self::$array_alive_proxy;
@@ -415,24 +414,24 @@ class AngryCurl extends RollingCurl {
     {
         $data;
         $fp = @fopen($filename, "r");
-        
+
         if(!$fp)
         {
             self::add_debug_msg("(!) Failed to open file: $filename");
             return array();
         }
-        
+
         $data = @fread($fp, filesize($filename) );
         fclose($fp);
-        
+
         if(strlen($data)<1)
         {
             self::add_debug_msg("(!) Empty file: $filename");
             return array();
         }
-        
+
         $array = explode($delim, $data);
-        
+
         if(is_array($array) && count($array)>0)
         {
             foreach($array as $k => $v)
@@ -448,7 +447,7 @@ class AngryCurl extends RollingCurl {
             return array();
         }
     }
-    
+
     /**
      * Printing debug information method
      *
@@ -461,7 +460,7 @@ class AngryCurl extends RollingCurl {
         echo htmlspecialchars( implode("\n", self::$debug_info) );
         echo "</pre>";
     }
-    
+
     /**
      * Logging method
      *
@@ -475,7 +474,7 @@ class AngryCurl extends RollingCurl {
         {
             self::$debug_info[] = $msg;
         }
-        
+
         if(self::$console_mode)
         {
             echo htmlspecialchars($msg)."\r\n";
@@ -484,14 +483,14 @@ class AngryCurl extends RollingCurl {
 
     /**
      * AngryCurl destructor
-     * 
+     *
      * @return void
      */
     function __destruct()
     {
         self::add_debug_msg("# Finishing ...");
         parent::__destruct();
-    } 
+    }
 }
 
 /**
@@ -511,7 +510,7 @@ class AngryCurlException extends Exception
  */
 class AngryCurlRequest extends RollingCurlRequest
 {
-    
+
 }
 
 ?>

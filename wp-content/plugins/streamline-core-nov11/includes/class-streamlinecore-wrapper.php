@@ -15,70 +15,76 @@ class StreamlineCore_Wrapper{
    *       which won't effect results returned.
    */
   public static function search( $args = array() ) {
-    $defaults = array(
-      'amenities'             => array(),
-      //'bedrooms_number'       => null,
-      'condo_type_group_id'   => false,
-      'condo_type_id'         => false,
-      'customgroup_id'        => null,
-      'disable_minimal_days'  => 1,
-      'enddate'               => null,
-      'home_type_id'          => null,
-      'lat_ne'                => null,
-      'lat_sw'                => null,
-      'location_area_id'      => false,
-      'location_id'           => false,
-      'long_ne'               => null,
-      'long_sw'               => null,
-      'lodging_type_id'       => false,
-      'min_occupants'         => null,
-      'min_pets'              => null,
-      'neighborhood_area_id'  => null,
-      'occupants_small'       => 0,
-      'page_number'           => 1,
-      'page_results_number'   => 1000,
-      'resort_area_id'        => null,
-      'skip_units'            => 0,
-      'sort_by'               => 'price_complex',
-      'startdate'             => null,
-      'use_description'       => true, // false
-      'view_name'             => null
-    );
-    $args = wp_parse_args( $args, $defaults );
-
-    // this is from older logic
-    if ( ! empty( $args['startdate'] ) || ! empty( $args['enddate'] ) ) {
-      return NULL;
-    }
-
-    // parse use description
-    $args['use_description'] = ((bool)$args['use_description'] === TRUE ? 'yes' : $args['use_description'] );
-
-    // parse amenities
-    $args['amenities_filter'] = null;
-    if ( is_array( $args['amenities'] ) && sizeof( $args['emenities'] ) ) {
-      $amenities = array();
-      foreach ( $args['amenities'] as $amenity ) {
-        $amenity = (int)$amenity;
-        if ( $amenity > 0 ) {
-          $amenities[] = $amenity;
-        }
-      }
-      if ( sizeof( $amenities ) ) {
-        $args['amenities_filter'] = implode( ',', $amenities );
-      }
-    }
-    unset($args['amenities']);
-
-    $property_full_rating_info = StreamlineCore_Settings::get_options( 'property_full_rating_info' );
-    if ( ! empty( $property_full_rating_info ) ) {
-      $args['return_rating_info'] = 'yes';
-      $args['include_feedbacks'] = 'yes';
-      $args['feedback_random'] = 'yes';
-      $args['feedback_limit'] = 3;
-    }
+    $args = self::prepareSearchArgs($args);
     return self::_api_request( 'GetPropertyListWordPress', $args );
   }
+
+    public static function prepareSearchArgs( $args = array() ) {
+        $defaults = array(
+//            'amenities'             => array(),
+            //'bedrooms_number'       => null,
+//            'condo_type_group_id'   => false,
+//            'condo_type_id'         => false,
+//            'customgroup_id'        => null,
+//            'disable_minimal_days'  => 1,
+            'enddate'               => null,
+//            'home_type_id'          => null,
+//            'lat_ne'                => null,
+//            'lat_sw'                => null,
+//            'location_area_id'      => false,
+//            'location_id'           => false,
+//            'long_ne'               => null,
+//            'long_sw'               => null,
+//            'lodging_type_id'       => false,
+//            'min_occupants'         => null,
+//            'min_pets'              => null,
+//            'neighborhood_area_id'  => null,
+//            'occupants_small'       => 0,
+            'page_number'           => 1,
+            'page_results_number'   => 1000,
+//            'resort_area_id'        => null,
+//            'skip_units'            => 0,
+            'sort_by'               => 'name',
+            'startdate'             => null,
+            'use_description'       => 'no', // false
+            'use_amenities'         => 'no', // false
+//            'view_name'             => null
+        );
+        $args = wp_parse_args( $args, $defaults );
+
+        // this is from older logic
+//        if ( ! empty( $args['startdate'] ) || ! empty( $args['enddate'] ) ) {
+//            return NULL;
+//        }
+
+        // parse use description
+        $args['use_description'] = ((bool)$args['use_description'] === TRUE ? 'yes' : $args['use_description'] );
+
+        // parse amenities
+        $args['amenities_filter'] = null;
+        if ( is_array( $args['amenities'] ) && sizeof( $args['emenities'] ) ) {
+            $amenities = array();
+            foreach ( $args['amenities'] as $amenity ) {
+                $amenity = (int)$amenity;
+                if ( $amenity > 0 ) {
+                    $amenities[] = $amenity;
+                }
+            }
+            if ( sizeof( $amenities ) ) {
+                $args['amenities_filter'] = implode( ',', $amenities );
+            }
+        }
+        unset($args['amenities']);
+
+        $property_full_rating_info = StreamlineCore_Settings::get_options( 'property_full_rating_info' );
+        if ( ! empty( $property_full_rating_info ) ) {
+            $args['return_rating_info'] = 'yes';
+            $args['include_feedbacks'] = 'yes';
+            $args['feedback_random'] = 'yes';
+            $args['feedback_limit'] = 3;
+        }
+        return $args;
+    }
 
   // rates html - not currently used by plugin
   public static function get_rates_html( $unit_id, $args ) {
@@ -457,6 +463,7 @@ class StreamlineCore_Wrapper{
     // set request json
     $request_json = json_encode( array( 'methodName' => $method_name, 'params' => array_merge( array( 'company_code' => $company_code ), $args ) ) );
     // preform request
+
     $response = wp_remote_post( $endpoint, array(
       'headers' => array( 'Content-Type: application/json', 'Content-Length: ' . strlen( $request_json ) ),
       'body'    => $request_json
