@@ -130,6 +130,7 @@ add_action('wp', array(&$ResortPro, 'handle_404'));
 add_shortcode( 'streamlinecore-browse-results', array( &$ResortPro, 'browse_results' ) );
 add_shortcode( 'streamlinecore-search-filter', array( &$ResortPro, 'search_filter' ) );
 add_shortcode( 'streamlinecore-search-results', array( &$ResortPro, 'search_results' ) );
+add_shortcode( 'streamlinecore-search-results_paginate', array( &$ResortPro, 'search_results_paginate' ) );
 add_shortcode( 'streamlinecore-checkout', array( &$ResortPro, 'property_checkout' ) );
 add_shortcode( 'streamlinecore-property-info', array( &$ResortPro, 'property_info' ) );
 add_shortcode( 'streamlinecore-thankyou', array( &$ResortPro, 'property_thankyou' ) );

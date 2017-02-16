@@ -1,4 +1,7 @@
+<?php
+//$data = json_encode($this->result_data);
 
+?>
 <div class="container mb20">
     <div class="vc_row wpb_row st bg-holder">
         <div class="container ">
@@ -587,3 +590,14 @@
                 </div>
             </div><!--End .row--></div><!--End .container--></div>
 </div>
+<script type="application/javascript">
+    jQuery(document).ready(function ($) {
+        $.ajax( {
+            url:'/search_results_paginate',
+            method:'POST',
+            data:{
+                data: '<?php echo serialize($this->result_data) ?>'
+            }
+        })
+    })
+</script>

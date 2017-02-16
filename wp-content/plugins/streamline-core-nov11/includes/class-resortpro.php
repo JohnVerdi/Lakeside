@@ -91,6 +91,8 @@ class ResortPro extends SibersStrimlineAPI
 
     public $line = array();
 
+    public  $result_data = array();
+
     public function __construct($file = '')
     {
       // settings
@@ -1166,8 +1168,8 @@ class ResortPro extends SibersStrimlineAPI
         foreach ($queriesArgs as $queriesArg){
             $request->getData($queriesArg, 'GetPropertyAvailabilitySimple');
         }
-        var_dump(count($request->getResponse()));
-        return $queriesArgs;
+        $this->result_data = $request->getResponse();
+        return ;
     }
 
     public function fill (&$arr, $idx = 0) {
@@ -1219,10 +1221,14 @@ class ResortPro extends SibersStrimlineAPI
     }
 
 // add the filter
+    public function search_results_paginate($data = ''){
+        var_dump(unserialize(stripcslashes($_POST['data'])));exit;
+    }
     public function search_results($params = array(), $return_units = false)
     {
         $this->generateQuery();
 
+//        var_dump(count($this->result_data));exit;
 //        if (!empty($raw_start_date) && !empty($raw_end_date)) {
 //            if( version_compare ( '5.3', PHP_VERSION, '<' ) ){
 //                $start = new \DateTime($raw_start_date);
