@@ -2,13 +2,36 @@
 //$data = json_encode($this->result_data);
 
 ?>
+<div class="full-page-absolute .hidden" style="display: none; position: fixed;top: 0px;left: 0px;right: 0px;bottom: 0px;z-index: 10000;display: none;">
+    <div class="bg-holder full">
+        <div class="bg-mask"></div>
+        <div class="bg-img" style="background-image:url(/images/hot-tub-background.jpg)"></div>
+        <div class="bg-holder-content full text-white text-center">
+            <a class="logo-holder" href="http://www.lakeside.loc">
+                <img src="/images/lakeside-drk-blue.svg" alt="logo" title="logo">
+            </a>
+            <div class="full-center">
+                <div class="container">
+                    <div class="spinner-clock">
+                        <div class="spinner-clock-hour"></div>
+                        <div class="spinner-clock-minute"></div>
+                    </div>
+                    <h2 class="mb5">
+                        Looking for  Hotels...                    </h2>
+                    <p class="text-bigger">it will take a couple of seconds</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container mb20">
     <div class="vc_row wpb_row st bg-holder">
         <div class="container ">
             <div class="row">
                 <div class="wpb_column column_container col-md-12">
                     <div class="vc_column-inner wpb_wrapper">
-                        <h3 class="booking-title">27 hotels
+                        <h3 class="booking-title"><?php echo $data['total'] ?> hotels
                             <small><a class="popup-text" href="#search-dialog" data-effect="mfp-zoom-out">Change
                                     search</a></small>
                         </h3>
@@ -53,37 +76,37 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row row-wrap loop_hotel loop_grid_hotel style_box">
-                            <div class="col-md-4">
-                                <div class="feature_class st_featured">Featured</div>
+                            <?php foreach ($data['data'] as $d): ?>
+                                <div class="col-md-4">
                                 <div class="thumb">
                                     <header class="thumb-header">
                                         <a class="hover-img"
-                                           href="http://www.lakeside.loc/st_hotel/superior-hotel-paris/">
+                                           href="<?php echo '/'.$d['id'] ?>">
 
                                             <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif"
+                                                 src="<?php echo $d['default_thumbnail_path'] ?>"
                                                  class="attachment-360x270 size-360x270 wp-post-image" alt="img41"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-400x300.gif 400w"
+                                                 srcset="<?php echo $d['default_thumbnail_path'] ?>"
                                                  sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
+                                                    class="hover-title-center">View </h5>
                                         </a>
-
                                     </header>
                                     <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
+                                        <?php if($d['rating_average'] > 0): ?>
+                                            <ul class="icon-group text-color">
+                                                <?php for ($i=20;$i<=100;$i=$i+20): ?>
+                                                    <li><i class="fa  fa-star<?php echo $d['rating_average']>$i?'':'-o' ?>"></i></li>
+                                                <?php endfor; ?>
+                                            </ul>
+                                        <?php else: ?>
+                                           <span>No rating</span>
+                                        <?php endif; ?>
                                         <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/superior-hotel-paris/">Superior
-                                                Hotel Paris</a></h5>
+                                                                   href="<?php echo '/'.$d['id'] ?>"> <?php echo $d['name'] ?></a></h5>
                                         <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> 6782 Sarasea Circle, Siesta Key, FL
-                                                34242
+                                            <small><i class="fa fa-map-marker"></i><?php echo $d['location_area_name'] .', '.$d['location_name'] ?>
                                             </small>
                                         </p>
                                         <div class="text-darken">
@@ -92,385 +115,12 @@
                                             <small>
                                                 Price Avg
                                             </small>
-                                            <span class="text-lg lh1em">$0,00</span>
+                                            <span class="text-lg lh1em">$<?php echo $d['price_data']['daily'] ?></span>
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="feature_class st_featured">Featured</div>
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img"
-                                           href="http://www.lakeside.loc/st_hotel/shangri-la-hotel-paris/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img42-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img42"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img42-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-263x197.gif 263w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-400x300.gif 400w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/shangri-la-hotel-paris/">Shangri-La
-                                                Hotel Paris</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> 10 avenue d'Iéna Paris , 75116
-                                                France
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="feature_class st_featured">Featured</div>
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img" href="http://www.lakeside.loc/st_hotel/le-ritz-bar-paris/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img41"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-400x300.gif 400w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/le-ritz-bar-paris/">Le
-                                                Ritz Bar Paris</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> Le Ritz Paris 15 Place Vendôme 75001
-                                                Paris 75001 Paris
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img" href="http://www.lakeside.loc/st_hotel/hotel-lancaster/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img41"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-400x300.gif 400w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/hotel-lancaster/">Hotel
-                                                Lancaster</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> 7 Rue De Berri Champs Elysees Paris
-                                                , 75008 France
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img"
-                                           href="http://www.lakeside.loc/st_hotel/hotel-california-champs-elysees/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img40-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img40"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img40-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-263x197.gif 263w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-400x300.gif 400w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-98x74.gif 98w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/hotel-california-champs-elysees/">Hotel
-                                                California Champs-Elysees</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> 16 rue de Berri, 75008 PARIS</small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="feature_class st_featured">Featured</div>
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img" href="http://www.lakeside.loc/st_hotel/sofitel-paris/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img41"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-400x300.gif 400w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/sofitel-paris/">Sofitel
-                                                Paris</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> 15, rue Boissy d'Anglas Paris ,
-                                                75008 France
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img"
-                                           href="http://www.lakeside.loc/st_hotel/grand-hotel-du-palais-royal/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img42-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img42"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img42-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-263x197.gif 263w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img42-400x300.gif 400w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/grand-hotel-du-palais-royal/">Grand
-                                                Hotel du Palais Royal</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> Grand Hotel du Palais Royal 4 Rue De
-                                                Valois Paris , 75001 France
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img"
-                                           href="http://www.lakeside.loc/st_hotel/wyndham-hotels-and-resorts/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img41"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img41-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img41-400x300.gif 400w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/wyndham-hotels-and-resorts/">Wyndham
-                                                Hotels and Resorts</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> Saint-Germain-Des-Prés, 6ème 13 rue
-                                                des Beaux Arts 75006 Paris France
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$335,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img" href="http://www.lakeside.loc/st_hotel/warwick-hotel/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/01/img40-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img40"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/01/img40-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-263x197.gif 263w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-278x208.gif 278w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-400x300.gif 400w, http://www.lakeside.loc/wp-content/uploads/2015/01/img40-98x74.gif 98w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/warwick-hotel/">Warwick
-                                                Hôtel</a></h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> Champs-Elysées, 8ème 5 rue de Berri
-                                                75008 Paris France
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="thumb">
-                                    <header class="thumb-header">
-                                        <a class="hover-img" href="http://www.lakeside.loc/st_hotel/grand-hyatt-hotel/">
-
-                                            <img width="360" height="270"
-                                                 src="http://www.lakeside.loc/wp-content/uploads/2015/05/img69-360x270.gif"
-                                                 class="attachment-360x270 size-360x270 wp-post-image" alt="img69"
-                                                 srcset="http://www.lakeside.loc/wp-content/uploads/2015/05/img69-360x270.gif 360w, http://www.lakeside.loc/wp-content/uploads/2015/05/img69-800x600.gif 800w, http://www.lakeside.loc/wp-content/uploads/2015/05/img69-278x208.gif 278w"
-                                                 sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">Book now </h5>
-                                        </a>
-
-                                    </header>
-                                    <div class="thumb-caption">
-                                        <ul class="icon-group text-color">
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star"></i></li>
-                                            <li><i class="fa  fa-star-o"></i></li>
-                                        </ul>
-                                        <h5 class="thumb-title"><a class="text-darken"
-                                                                   href="http://www.lakeside.loc/st_hotel/grand-hyatt-hotel/">L’Hôtel</a>
-                                        </h5>
-                                        <p class="mb0">
-                                            <small><i class="fa fa-map-marker"></i> Saint-Germain-Des-Prés, 6ème 13 rue
-                                                des Beaux Arts 75006 Paris France
-                                            </small>
-                                        </p>
-                                        <div class="text-darken">
-                                        </div>
-                                        <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$0,00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
 
                         <div class="row" style="margin-bottom: 40px;">
@@ -479,24 +129,18 @@
                                 <p class="gap"></p>
                             </div>
                             <div class="col-md-6">
-                                <p>
-                                    <small>27 hotels . &nbsp;&nbsp;
-                                        Showing 1 - 10
+                                    <small><?php echo $data['total'] ?> hotels. &nbsp;&nbsp;
+                                        Showing <?php echo $data['showing_start'] ?> - <?php echo $data['showing_end'] ?>
                                     </small>
                                 </p>
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <ul class="col-xs-12 pagination 1_pag">
-                                            <li><a class="col-xs-12 pagination 1_pag current">1</a></li>
-                                            <li><a class="col-xs-12 pagination 1_pag"
-                                                   href="http://www.lakeside.loc/search-result-hotel-1/page/2/">2</a>
-                                            </li>
-                                            <li><a class="col-xs-12 pagination 1_pag"
-                                                   href="http://www.lakeside.loc/search-result-hotel-1/page/3/">3</a>
-                                            </li>
-                                            <li><a class="next col-xs-12 pagination 1_pag"
-                                                   href="http://www.lakeside.loc/search-result-hotel-1/page/2/"><i
-                                                            class="fa fa-angle-right"></i></a></li>
+                                            <li><a class="prev col-xs-12 pagination 1_pag" href="http://www.lakeside.loc/search-result-hotel-1/"><i class="fa fa-angle-left"></i></a></li>
+                                            <?php for ($i=1;$i<=round($data['total']/$this->perPage);$i++): ?>
+                                                <li><a class="col-xs-12 pagination 1_pag <?php echo $i == $data['current_page']?'current':'' ?>" data-page="<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                                            <?php endfor; ?>
+                                            <li><a class="next col-xs-12 pagination 1_pag" href="http://www.lakeside.loc/search-result-hotel-1/page/3/"><i class="fa fa-angle-right"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -592,12 +236,27 @@
 </div>
 <script type="application/javascript">
     jQuery(document).ready(function ($) {
-        $.ajax( {
-            url:'/search_results_paginate',
-            method:'POST',
-            data:{
-                data: '<?php echo serialize($this->result_data) ?>'
-            }
+        $('li .pagination').click(function(){
+            $('.full-page-absolute').show();
+           if(!$(this).hasClass('current')){
+               $.ajax( {
+                    url:'<?php echo admin_url('admin-ajax.php'); ?>',
+                    method:'POST',
+                    data:{
+                        action: 'paginate_results',
+                        page: $(this).data('page')
+//                        data: '<?php //echo serialize($totalData) ?>//'
+                    },
+                   success: function(response){
+                        if(response.status == 'success'){
+                            $('.loop_hotel').html(response.html);
+                            $('.full-page-absolute').hide();
+
+                        }
+                   }
+            })
+           }
         })
+//
     })
 </script>
