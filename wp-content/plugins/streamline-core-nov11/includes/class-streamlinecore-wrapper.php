@@ -499,4 +499,9 @@ class StreamlineCore_Wrapper{
 
     return ( strtoupper( $return_type ) === 'ARRAY' ? $response_arr : $response );
   }
+
+    public static function GetPropertyRatesRawData( $id ) {
+
+        return self::_api_request( 'GetPropertyRatesRawData', array( 'unit_id' => $id ) );
+    }
 }

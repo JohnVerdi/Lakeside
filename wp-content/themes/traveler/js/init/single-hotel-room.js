@@ -1,6 +1,5 @@
 jQuery(document).ready(function($) {
     if ($(".st_single_hotel_room").length <1) return;
-    console.log('Single Hotel Room');
     var time;
     var scroll = '';
     var offset_form = '';
@@ -245,19 +244,20 @@ jQuery(document).ready(function($) {
                         dataType: 'json',
                         type:'post',
                         data: {
-                            action:'st_get_availability_hotel_room',
-                            post_id:self.container.data('post-id'),
+                            action:'st_get_availability_hotel_room_custom',
+                            post_id:wc_add_to_cart_params.wc_ajax_url.split('/')[1],
                             start: start.unix(),
                             end: end.unix()
                         },
                         success: function(doc){
-                            if(typeof doc == 'object'){
-                                callback(doc);
-                            }
+                            // if(typeof doc == 'object'){
+                            //     callback(doc);
+                            // }
+                            console.log('ok', doc);
                         },
                         error:function(e)
                         {
-                            alert('Can not get the availability slot. Lost connect with your sever');
+                            console.log('error', e);
                         }
                     });
                 },

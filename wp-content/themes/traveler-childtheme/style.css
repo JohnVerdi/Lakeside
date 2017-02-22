@@ -24,6 +24,11 @@ ul.amenities .list-group-item {
     width: 100%;
     text-align: center;
 }
+
+.wpb_wrapper h3 {
+    margin: 20px 0 !important;
+}
+
 @media all and (min-width:992px){
  #streamlinecore_home_search .search_widget {
     position: absolute;
