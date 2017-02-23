@@ -90,7 +90,7 @@
                                                  class="attachment-360x270 size-360x270 wp-post-image" alt="img41"
                                                  srcset="<?php echo $d['default_thumbnail_path'] ?>"
                                                  sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                                    class="hover-title-center">View </h5>
+                                                    class="hover-title-center">More Details </h5>
                                         </a>
                                     </header>
                                     <div class="thumb-caption">
@@ -112,11 +112,11 @@
                                         <div class="text-darken">
                                         </div>
                                         <p class="mb0 text-darken">
-                                            <small>
-                                                Price Avg
-                                            </small>
-                                            <span class="text-lg lh1em">$<?php echo $d['price_data']['daily'] ?></span>
+                                            <span class="text-lg lh1em">$<?php echo $d['price_data']['daily'] ?>.00 /night</span>
                                         </p>
+                                        <a class="btn-fav" data-hotel="<?php echo $d['id']; ?>" data-toggle="tooltip" data-placement="right" title="">
+                                            <i class="fa <?php echo in_array($d['id'], $fav)? 'fa-heart': 'fa-heart-o'?>"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -130,17 +130,17 @@
                             </div>
                             <div class="col-md-6">
                                     <small><?php echo $data['total'] ?> hotels. &nbsp;&nbsp;
-                                        Showing <?php echo $data['showing_start'] ?> - <?php echo $data['showing_end'] ?>
+                                        Showing <span id="start_count"><?php echo $data['showing_start'] ?></span> - <span id="end_count"><?php echo $data['showing_end'] ?></span>
                                     </small>
                                 </p>
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <ul class="col-xs-12 pagination 1_pag">
-                                            <li><a class="prev col-xs-12 pagination 1_pag" href="http://www.lakeside.loc/search-result-hotel-1/"><i class="fa fa-angle-left"></i></a></li>
+                                            <li><a class="prev col-xs-12 pagination 1_pag"  data-page="1"> <i class="fa fa-angle-left"></i></a></li>
                                             <?php for ($i=1;$i<=round($data['total']/$this->perPage);$i++): ?>
-                                                <li><a class="col-xs-12 pagination 1_pag <?php echo $i == $data['current_page']?'current':'' ?>" data-page="<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                                                <li><a class="col-xs-12 pagination 1_pag pager <?php echo $i == $data['current_page']?'current':'' ?>" data-page="<?php echo $i; ?>"><?php echo $i; ?></a></li>
                                             <?php endfor; ?>
-                                            <li><a class="next col-xs-12 pagination 1_pag" href="http://www.lakeside.loc/search-result-hotel-1/page/3/"><i class="fa fa-angle-right"></i></a></li>
+                                            <li><a class="next col-xs-12 pagination 1_pag" data-page="<?php echo $i-1; ?>" ><i class="fa fa-angle-right"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -236,26 +236,74 @@
 </div>
 <script type="application/javascript">
     jQuery(document).ready(function ($) {
+
+        current_page = 1;
+        console.log($('li .pagination .current').data('page'));
+
         $('li .pagination').click(function(){
             $('.full-page-absolute').show();
            if(!$(this).hasClass('current')){
+               current_page = $(this).data('page');
                $.ajax( {
                     url:'<?php echo admin_url('admin-ajax.php'); ?>',
                     method:'POST',
                     data:{
                         action: 'paginate_results',
                         page: $(this).data('page')
-//                        data: '<?php //echo serialize($totalData) ?>//'
                     },
                    success: function(response){
                         if(response.status == 'success'){
                             $('.loop_hotel').html(response.html);
                             $('.full-page-absolute').hide();
-
+                            checkCurrentPage();
+                            setCounts(response.data.showing_start, response.data.showing_end);
                         }
                    }
             })
            }
+        })
+        
+        function checkCurrentPage() {
+            console.log(current_page);
+            $('.current').removeClass('current');
+            $('.pager[data-page="'+current_page+'"]').addClass('current');
+        }
+
+        function setCounts(start, end) {
+            $('#start_count').html(start);
+            $('#end_count').html(end);
+        }
+        function readCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length >= 2) return parts.pop().split(";").shift();
+        }
+        $('.btn-fav').click(function(){
+            hotel = $(this).data('hotel');
+            elem = $(this);
+            if($(this).children('i').hasClass('fa-heart-o')){
+                method = 'add';
+                $(this).children('i').removeClass('fa-heart-o');
+                $(this).children('i').addClass('fa-heart');
+            }else{
+                method = 'remove';
+                $(this).children('i').removeClass('fa-heart');
+                $(this).children('i').addClass('fa-heart-o');
+            }
+            $.ajax( {
+                url:'<?php echo admin_url('admin-ajax.php'); ?>',
+                method:'POST',
+                data:{
+                    action: 'change_favorite',
+                    method: method,
+                    hotel : hotel,
+                    fav : readCookie('favorites')
+                },
+                success: function(response){
+                    console.log(response);
+                    document.cookie = "favorites="+response;
+                }
+            })
         })
 //
     })

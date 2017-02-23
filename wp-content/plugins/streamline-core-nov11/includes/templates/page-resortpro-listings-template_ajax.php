@@ -10,7 +10,7 @@
                              class="attachment-360x270 size-360x270 wp-post-image" alt="img41"
                              srcset="<?php echo $d['default_thumbnail_path'] ?>"
                              sizes="(max-width: 360px) 100vw, 360px">                <h5
-                                class="hover-title-center">View </h5>
+                                class="hover-title-center">More Details </h5>
                     </a>
                 </header>
                 <div class="thumb-caption">
@@ -32,11 +32,12 @@
                     <div class="text-darken">
                     </div>
                     <p class="mb0 text-darken">
-                        <small>
-                            Price Avg
-                        </small>
-                        <span class="text-lg lh1em">$<?php echo $d['price_data']['daily'] ?></span>
+
+                        <span class="text-lg lh1em">$<?php echo $d['price_data']['daily'] ?>.00 /night</span>
                     </p>
+                    <a ng-if="checkFavorites(property)" class="btn-fav ng-scope" ng-click="removeFromFavorites(property)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Remove from favorites">
+                        <i class="fa fa-heart"></i>
+                    </a>
                 </div>
             </div>
         </div>

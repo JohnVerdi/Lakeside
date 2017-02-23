@@ -1249,6 +1249,25 @@ class ResortPro extends SibersStrimlineAPI
        return $rooms;
     }
 
+
+    function change_favorite(){
+        if($_POST['fav'] == ''){
+            $fav = array();
+        }else{
+            $fav = explode(',', $_POST['fav']);
+        }
+        if($_POST['method'] == 'add'){
+            array_push($fav, $_POST['hotel']);
+        }else{
+            if(($key = array_search($_POST['hotel'], $fav)) !== false) {
+                unset($fav[$key]);
+            }
+        }
+        echo implode(',',$fav);die;
+
+
+    }
+
 // add the filter
     public function search_results_paginate(){
 
@@ -1257,8 +1276,9 @@ class ResortPro extends SibersStrimlineAPI
         ob_start();
         include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template_ajax.php');
         $output = ob_get_clean();
-        wp_send_json(array('html' => $output, 'status' => 'success'));
+        wp_send_json(array('html' => $output, 'status' => 'success', 'data' => $data));
     }
+
     public function getPaginatedResult($current_page = 1){
         $data = unserialize($_SESSION['data']);
         $offset = ($current_page-1) * $this->perPage;
@@ -1276,6 +1296,10 @@ class ResortPro extends SibersStrimlineAPI
     {
         $totalData = $this->generateQuery();
         $_SESSION['data'] = serialize($totalData);
+        $fav = array();
+        if(isset($_COOKIE['favorites'])){
+            $fav = explode(',', $_COOKIE['favorites']);
+        }
 
         $data = $this->getPaginatedResult();
 
