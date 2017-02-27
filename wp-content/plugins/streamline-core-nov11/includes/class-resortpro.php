@@ -81,6 +81,8 @@ class ResortPro extends SibersStrimlineAPI
 
     protected $js_params;
 
+    public $perPage = 12;
+
     /**
      * Constructor function.
      *
@@ -90,6 +92,8 @@ class ResortPro extends SibersStrimlineAPI
      */
 
     public $line = array();
+
+    public  $result_data = array();
 
     public function __construct($file = '')
     {
@@ -1122,13 +1126,11 @@ class ResortPro extends SibersStrimlineAPI
     }
 
     public function generateQuery(){
-        $params = array();
         $bedroomData = array();
         $locationData = array();
         $rentalData = array();
         $dataArray = array();
         if(isset($_GET['bedrooms']) && count($_GET['bedrooms'])){
-            $bedroomData = array();
             foreach ($_GET['bedrooms'] as $bedrooms){
                 foreach (explode(',', $bedrooms) as $bedroom){
                     $bedroomData['bedrooms_number'][] = $bedroom;
@@ -1166,8 +1168,37 @@ class ResortPro extends SibersStrimlineAPI
         foreach ($queriesArgs as $queriesArg){
             $request->getData($queriesArg, 'GetPropertyAvailabilitySimple');
         }
-        var_dump(count($request->getResponse()));
-        return $queriesArgs;
+        $result_data = $this->prepareData($request->getResponse());
+        return $result_data;
+    }
+
+
+    public function prepareData($result_data){
+        $return_data = array();
+        foreach ($result_data as $key => $data){
+            foreach ($data as $k => $d){
+                if($this->checkNeededData($k)){
+                  $return_data[$key][$k] = $d;
+                }
+            }
+        }
+        return $return_data;
+    }
+    public function checkNeededData($key){
+
+        $needData = array(
+            'id',
+            'rating_count',
+            'rating_average',
+            'name',
+            'location_name',
+            'default_thumbnail_path',
+            'price_data',
+            'location_area_name'
+        );
+
+        if(in_array($key, $needData)) return true;
+        return false;
     }
 
     public function fill (&$arr, $idx = 0) {
@@ -1218,11 +1249,61 @@ class ResortPro extends SibersStrimlineAPI
        return $rooms;
     }
 
+
+    function change_favorite(){
+        if($_POST['fav'] == ''){
+            $fav = array();
+        }else{
+            $fav = explode(',', $_POST['fav']);
+        }
+        if($_POST['method'] == 'add'){
+            array_push($fav, $_POST['hotel']);
+        }else{
+            if(($key = array_search($_POST['hotel'], $fav)) !== false) {
+                unset($fav[$key]);
+            }
+        }
+        echo implode(',',$fav);die;
+
+
+    }
+
 // add the filter
+    public function search_results_paginate(){
+
+        $data = $this->getPaginatedResult($_POST['page']);
+
+        ob_start();
+        include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template_ajax.php');
+        $output = ob_get_clean();
+        wp_send_json(array('html' => $output, 'status' => 'success', 'data' => $data));
+    }
+
+    public function getPaginatedResult($current_page = 1){
+        $data = unserialize($_SESSION['data']);
+        $offset = ($current_page-1) * $this->perPage;
+        $pageData = array('data' => array_slice($data, $offset, $this->perPage));
+        $pagination = array('total' => count($data),
+            'page' => $current_page,
+            'per_page' => $this->perPage,
+            'showing_start' => $offset+1,
+            'showing_end'=> $offset + count($pageData['data']),
+            'current_page' => $current_page);
+
+        return array_merge($pagination, $pageData);
+    }
     public function search_results($params = array(), $return_units = false)
     {
-        $this->generateQuery();
+        $totalData = $this->generateQuery();
+        $_SESSION['data'] = serialize($totalData);
+        $fav = array();
+        if(isset($_COOKIE['favorites'])){
+            $fav = explode(',', $_COOKIE['favorites']);
+        }
 
+        $data = $this->getPaginatedResult();
+
+//        var_dump(count($this->result_data));exit;
 //        if (!empty($raw_start_date) && !empty($raw_end_date)) {
 //            if( version_compare ( '5.3', PHP_VERSION, '<' ) ){
 //                $start = new \DateTime($raw_start_date);
@@ -1442,6 +1523,8 @@ class ResortPro extends SibersStrimlineAPI
         return $output;
 
     }
+
+
 
     public function property_info()
     {

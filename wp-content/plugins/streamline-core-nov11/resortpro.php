@@ -126,6 +126,11 @@ $StreamlineCore_Settings = StreamlineCore_Settings::get_instance();
 $StreamlineCore_AJAX = StreamlineCore_AJAX::get_instance();
 
 add_action('wp', array(&$ResortPro, 'handle_404'));
+add_action( 'wp_ajax_paginate_results', array( &$ResortPro, 'search_results_paginate' ));
+add_action( 'wp_ajax_nopriv_paginate_results', array( &$ResortPro, 'search_results_paginate' ));
+
+add_action( 'wp_ajax_change_favorite', array( &$ResortPro, 'change_favorite' ));
+add_action( 'wp_ajax_nopriv_change_favorite', array( &$ResortPro, 'change_favorite' ));
 
 add_shortcode( 'streamlinecore-browse-results', array( &$ResortPro, 'browse_results' ) );
 add_shortcode( 'streamlinecore-search-filter', array( &$ResortPro, 'search_filter' ) );
