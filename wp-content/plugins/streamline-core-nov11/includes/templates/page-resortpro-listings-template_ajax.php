@@ -33,10 +33,10 @@
                     </div>
                     <p class="mb0 text-darken">
 
-                        <span class="text-lg lh1em">$<?php echo $d['price_data']['daily'] ?>.00 /night</span>
+                        <span class="text-lg lh1em">$<?php echo $d['price_data'] ?>.00 /night</span>
                     </p>
-                    <a ng-if="checkFavorites(property)" class="btn-fav ng-scope" ng-click="removeFromFavorites(property)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Remove from favorites">
-                        <i class="fa fa-heart"></i>
+                    <a class="btn-fav" data-hotel="<?php echo $d['id']; ?>" data-toggle="tooltip" data-placement="right" title="">
+                        <i class="fa <?php echo in_array($d['id'], $fav)? 'fa-heart': 'fa-heart-o'?>"></i>
                     </a>
                 </div>
             </div>

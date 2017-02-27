@@ -131,6 +131,7 @@ add_action( 'wp_ajax_nopriv_paginate_results', array( &$ResortPro, 'search_resul
 
 add_action( 'wp_ajax_change_favorite', array( &$ResortPro, 'change_favorite' ));
 add_action( 'wp_ajax_nopriv_change_favorite', array( &$ResortPro, 'change_favorite' ));
+add_action( 'wp_ajax_nopriv_change_sort', array( &$ResortPro, 'change_sort' ));
 
 add_shortcode( 'streamlinecore-browse-results', array( &$ResortPro, 'browse_results' ) );
 add_shortcode( 'streamlinecore-search-filter', array( &$ResortPro, 'search_filter' ) );

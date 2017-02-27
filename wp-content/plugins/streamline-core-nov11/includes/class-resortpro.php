@@ -83,6 +83,10 @@ class ResortPro extends SibersStrimlineAPI
 
     public $perPage = 12;
 
+    public $orderBy = 'fav';
+
+    public $sort = 'desc';
+
     /**
      * Constructor function.
      *
@@ -1175,15 +1179,83 @@ class ResortPro extends SibersStrimlineAPI
 
     public function prepareData($result_data){
         $return_data = array();
+        $fav =$this->getFavorites();
         foreach ($result_data as $key => $data){
+            $data['fav'] = in_array($data['id'], $fav) ? 1 : 0;
             foreach ($data as $k => $d){
                 if($this->checkNeededData($k)){
+                    if($k == 'price_data'){
+                        $d = $d['daily'];
+                    }
                   $return_data[$key][$k] = $d;
                 }
             }
         }
+        $this->checkOrderParams();
+        $return_data = $this->sortData($return_data);
         return $return_data;
     }
+
+
+    public function checkOrderParams(){
+        if(isset($_GET['orderby'])){
+            $this->orderBy = $_GET['orderby'];
+        }
+        if(isset($_GET['sort'])){
+            $this->sort = $_GET['sort'];
+        }
+    }
+
+    /**
+     * Apply sorting
+     *
+     */
+    public function change_sort(){
+        $data = $this->getStoredData();
+        $this->checkOrderParams();
+        $sortData = $this->sortData($data);
+        $this->setStoredData($sortData);
+        return $this->search_results_paginate();
+    }
+
+    /**
+     *
+     *  Set founded data
+     * @param $data
+     */
+    public function setStoredData($data){
+        $_SESSION['data'] = serialize($data);
+    }
+
+
+    /**
+     *  Get founded data
+     *
+     * @return array|mixed
+     */
+    public function getStoredData(){
+
+        if(isset($_SESSION['data'])){
+            return unserialize($_SESSION['data']);
+        }
+        return array();
+    }
+
+
+    public function sortData($data){
+        usort($data , function ($item1, $item2) {
+            if ($item1[$this->orderBy] == $item2[$this->orderBy]) return 0;
+
+            if($this->sort == 'desc'){
+                return $item1[$this->orderBy] > $item2[$this->orderBy] ? -1 : 1;
+            }else{
+                return $item1[$this->orderBy] < $item2[$this->orderBy] ? -1 : 1;
+            }
+
+        });
+        return $data;
+    }
+
     public function checkNeededData($key){
 
         $needData = array(
@@ -1194,10 +1266,12 @@ class ResortPro extends SibersStrimlineAPI
             'location_name',
             'default_thumbnail_path',
             'price_data',
-            'location_area_name'
+            'location_area_name',
+            'fav'
         );
 
         if(in_array($key, $needData)) return true;
+
         return false;
     }
 
@@ -1269,10 +1343,13 @@ class ResortPro extends SibersStrimlineAPI
     }
 
 // add the filter
-    public function search_results_paginate(){
+    public function search_results_paginate($page = 1){
 
-        $data = $this->getPaginatedResult($_POST['page']);
-
+        if(isset($_POST['page'])){
+            $page = $_POST['page'];
+        }
+        $data = $this->getPaginatedResult($page);
+        $fav = $this->getFavorites();
         ob_start();
         include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template_ajax.php');
         $output = ob_get_clean();
@@ -1280,7 +1357,7 @@ class ResortPro extends SibersStrimlineAPI
     }
 
     public function getPaginatedResult($current_page = 1){
-        $data = unserialize($_SESSION['data']);
+        $data = $this->getStoredData();
         $offset = ($current_page-1) * $this->perPage;
         $pageData = array('data' => array_slice($data, $offset, $this->perPage));
         $pagination = array('total' => count($data),
@@ -1292,15 +1369,20 @@ class ResortPro extends SibersStrimlineAPI
 
         return array_merge($pagination, $pageData);
     }
+
+    public function getFavorites(){
+        $cookies = parse_ini_string( str_replace( ";" , "\n" , $_SERVER['HTTP_COOKIE']));
+        $fav = array();
+        if(isset($cookies['favorites'])){
+            $fav = explode(',', $cookies['favorites']);
+        }
+        return $fav;
+    }
     public function search_results($params = array(), $return_units = false)
     {
-        $totalData = $this->generateQuery();
-        $_SESSION['data'] = serialize($totalData);
-        $fav = array();
-        if(isset($_COOKIE['favorites'])){
-            $fav = explode(',', $_COOKIE['favorites']);
-        }
-
+        $totalData = $this->sortData($this->generateQuery());
+        $this->setStoredData($totalData);
+        $fav = $this->getFavorites();
         $data = $this->getPaginatedResult();
 
 //        var_dump(count($this->result_data));exit;

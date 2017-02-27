@@ -53,3 +53,12 @@ h1.property-title {
     font-size: 35px;
     margin: 10px 0 20px !important;
 }
+.page-title{
+    text-align: center;
+}
+.pagination li{
+    cursor: pointer;
+}
+.booking-filters h3{
+    text-align: center;
+}
