@@ -1619,6 +1619,7 @@ class ResortPro extends SibersStrimlineAPI
             $property1 = $property_data['data'];
 
             $property_data = StreamlineCore_Wrapper::get_property_info( RESORTPRO_PROPERTY_ID );
+
             $property2 = $property_data['data'];
 
             $property = array_merge($property2, $property1);
