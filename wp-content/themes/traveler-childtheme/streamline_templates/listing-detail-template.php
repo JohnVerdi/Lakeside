@@ -217,7 +217,7 @@
                                             <span class="color available"></span>
                                             <span> <?php echo __('Available', ST_TEXTDOMAIN) ?></span>
                                         </div>
-                                        <div class="item cellgrey">
+                                        <div class="item redopacity">
                                             <span class="color"></span>
                                             <span>  <?php echo __('Not Available', ST_TEXTDOMAIN) ?></span>
                                         </div>

@@ -250,14 +250,13 @@ jQuery(document).ready(function($) {
                             end: end.unix()
                         },
                         success: function(doc){
-                            // if(typeof doc == 'object'){
-                            //     callback(doc);
-                            // }
-                            console.log('ok', doc);
+                            if(typeof doc == 'object'){
+                                callback(doc);
+                            }
                         },
                         error:function(e)
                         {
-                            console.log('error', e);
+                            console.log('error: ', e.message);
                         }
                     });
                 },
@@ -273,7 +272,9 @@ jQuery(document).ready(function($) {
                     var is_disabled = "disabled";
                     var today_y_m_d = new Date().getFullYear() +"-"+(new Date().getMonth()+1)+"-"+new Date().getDate();
 
-                    if(event.status == 'booked'){ }
+                    if(event.status == 'booked'){
+                        html_class = "btn-available bnt-booked";
+                    }
                     if(event.status == 'past'){ }
                     if(event.status == 'disabled'){ }
 

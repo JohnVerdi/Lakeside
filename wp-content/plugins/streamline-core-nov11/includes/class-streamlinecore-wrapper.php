@@ -504,4 +504,9 @@ class StreamlineCore_Wrapper{
 
         return self::_api_request( 'GetPropertyRatesRawData', array( 'unit_id' => $id ) );
     }
+
+    public static function GetPropertyAvailabilityCalendarRawData( $id ) {
+
+        return self::_api_request( 'GetPropertyAvailabilityCalendarRawData', array( 'unit_id' => $id ) );
+    }
 }
