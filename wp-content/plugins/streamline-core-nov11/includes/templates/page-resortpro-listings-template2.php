@@ -44,36 +44,28 @@
                 <div class="col-sm-7 wpb_column column_container col-md-9">
                     <div class="vc_column-inner wpb_wrapper">
                         <div class="nav-drop booking-sort">
-
-                            <!--    <h5 class="booking-sort-title"><a href="#" onclick="return false" >-->
-                            <!--            --><!---->
-                            <!--            <i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></a></h5>-->
-                            <!--    <ul class="nav-drop-menu">-->
-                            <!--        --><!--    </ul>-->
-
-
                         </div>
                         <div class="sort_top">
                             <div class="row">
                                 <div class="col-md-10 col-sm-9 col-xs-9">
                                     <ul class="nav nav-pills">
-                                        <li class="active"><a href="/search-result-hotel-1/?orderby=ID">Date</a></li>
-                                        <li class=""><a href="/search-result-hotel-1/?orderby=price_asc">Price (low to
+                                        <li class="sort_menu active"><a href="#" class="sort" data-orderby='fav' data-sort="desc">Favorites</a></li>
+                                        <li class="sort_menu"><a href="#" class="sort" data-orderby='price_data' data-sort="asc">Price (low to
                                                 high)</a></li>
-                                        <li class=""><a href="/search-result-hotel-1/?orderby=price_desc">Price (high to
+                                        <li class="sort_menu"><a href="#" class="sort" data-orderby='price_data' data-sort="desc">Price (high to
                                                 low)</a></li>
-                                        <li class=""><a href="/search-result-hotel-1/?orderby=name_asc">Name (A-Z)</a>
+                                        <li class="sort_menu"><a href="#" class="sort" data-orderby='name' data-sort="asc">Name (A-Z)</a>
                                         </li>
-                                        <li class=""><a href="/search-result-hotel-1/?orderby=name_desc">Name (Z-A)</a>
+                                        <li class="sort_menu"><a href="#" class="sort" data-orderby='name' data-sort="desc">Name (Z-A)</a>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-2 col-sm-3 col-xs-3 text-center">
-                                    <div class="sort_icon fist"><a class="" href="/search-result-hotel-1/?style=2"><i
-                                                    class="fa fa-th-large "></i></a></div>
-                                    <div class="sort_icon last"><a class="" href="/search-result-hotel-1/?style=1"><i
-                                                    class="fa fa-list "></i></a></div>
-                                </div>
+<!--                                <div class="col-md-2 col-sm-3 col-xs-3 text-center">-->
+<!--                                    <div class="sort_icon fist"><a class="" href="/search-result-hotel-1/?style=2"><i-->
+<!--                                                    class="fa fa-th-large "></i></a></div>-->
+<!--                                    <div class="sort_icon last"><a class="" href="/search-result-hotel-1/?style=1"><i-->
+<!--                                                    class="fa fa-list "></i></a></div>-->
+<!--                                </div>-->
                             </div>
                         </div>
 
@@ -112,7 +104,7 @@
                                         <div class="text-darken">
                                         </div>
                                         <p class="mb0 text-darken">
-                                            <span class="text-lg lh1em">$<?php echo $d['price_data']['daily'] ?>.00 /night</span>
+                                            <span class="text-lg lh1em">$<?php echo $d['price_data'] ?>.00 /night</span>
                                         </p>
                                         <a class="btn-fav" data-hotel="<?php echo $d['id']; ?>" data-toggle="tooltip" data-placement="right" title="">
                                             <i class="fa <?php echo in_array($d['id'], $fav)? 'fa-heart': 'fa-heart-o'?>"></i>
@@ -137,7 +129,7 @@
                                     <div class="col-xs-12">
                                         <ul class="col-xs-12 pagination 1_pag">
                                             <li><a class="prev col-xs-12 pagination 1_pag"  data-page="1"> <i class="fa fa-angle-left"></i></a></li>
-                                            <?php for ($i=1;$i<=round($data['total']/$this->perPage);$i++): ?>
+                                            <?php for ($i=1;$i<=ceil($data['total']/$this->perPage);$i++): ?>
                                                 <li><a class="col-xs-12 pagination 1_pag pager <?php echo $i == $data['current_page']?'current':'' ?>" data-page="<?php echo $i; ?>"><?php echo $i; ?></a></li>
                                             <?php endfor; ?>
                                             <li><a class="next col-xs-12 pagination 1_pag" data-page="<?php echo $i-1; ?>" ><i class="fa fa-angle-right"></i></a></li>
@@ -236,17 +228,19 @@
 </div>
 <script type="application/javascript">
     jQuery(document).ready(function ($) {
-
-        current_page = 1;
-        console.log($('li .pagination .current').data('page'));
+            current_page = 1;
 
         $('li .pagination').click(function(){
             $('.full-page-absolute').show();
            if(!$(this).hasClass('current')){
                current_page = $(this).data('page');
+               console.log(readCookie('favorites'));
                $.ajax( {
                     url:'<?php echo admin_url('admin-ajax.php'); ?>',
                     method:'POST',
+                   xhrFields: {
+                       withCredentials: true
+                   },
                     data:{
                         action: 'paginate_results',
                         page: $(this).data('page')
@@ -264,7 +258,6 @@
         })
         
         function checkCurrentPage() {
-            console.log(current_page);
             $('.current').removeClass('current');
             $('.pager[data-page="'+current_page+'"]').addClass('current');
         }
@@ -278,7 +271,7 @@
             var parts = value.split("; " + name + "=");
             if (parts.length >= 2) return parts.pop().split(";").shift();
         }
-        $('.btn-fav').click(function(){
+        $('.btn-fav').live('click', function(){
             hotel = $(this).data('hotel');
             elem = $(this);
             if($(this).children('i').hasClass('fa-heart-o')){
@@ -301,7 +294,33 @@
                 },
                 success: function(response){
                     console.log(response);
-                    document.cookie = "favorites="+response;
+                    document.cookie = "favorites="+response+';path=/';
+                }
+            })
+        })
+
+        $('.sort').click(function () {
+            $('.sort_menu').removeClass('active');
+            $(this).parent('li').addClass('active')
+            sort = $(this).data('sort');
+            orderby = $(this).data('orderby');
+            $('.full-page-absolute').show();
+            $.ajax( {
+                url:'<?php echo admin_url('admin-ajax.php'); ?>',
+                method:'GET',
+                data:{
+                    action: 'change_sort',
+                    orderby : orderby,
+                    sort : sort,
+                },
+                success: function(response){
+                    if(response.status == 'success'){
+                        $('.loop_hotel').html(response.html);
+                        $('.full-page-absolute').hide();
+                        current_page = 1;
+                        checkCurrentPage();
+                        setCounts(response.data.showing_start, response.data.showing_end);
+                    }
                 }
             })
         })

@@ -83,6 +83,10 @@ class ResortPro extends SibersStrimlineAPI
 
     public $perPage = 12;
 
+    public $orderBy = 'fav';
+
+    public $sort = 'desc';
+
     /**
      * Constructor function.
      *
@@ -1119,12 +1123,19 @@ class ResortPro extends SibersStrimlineAPI
         return $output;
     }
 
-
+    /**
+     * Get data from api
+     */
     public function getData(){
         $request = new SibersStrimlineAPI();
         $data = $request->request();
     }
 
+    /**
+     *  Check query params and call api queries for merging response
+     *
+     * @return array|mixed
+     */
     public function generateQuery(){
         $bedroomData = array();
         $locationData = array();
@@ -1165,27 +1176,130 @@ class ResortPro extends SibersStrimlineAPI
             $queriesArgs[] = StreamlineCore_Wrapper::prepareSearchArgs(array_merge($filterCombination, $params));
         }
         $request = new SibersStrimlineAPI();
+        // call api method for getting data
         foreach ($queriesArgs as $queriesArg){
             $request->getData($queriesArg, 'GetPropertyAvailabilitySimple');
         }
+        // check founded data
         $result_data = $this->prepareData($request->getResponse());
+
         return $result_data;
     }
 
-
+    /**
+     *  Prepare data for rendering
+     *
+     * @param $result_data
+     * @return array|mixed
+     */
     public function prepareData($result_data){
         $return_data = array();
+        // favorite hotels
+        $fav =$this->getFavorites();
         foreach ($result_data as $key => $data){
+            $data['fav'] = in_array($data['id'], $fav) ? 1 : 0;
             foreach ($data as $k => $d){
+                // check data is needed
                 if($this->checkNeededData($k)){
+                    // get only daily price
+                    if($k == 'price_data'){
+                        $d = $d['daily'];
+                    }
                   $return_data[$key][$k] = $d;
                 }
             }
         }
+        // check sort params exist
+        $this->checkOrderParams();
+        //sort data
+        $return_data = $this->sortData($return_data);
+        // return array of hotels data
         return $return_data;
     }
-    public function checkNeededData($key){
 
+    /**
+     *  Check if exist order params
+     *
+     */
+    public function checkOrderParams(){
+        // if order params exist
+        if(isset($_GET['orderby'])){
+            $this->orderBy = $_GET['orderby'];
+        }
+        // if sort param exist
+        if(isset($_GET['sort'])){
+            $this->sort = $_GET['sort'];
+        }
+    }
+
+    /**
+     * Apply sorting adn render data
+     */
+    public function change_sort(){
+        // get founded data
+        $data = $this->getStoredData();
+        // check order data
+        $this->checkOrderParams();
+        // sort data
+        $sortData = $this->sortData($data);
+        // save data
+        $this->setStoredData($sortData);
+        // return function for rendering template
+        return $this->search_results_paginate();
+    }
+
+    /**
+     *  Set founded data to session for using
+     *
+     * @param $data
+     */
+    public function setStoredData($data){
+        $_SESSION['data'] = serialize($data);
+    }
+
+
+    /**
+     *  Get founded data
+     *
+     * @return array|mixed
+     */
+    public function getStoredData(){
+
+        if(isset($_SESSION['data'])){
+            return unserialize($_SESSION['data']);
+        }
+        return array();
+    }
+
+    /**
+     *  Sort data dy params
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function sortData($data){
+        usort($data , function ($item1, $item2) {
+            if ($item1[$this->orderBy] == $item2[$this->orderBy]) return 0;
+            // if sort is desc
+            if($this->sort == 'desc'){
+                return $item1[$this->orderBy] > $item2[$this->orderBy] ? -1 : 1;
+            // if sort is asc
+            }else{
+                return $item1[$this->orderBy] < $item2[$this->orderBy] ? -1 : 1;
+            }
+
+        });
+        return $data;
+    }
+
+    /**
+     *  Check needed data to render
+     *
+     * @param $key
+     * @return bool
+     */
+    public function checkNeededData($key){
+        // needed data for rendering in template
         $needData = array(
             'id',
             'rating_count',
@@ -1194,13 +1308,23 @@ class ResortPro extends SibersStrimlineAPI
             'location_name',
             'default_thumbnail_path',
             'price_data',
-            'location_area_name'
+            'location_area_name',
+            'fav'
         );
 
         if(in_array($key, $needData)) return true;
+
         return false;
     }
 
+
+    /**
+     *  Prepare queries conbinations
+     *
+     * @param $arr
+     * @param int $idx
+     * @return array
+     */
     public function fill (&$arr, $idx = 0) {
         static $keys;
         static $max;
@@ -1249,40 +1373,61 @@ class ResortPro extends SibersStrimlineAPI
        return $rooms;
     }
 
-
+    /**
+     * Change favorite - add or remove
+     *
+     */
     function change_favorite(){
         if($_POST['fav'] == ''){
             $fav = array();
         }else{
             $fav = explode(',', $_POST['fav']);
         }
+        //add to favourite
         if($_POST['method'] == 'add'){
             array_push($fav, $_POST['hotel']);
+        //remove from favorite
         }else{
             if(($key = array_search($_POST['hotel'], $fav)) !== false) {
                 unset($fav[$key]);
             }
         }
         echo implode(',',$fav);die;
-
-
     }
 
-// add the filter
-    public function search_results_paginate(){
 
-        $data = $this->getPaginatedResult($_POST['page']);
+    /**
+     *  Get paginated data
+     *
+     * @param int $page
+     */
+    public function search_results_paginate($page = 1){
 
+        if(isset($_POST['page'])){
+            $page = $_POST['page'];
+        }
+        //hotels data used in template
+        $data = $this->getPaginatedResult($page);
+        // favourite hotels
+        $fav = $this->getFavorites();
         ob_start();
+        //render template
         include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template_ajax.php');
         $output = ob_get_clean();
         wp_send_json(array('html' => $output, 'status' => 'success', 'data' => $data));
     }
 
+    /**
+     *  Get paginated results
+     *
+     * @param int $current_page - page number
+     * @return array
+     */
     public function getPaginatedResult($current_page = 1){
-        $data = unserialize($_SESSION['data']);
+        $data = $this->getStoredData();
         $offset = ($current_page-1) * $this->perPage;
         $pageData = array('data' => array_slice($data, $offset, $this->perPage));
+        // data for pagination
         $pagination = array('total' => count($data),
             'page' => $current_page,
             'per_page' => $this->perPage,
@@ -1292,15 +1437,29 @@ class ResortPro extends SibersStrimlineAPI
 
         return array_merge($pagination, $pageData);
     }
+
+    /**
+     *  Get favorites hotels
+     *
+     * @return array
+     */
+    public function getFavorites(){
+        $cookies = parse_ini_string( str_replace( ";" , "\n" , $_SERVER['HTTP_COOKIE']));
+        $fav = array();
+        if(isset($cookies['favorites'])){
+            $fav = explode(',', $cookies['favorites']);
+        }
+        return $fav;
+    }
     public function search_results($params = array(), $return_units = false)
     {
-        $totalData = $this->generateQuery();
-        $_SESSION['data'] = serialize($totalData);
-        $fav = array();
-        if(isset($_COOKIE['favorites'])){
-            $fav = explode(',', $_COOKIE['favorites']);
-        }
-
+        // get all data from api by search params
+        $totalData = $this->sortData($this->generateQuery());
+        // save founded data
+        $this->setStoredData($totalData);
+        //used in template
+        $fav = $this->getFavorites();
+        //used in template
         $data = $this->getPaginatedResult();
 
 //        var_dump(count($this->result_data));exit;
@@ -1512,11 +1671,15 @@ class ResortPro extends SibersStrimlineAPI
         if(isset($_GET['rental_type'])){
             $selectedRentalType = $_GET['rental_type'];
         }
+        //locations for filter
         $locationResorts = ResortProWrapper::get_location_resorts();
+        //home types for filter
         $rentalTypes = ResortProWrapper::get_home_types();
+        //bedrooms for filter
         $bedRooms = $this->getBedrooms();
 
         ob_start();
+        //render template
         include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-listings-template2.php');
         $output = ob_get_clean();
 
