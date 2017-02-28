@@ -21,7 +21,7 @@ get_header();
                 get_sidebar('blog');
             }
             ?>
-            <div class="<?php echo apply_filters('st_blog_sidebar','right')=='no'?'col-sm-12':'col-sm-9'; ?>">
+            <div class="<?php echo apply_filters('st_blog_sidebar','right')=='no'?'col-sm-12':'col-sm-12'; ?>">
                 <?php while(have_posts()){
                     the_post();
                     ?>
