@@ -44,6 +44,10 @@ ul.amenities .list-group-item {
     margin-bottom: -4px;
 }
 
+body {
+    overflow: visible !important;
+}
+
 @media all and (min-width:992px){
  #streamlinecore_home_search .search_widget {
     position: absolute;
