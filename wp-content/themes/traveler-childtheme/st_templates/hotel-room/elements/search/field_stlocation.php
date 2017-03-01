@@ -35,12 +35,18 @@ if($type_show_taxonomy_hotel == "select") { ?>
     <div class="form-group form-group-<?php echo esc_attr( $field_size )?>" taxonomy="<?php echo esc_html( $taxonomy ) ?>">
         <label for="field-hotel-tax-<?php echo esc_html( $taxonomy ) ?>"><?php echo esc_html( $title )?></label>
 
-        <select name="taxonomy_hotel_room[room_type]" id="field-hotel-tax-room_type" class="form-control">
-            <option value="">— Select —</option>
-            <?php foreach (StreamlineCore_Wrapper::get_location_resorts() as $location):?>
-                <option class="level-0" value="<?php echo $location->id ;?>"><?php echo $location->name ;?></option>
+<!--        <select name="locations[]" id="field-hotel-locations" class="form-control">-->
+<!--            <option value="">— Select —</option>-->
+            <?php foreach (StreamlineCore_Wrapper::get_location_resorts() as $k => $location):?>
+                <div style="<?php echo $k % 3 == 0 ? 'clear:both':'' ?>" class="checkbox col-xs-12 col-sm-4">
+                <label>
+                    <input class="i-check item_tanoxomy" name="locations[]" type="checkbox" value="<?php echo $location->id ;?>" style="position: absolute; opacity: 0;"><?php echo $location->name ;?>
+                </label>
+                </div>
+
+                <!--                <option class="level-0" value="--><?php //echo $location->id ;?><!--">--><?php //echo $location->name ;?><!--</option>-->
             <?php endforeach ;?>
-        </select>
+<!--        </select>-->
 
     </div>
 

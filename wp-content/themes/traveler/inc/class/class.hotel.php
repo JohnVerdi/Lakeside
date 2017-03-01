@@ -361,6 +361,7 @@ if (!class_exists('STHotel')) {
 		 * */
 		static function get_search_fields_name()
 		{
+
 			return array(/*
 				'google_map_location' => array(
                     'value' => 'google_map_location',

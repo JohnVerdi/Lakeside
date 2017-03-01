@@ -152,16 +152,16 @@
                         <aside class="st-elements-filters booking-filters text-white">
                             <form action="/search-results" method="GET" name="search_form">
                                 <?php //        echo st()->load_template( 'search-loading' );
-                                if(isset($_GET['sd'])):
+                                if(isset($_GET['start'])):
                                     ?>
-                                    <input type="hidden" name="sd" value="<?php echo $_GET['sd'] ?>">
+                                    <input type="hidden" name="start" value="<?php echo $_GET['start'] ?>">
                                     <?php
                                 endif;
                                 ?>
                                 <?php //        echo st()->load_template( 'search-loading' );
-                                if(isset($_GET['ed'])):
+                                if(isset($_GET['end'])):
                                     ?>
-                                    <input type="hidden" name="ed" value="<?php echo $_GET['ed'] ?>">
+                                    <input type="hidden" name="end" value="<?php echo $_GET['end'] ?>">
                                     <?php
                                 endif;
                                 ?>
@@ -169,11 +169,19 @@
                                 <ul class="list booking-filters-list">
                                     <li><h5 class="booking-filters-title arrow">Bedrooms</h5>
                                         <div>
+
                                             <?php foreach ($bedRooms as $k=>$bedRoom): ?>
                                             <div class="checkbox" style="margin-left: 0px">
-
+                                                <?php
+                                                $checked = false;
+                                                if(in_array(implode(',', array_keys($bedRoom)), $selectedBedrooms)){
+                                                    $checked = true;
+                                                }else if($k > 3 && $selectedBedrooms[0] > 3){
+                                                    $checked = true;
+                                                }
+                                                ?>
                                                 <label>
-                                                    <input value="<?php echo implode(',', array_keys($bedRoom))?>" <?php echo in_array(implode(',', array_keys($bedRoom)), $selectedBedrooms)?'checked':''; ?>
+                                                    <input value="<?php echo implode(',', array_keys($bedRoom))?>" <?php echo $checked?'checked':''; ?>
                                                                                 class="i-check i-check-tax" type="checkbox" name="bedrooms[]"
                                                                                 style="position: absolute; opacity: 0;">
                                                         <ins class="iCheck-helper"

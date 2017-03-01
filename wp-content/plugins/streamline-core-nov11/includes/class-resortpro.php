@@ -1164,17 +1164,20 @@ class ResortPro extends SibersStrimlineAPI
 
         }
         $params = array();
-        if (isset($_GET['sd'])) {
-            $params['startdate'] = $_GET['sd'];
+        if (isset($_GET['start'])) {
+            $start = new DateTime($_GET['start']);
+            $params['startdate'] = $start->format('m/d/Y');
         }
-        if (isset($_GET['ed'])) {
-            $params['enddate'] = $_GET['ed'];
+        if (isset($_GET['end'])) {
+            $end = new DateTime($_GET['end']);
+            $params['enddate'] = $end->format('m/d/Y');
         }
         $filterCombinations = $this->fill($dataArray);
         $queriesArgs = array();
         foreach ($filterCombinations as $filterCombination){
             $queriesArgs[] = StreamlineCore_Wrapper::prepareSearchArgs(array_merge($filterCombination, $params));
         }
+
         $request = new SibersStrimlineAPI();
         // call api method for getting data
         foreach ($queriesArgs as $queriesArg){

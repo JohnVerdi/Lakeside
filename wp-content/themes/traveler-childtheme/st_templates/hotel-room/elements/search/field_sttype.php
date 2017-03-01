@@ -35,7 +35,7 @@ if($type_show_taxonomy_hotel == "select") { ?>
     <div class="form-group form-group-<?php echo esc_attr( $field_size )?>" taxonomy="<?php echo esc_html( $taxonomy ) ?>">
         <label for="field-hotel-tax-<?php echo esc_html( $taxonomy ) ?>"><?php echo esc_html( $title )?></label>
 
-        <select name="taxonomy_hotel_room[room_type]" id="field-hotel-tax-room_type" class="form-control">
+        <select name="rental_type[]" id="field-hotel-rental_type" class="form-control">
             <option value="">— Select —</option>
             <?php foreach (StreamlineCore_Wrapper::get_home_types() as $location):?>
                 <option class="level-0" value="<?php echo $location->id ;?>"><?php echo $location->name ;?></option>

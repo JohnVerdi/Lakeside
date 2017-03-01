@@ -35,7 +35,7 @@ if(!isset($field_size)) $field_size='lg';
         <label class="btn btn-primary <?php echo ($old==4)?'active':false; ?>">
             <input type="radio" value="4" name="options" />3+</label>
     </div>
-    <select id="field-hotel-room-num" class="form-control <?php if($old<4)echo 'hidden';?> " name="room_num_search">
+    <select id="field-hotel-room-num" class="form-control <?php if($old<4)echo 'hidden';?> " name="bedrooms[]">
         <?php $adult_max=14;
         for($i=1;$i<=$adult_max;$i++){
             echo "<option ".selected($old,$i,false)." value='{$i}'>{$i}</option>";

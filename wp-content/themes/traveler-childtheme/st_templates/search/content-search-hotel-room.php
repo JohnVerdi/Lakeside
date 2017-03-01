@@ -74,6 +74,9 @@ if(!isset($field_size)) $field_size='';
         <?php
         $option = st()->get_option('hotel_room_allow_search_advance');
         $fields=$room->get_search_adv_fields();
+        if(isset($fields[0]) && $fields[0]['title'] == 'Communities'){
+            unset($fields[0]);
+        }
         if( $option =='on' and !empty($fields)):?>
         <!--Search Advance-->
         <div class="search_advance">
@@ -105,6 +108,9 @@ if(!isset($field_size)) $field_size='';
                             }
                             if($st_direction=='vertical'){
                                 $size='12';
+                            }
+                            if($value['name'] == 'stlocation'){
+                                $size = 9;
                             }
                             $size_class = " col-md-".$size." col-lg-".$size. " col-sm-12 col-xs-12 " ;
                             ?>
