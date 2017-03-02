@@ -33,7 +33,7 @@ if(!empty( $st_direction ) and $st_direction == 'vertical') {
 if($type_show_taxonomy_hotel == "select") { ?>
 
     <div class="form-group form-group-<?php echo esc_attr( $field_size )?>" taxonomy="<?php echo esc_html( $taxonomy ) ?>">
-        <label for="field-hotel-tax-<?php echo esc_html( $taxonomy ) ?>"><?php echo esc_html( $title )?></label>
+        <label for="field-hotel-tax-<?php echo esc_html( $taxonomy ) ?>"><?php echo 'Communities'?></label>
 
 <!--        <select name="locations[]" id="field-hotel-locations" class="form-control">-->
 <!--            <option value="">— Select —</option>-->
