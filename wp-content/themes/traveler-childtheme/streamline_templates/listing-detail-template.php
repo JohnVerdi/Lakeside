@@ -27,7 +27,7 @@
         padding: 15px;
     }
 </style>
-
+<span id="current_post_id" style="display: none!important;"><?php echo $property['id'];?></span>
 <div class="container" >
     <ol class="breadcrumb">
         <li><a href="/"><?php _e( 'Home', 'streamline-core' ) ?></a></li>

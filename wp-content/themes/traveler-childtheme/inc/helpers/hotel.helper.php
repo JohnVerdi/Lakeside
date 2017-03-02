@@ -1275,10 +1275,15 @@ if(!class_exists('HotelHelper')){
                 $interval = DateInterval::createFromDateString('1 day');
                 $period = new DatePeriod($start, $interval, $end);
 
-                foreach ($period as $dt) {
+                $count = iterator_count($period);
+                foreach ($period as $key => $dt) {
                     $date = $dt->format("Y-m-d");
                     $day = $dt->format('d');
+
                     $status = 'booked';
+                    if ( $count-1 ==  $key){
+                        $status = 'still';
+                    }
 
                     $result[$date] = array(
                         'date' => $date,

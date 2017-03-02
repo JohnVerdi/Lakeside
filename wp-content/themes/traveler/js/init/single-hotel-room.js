@@ -239,14 +239,13 @@ jQuery(document).ready(function($) {
                 },
                 contentHeight: 360,
                 events:function(start, end, timezone, callback) {
-                    var id = $('.st_login_form_popup').attr('action').replace(/\//g, '');
                     $.ajax({
                         url: st_params.ajax_url,
                         dataType: 'json',
                         type:'post',
                         data: {
                             action:'st_get_availability_hotel_room_custom',
-                            post_id:id,
+                            post_id:$('#current_post_id').text(),
                             start: start.unix(),
                             end: end.unix()
                         },
@@ -275,6 +274,9 @@ jQuery(document).ready(function($) {
 
                     if(event.status == 'booked'){
                         html_class = "btn-available bnt-booked";
+                    }
+                    if(event.status == 'still'){
+                        html_class = "btn-available bnt-still";
                     }
                     if(event.status == 'past'){ }
                     if(event.status == 'disabled'){ }
