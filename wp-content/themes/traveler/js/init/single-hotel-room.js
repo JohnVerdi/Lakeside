@@ -239,13 +239,14 @@ jQuery(document).ready(function($) {
                 },
                 contentHeight: 360,
                 events:function(start, end, timezone, callback) {
+                    var id = $('.st_login_form_popup').attr('action').replace(/\//g, '');
                     $.ajax({
                         url: st_params.ajax_url,
                         dataType: 'json',
                         type:'post',
                         data: {
                             action:'st_get_availability_hotel_room_custom',
-                            post_id:wc_add_to_cart_params.wc_ajax_url.split('/')[1],
+                            post_id:id,
                             start: start.unix(),
                             end: end.unix()
                         },
