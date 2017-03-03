@@ -17,7 +17,7 @@
                         <div class="spinner-clock-minute"></div>
                     </div>
                     <h2 class="mb5">
-                        Looking for  Hotels...                    </h2>
+                        Looking for Rooms...                    </h2>
                     <p class="text-bigger">it will take a couple of seconds</p>
                 </div>
             </div>
@@ -31,9 +31,10 @@
             <div class="row">
                 <div class="wpb_column column_container col-md-12">
                     <div class="vc_column-inner wpb_wrapper">
-                        <h3 class="booking-title"><?php echo $data['total'] ?> hotels
+                        <h3 class="booking-title"><?php echo $data['total'] ?> rooms
                             <small><a class="popup-text" href="#search-dialog" data-effect="mfp-zoom-out">Change
                                     search</a></small>
+                            <small><a class="" href="/" >Go Back</a></small>
                         </h3>
                     </div>
                 </div>
@@ -118,9 +119,13 @@
                         <div class="row" style="margin-bottom: 40px;">
                             <div class="col-sm-12">
                                 <hr>
+<!--                                --><?php //if($data['total'] == 0): ?>
+<!--                                    <h3>Next Available Vacation Rentals</h3>-->
+<!--                                --><?php //endif; ?>
                                 <p class="gap"></p>
                             </div>
-                            <div class="col-md-6">
+                            <?php if($data['total'] > 0): ?>
+                                <div class="col-md-6">
                                     <small><?php echo $data['total'] ?> hotels. &nbsp;&nbsp;
                                         Showing <span id="start_count"><?php echo $data['showing_start'] ?></span> - <span id="end_count"><?php echo $data['showing_end'] ?></span>
                                     </small>
@@ -137,6 +142,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <?php endif; ?>
                             <div class="col-md-6 text-right">
                                 <p>
                                     Not what you're looking for? <a class="popup-text" href="#search-dialog"
@@ -232,7 +238,9 @@
                         </aside>
                     </div>
                 </div>
-            </div><!--End .row--></div><!--End .container--></div>
+            </div><!--End .row-->
+        </div><!--End .container-->
+    </div>
 </div>
 <script type="application/javascript">
     jQuery(document).ready(function ($) {
