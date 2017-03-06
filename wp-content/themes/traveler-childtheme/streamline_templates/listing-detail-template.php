@@ -10,7 +10,7 @@
  */
 ?>
 <!--<pre>-->
-<!--    --><?php //print_r($property['roomsdetails_html_code']);?>
+<!--    --><?php //print_r($property);?>
 <!--</pre>-->
 <style>
     .thumb-img-pages {
@@ -70,25 +70,25 @@
                                             <div class="col-xs-6 col-sm-3">
                                                 <div class="facility-item" rel="tooltip" data-placement="top" title="" data-original-title="Sleeps">
                                                     <i class="fa fa-male"></i>
-                                                    <h5 class="booking-item-feature-sign">Sleeps <?php echo $property['max_adults'];?></h5>
+                                                    <h5 class="booking-item-feature-sign"><?php echo $property['max_adults'];?> Sleeps</h5>
                                                 </div>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
                                                 <div class="facility-item" rel="tooltip" data-placement="top" title="" data-original-title="Beds">
                                                     <i class="im im-bed"></i>
-                                                    <h5 class="booking-item-feature-sign">Beds <?php echo $property['max_occupants'];?></h5>
+                                                    <h5 class="booking-item-feature-sign"><?php echo $property['max_occupants'];?> Beds</h5>
                                                 </div>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
                                                 <div class="facility-item" rel="tooltip" data-placement="top" title="" data-original-title="Baths">
                                                     <i class="fa fa-tint" aria-hidden="true"></i>
-                                                    <h5 class="booking-item-feature-sign"><?php echo $property['square_foots'];?> m</h5>
+                                                    <h5 class="booking-item-feature-sign"><?php echo $property['bathrooms_number'];?> Baths</h5>
                                                 </div>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
-                                                <div class="facility-item" rel="tooltip" data-placement="top" title="" data-original-title="No pets">
+                                                <div class="facility-item" rel="tooltip" data-placement="top" title="" data-original-title="Max pets">
                                                     <i class="fa fa-paw" aria-hidden="true"></i>
-                                                    <h5 class="booking-item-feature-sign">No-pets</h5>
+                                                    <h5 class="booking-item-feature-sign"><?php echo ( isset($property['max_pets']) && $property['max_pets'] != false  ) ? $property['max_pets'] : 'No pets';?></h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -106,7 +106,6 @@
                                         <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tab-1439375290816-2-0" aria-labelledby="ui-id-3" aria-selected="false" aria-expanded="false"><a href="#tab-1439375290816-2-0" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-3"><i class="fa fa-comments"></i> Amenities</a></li>
                                         <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tab-1439375290816-2-1" aria-labelledby="ui-id-4" aria-selected="false" aria-expanded="false"><a href="#tab-1439375290816-2-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-3"><i class="fa fa-comments"></i> Rates</a></li>
                                     </ul>
-
 
                                     <div id="tab-ab33b9ce-599d-6" class="ui-tabs-panel wpb_ui-tabs-hide vc_clearfix ui-widget-content ui-corner-bottom" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false" style="display: block;">
                                         <!-- Slider -->
