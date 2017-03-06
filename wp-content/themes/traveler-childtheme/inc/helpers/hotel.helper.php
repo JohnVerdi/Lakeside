@@ -1215,7 +1215,7 @@ if(!class_exists('HotelHelper')){
             $blocked_days = $this->parseBlockedDaysPeriod($blocked_days['data']['blocked_period']);
 
             $result = array();
-            $merged = array_merge( $all_days, $blocked_days );
+            $merged = array_replace_recursive( $all_days, $blocked_days );
             foreach ($merged as $key => $val){
                 $result[] = $val;
             }
@@ -1268,7 +1268,6 @@ if(!class_exists('HotelHelper')){
             $result = array();
 
             foreach ( $blockedDays as $period ) {
-                $price = 0;
                 $start = new DateTime($period['startdate']);
                 $end = new DateTime($period['enddate']);
                 $end->modify('+1 day');
@@ -1288,7 +1287,6 @@ if(!class_exists('HotelHelper')){
                     $result[$date] = array(
                         'date' => $date,
                         'day' => $day,
-                        'price' => $price,
                         'start' => $date,
                         'status' => $status,
                     );

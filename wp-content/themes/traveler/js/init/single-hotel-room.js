@@ -277,6 +277,8 @@ jQuery(document).ready(function($) {
                     }
                     if(event.status == 'still'){
                         html_class = "btn-available bnt-still";
+                        is_disabled = "";
+                        title = st_checkout_text.origin_price + ": "+event.price;
                     }
                     if(event.status == 'past'){ }
                     if(event.status == 'disabled'){ }
