@@ -1144,10 +1144,14 @@ class ResortPro extends SibersStrimlineAPI
         if(isset($_GET['bedrooms']) && count($_GET['bedrooms'])){
             foreach ($_GET['bedrooms'] as $bedrooms){
                 foreach (explode(',', $bedrooms) as $bedroom){
-                    $bedroomData['bedrooms_number'][] = $bedroom;
+                    if($bedroom != ''){
+                        $bedroomData['bedrooms_number'][] = $bedroom;
+                    }
                 }
             }
-            array_push($dataArray, $bedroomData);
+            if(!empty($bedroomData)){
+                array_push($dataArray, $bedroomData);
+            }
         }
         if(isset($_GET['locations']) && count($_GET['locations'])){
             foreach ($_GET['locations'] as $location){

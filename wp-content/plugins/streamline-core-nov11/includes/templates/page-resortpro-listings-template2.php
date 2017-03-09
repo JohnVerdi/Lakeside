@@ -175,9 +175,19 @@
                                 <ul class="list booking-filters-list">
                                     <li><h5 class="booking-filters-title arrow">Bedrooms</h5>
                                         <div>
-
+                                            <?php if($_GET['bedrooms'] && $_GET['bedrooms'][0] == '') ?>
+                                            <div class="checkbox check-bedroms" style="margin-left: 0px">
+                                                <label>
+                                                    <input value=""
+                                                           class="i-check i-check-tax bedrooms-piker emty" type="checkbox" <?php echo !$_GET['bedrooms'] ? 'checked' : ''; ?> name=""
+                                                           style="position: absolute; opacity: 0;">
+                                                    <ins class="iCheck-helper"
+                                                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                                    All
+                                                </label>
+                                            </div>
                                             <?php foreach ($bedRooms as $k=>$bedRoom): ?>
-                                            <div class="checkbox" style="margin-left: 0px">
+                                            <div class="checkbox check-bedroms" style="margin-left: 0px">
                                                 <?php
                                                 $checked = false;
                                                 if(in_array(implode(',', array_keys($bedRoom)), $selectedBedrooms)){
@@ -188,7 +198,7 @@
                                                 ?>
                                                 <label>
                                                     <input value="<?php echo implode(',', array_keys($bedRoom))?>" <?php echo $checked?'checked':''; ?>
-                                                                                class="i-check i-check-tax" type="checkbox" name="bedrooms[]"
+                                                                                class="i-check i-check-tax bedrooms-piker not-empty" type="checkbox" name="bedrooms[]"
                                                                                 style="position: absolute; opacity: 0;">
                                                         <ins class="iCheck-helper"
                                                              style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
@@ -340,6 +350,23 @@
                 }
             })
         })
-//
+
+        $('.check-bedroms .iCheck-helper').click(function(){
+            if($(this).siblings('.i-check').children('input').val() == ''){
+                $('.check-bedroms .i-check').each(function(){
+                    if($(this).children('input').hasClass('not-empty')){
+                        $(this).removeClass('checked');
+                        $(this).children('input').removeAttr('checked');
+                    }
+                });
+            }else{
+                $('.check-bedroms .i-check').each(function(){
+                    if(!$(this).children('input').hasClass('not-empty')){
+                        $(this).removeClass('checked');
+                        $(this).children('input').removeAttr('checked');
+                    }
+                });
+            }
+        });
     })
 </script>
