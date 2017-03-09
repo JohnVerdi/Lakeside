@@ -9,9 +9,6 @@
  * @since      v2.0
  */
 ?>
-<!--<pre>-->
-<!--    --><?php //print_r($property);?>
-<!--</pre>-->
 <style>
     .thumb-img-pages {
         background: 50% 75% no-repeat;

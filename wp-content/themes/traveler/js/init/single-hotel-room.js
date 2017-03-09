@@ -43,9 +43,9 @@ jQuery(document).ready(function($) {
                         if(h <= t){
 
                             w = $('.hotel-room-form').width();
-                            
+
                             var top_kc = t;
-                            if ($('#wpadminbar').length > 0){ 
+                            if ($('#wpadminbar').length > 0){
                                 top_kc += $('#wpadminbar').height();
                             }
 
@@ -91,13 +91,13 @@ jQuery(document).ready(function($) {
                     curr_month = "0"+curr_month;
                 }
                 var curr_year = d.getFullYear();
-                var key = 'st_calendar_'+curr_date + "_" + curr_month + "_" + curr_year;
+                var key = 'st_calendar_'+curr_date + "_" + curr_month + "_" + curr_year; // class building
                 return {
                     classes: key
                 };
             }
         });
-        $this.click(function(){
+        $this.click(function(){ // click on calendar checkin/checkout input
             if(fist_half_day.length > 0){
                 for (var i = 0; i < fist_half_day.length; i++) {
                     var $key ='st_calendar_'+fist_half_day[i];
@@ -133,8 +133,7 @@ jQuery(document).ready(function($) {
     $('input.checkin_hotel').on('changeDate', function (e) {
         var new_date = e.date;
         new_date.setDate(new_date.getDate() + 1);
-        $('input.checkout_hotel').datepicker('setStartDate', new_date);
-        //$('input.checkout_rental').datepicker('setDate', new_date);
+        $('input.checkout_hotel').datepicker('setStartDate', new_date); // setting new input date
     });
     $('input.checkin_hotel, input.checkout_hotel').on('keyup', function (e) {
         setTimeout(function(){
@@ -165,17 +164,17 @@ jQuery(document).ready(function($) {
     });
 
     function ajaxGetHotelOrder(month, year, me){
-        post_id = $(me).data('post-id');
+        post_id = $('#current_post_id').text();
         $('.date-overlay').addClass('open');
-        if(!typeof post_id != 'undefined' || parseInt(post_id) > 0){
+        if( !typeof post_id != 'undefined' || parseInt(post_id) > 0 ){
             var data = {
                 room_id : post_id,
                 month: month,
                 year: year,
                 security:st_params.st_search_nonce,
-                action:'st_get_disable_date_hotel',
+                action:'st_get_disable_date_hotel'
             };
-            $.post(st_params.ajax_url, data, function(respon) {
+            $.post(st_params.ajax_url, data, function(respon) { // Widget calendar getting data
                 disabled_dates = Object.keys(respon.disable).map(function (key) {return respon.disable[key]});
                 fist_half_day = Object.keys(respon.fist_half_day).map(function (key) {return respon.fist_half_day[key]});
                 last_half_day = Object.keys(respon.last_half_day).map(function (key) {return respon.last_half_day[key]});
@@ -205,8 +204,6 @@ jQuery(document).ready(function($) {
         }
     }
 
-
-
     var HotelCalendar = function(container){
         var self = this;
         this.container = container;
@@ -218,7 +215,7 @@ jQuery(document).ready(function($) {
             self.calendar = $('.calendar-content', self.container);
             self.form_container = $('.calendar-form', self.container);
             self.initCalendar();
-        }
+        };
 
         this.initCalendar = function(){
             self.calendar.fullCalendar({
@@ -261,6 +258,20 @@ jQuery(document).ready(function($) {
                     });
                 },
                 eventClick: function(event, element, view){
+                    var checkIn = $('#field-hotelroom-checkin'),
+                        checkOut = $('#field-hotelroom-checkout'),
+                        price = $('.price .text-lg'),
+                        date = new Date(event.date),
+                        checkInStatus = false;
+
+                    checkIn.datepicker( "setDate", date ); // set new input check in date
+                    if(checkInStatus){
+                        checkOutdatepicker( "setDate", date ); // set new input checkOut in date
+                        checkInStatus = false;
+                    }
+
+                    checkInStatus = true;
+                    price.text(event.price);
                     /*$('#calendar_price', self.form_container).val(event.price);
                      $('#calendar_number', self.form_container).val(event.number);
                      $('#calendar_status option[value='+event.date+']', self.form_container).prop('selected');*/
@@ -322,8 +333,7 @@ jQuery(document).ready(function($) {
                     }else{
                         $('.calendar-wrapper-inner .overlay-form').fadeOut();
                     }
-                },
-
+                }
             });
         }
     };
