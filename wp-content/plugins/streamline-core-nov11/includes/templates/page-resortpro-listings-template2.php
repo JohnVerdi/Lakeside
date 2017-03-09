@@ -1,7 +1,3 @@
-<?php
-//$data = json_encode($this->result_data);
-
-?>
 <div class="full-page-absolute .hidden" style="display: none; position: fixed;top: 0px;left: 0px;right: 0px;bottom: 0px;z-index: 10000;display: none;">
     <div class="bg-holder full">
         <div class="bg-mask"></div>
@@ -61,12 +57,6 @@
                                         </li>
                                     </ul>
                                 </div>
-<!--                                <div class="col-md-2 col-sm-3 col-xs-3 text-center">-->
-<!--                                    <div class="sort_icon fist"><a class="" href="/search-result-hotel-1/?style=2"><i-->
-<!--                                                    class="fa fa-th-large "></i></a></div>-->
-<!--                                    <div class="sort_icon last"><a class="" href="/search-result-hotel-1/?style=1"><i-->
-<!--                                                    class="fa fa-list "></i></a></div>-->
-<!--                                </div>-->
                             </div>
                         </div>
 
@@ -119,9 +109,6 @@
                         <div class="row" style="margin-bottom: 40px;">
                             <div class="col-sm-12">
                                 <hr>
-<!--                                --><?php //if($data['total'] == 0): ?>
-<!--                                    <h3>Next Available Vacation Rentals</h3>-->
-<!--                                --><?php //endif; ?>
                                 <p class="gap"></p>
                             </div>
                             <?php if($data['total'] > 0): ?>
@@ -157,14 +144,14 @@
                     <div class="vc_column-inner wpb_wrapper">
                         <aside class="st-elements-filters booking-filters text-white">
                             <form action="/search-results" method="GET" name="search_form">
-                                <?php //        echo st()->load_template( 'search-loading' );
+                                <?php
                                 if(isset($_GET['start'])):
                                     ?>
                                     <input type="hidden" name="start" value="<?php echo $_GET['start'] ?>">
                                     <?php
                                 endif;
                                 ?>
-                                <?php //        echo st()->load_template( 'search-loading' );
+                                <?php
                                 if(isset($_GET['end'])):
                                     ?>
                                     <input type="hidden" name="end" value="<?php echo $_GET['end'] ?>">
@@ -255,7 +242,7 @@
 <script type="application/javascript">
     jQuery(document).ready(function ($) {
             current_page = 1;
-
+        // Paginate result
         $('li .pagination').click(function(){
             $('.full-page-absolute').show();
            if(!$(this).hasClass('current')){
@@ -282,21 +269,24 @@
             })
            }
         })
-        
+        // Check selected page
         function checkCurrentPage() {
             $('.current').removeClass('current');
             $('.pager[data-page="'+current_page+'"]').addClass('current');
         }
-
+        // change start and end counts
         function setCounts(start, end) {
             $('#start_count').html(start);
             $('#end_count').html(end);
         }
+        // get data from cookie
         function readCookie(name) {
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
             if (parts.length >= 2) return parts.pop().split(";").shift();
         }
+
+        // add or remove room from favorite
         $('.btn-fav').live('click', function(){
             hotel = $(this).data('hotel');
             elem = $(this);
@@ -325,6 +315,7 @@
             })
         })
 
+        // sort fined data
         $('.sort').click(function () {
             $('.sort_menu').removeClass('active');
             $(this).parent('li').addClass('active')
@@ -351,6 +342,7 @@
             })
         })
 
+        // select all bedrooms
         $('.check-bedroms .iCheck-helper').click(function(){
             if($(this).siblings('.i-check').children('input').val() == ''){
                 $('.check-bedroms .i-check').each(function(){
