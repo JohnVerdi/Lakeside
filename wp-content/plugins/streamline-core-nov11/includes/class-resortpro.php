@@ -1390,15 +1390,21 @@ class ResortPro extends SibersStrimlineAPI
         }else{
             $fav = explode(',', $_POST['fav']);
         }
+        $data = $this->getStoredData();
+        $keyInData = array_search($_POST['hotel'], array_column($data, 'id'));
         //add to favourite
         if($_POST['method'] == 'add'){
             array_push($fav, $_POST['hotel']);
+            $data[$keyInData]['fav'] = 1;
         //remove from favorite
         }else{
             if(($key = array_search($_POST['hotel'], $fav)) !== false) {
                 unset($fav[$key]);
             }
+            $data[$keyInData]['fav'] = 0;
+
         }
+        $this->setStoredData($data);
         echo implode(',',$fav);die;
     }
 
