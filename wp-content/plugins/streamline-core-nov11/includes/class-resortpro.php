@@ -505,7 +505,7 @@ class ResortPro extends SibersStrimlineAPI
       if(!empty($options['google-maps-api']))
         $google_endpoint .= "?key={$options['google-maps-api']}";
       
-      wp_enqueue_script( 'googlemaps-js', $google_endpoint );
+//      wp_enqueue_script( 'googlemaps-js', $google_endpoint ); // GOOGLE MAPS
 
       wp_enqueue_script( 'richMarker', $this->vendor_url . 'richMarker/' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'richmarker.js' : 'richmarker.min.js' ), array( 'googlemaps-js' ) );
 
