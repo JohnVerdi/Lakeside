@@ -28,13 +28,13 @@ if(!isset($field_size)) $field_size='lg';
         <label class="btn btn-primary <?php echo (!$old)?'active':false; ?>">
             <input type="radio" value="" name="" />All</label>
         <label class="btn btn-primary <?php echo ($old==1)?'active':false; ?>">
-            <input type="radio" value="1" name="bedrooms[]" />1</label>
+            <input type="radio" value="1" name="bedrooms_number[]" />1</label>
         <label class="btn btn-primary <?php echo ($old==2)?'active':false; ?>">
-            <input type="radio" value="2" name="bedrooms[]" />2</label>
+            <input type="radio" value="2" name="bedrooms_number[]" />2</label>
         <label class="btn btn-primary <?php echo ($old==3)?'active':false; ?>">
-            <input type="radio" value="3" name="bedrooms[]" />3</label>
+            <input type="radio" value="3" name="bedrooms_number[]" />3</label>
         <label class="btn btn-primary <?php echo ($old==4)?'active':false; ?>">
-            <input type="radio" value="4,5,6" name="bedrooms[]" />3+</label>
+            <input type="radio" value="4,5,6" name="bedrooms_number[]" />3+</label>
     </div>
 <!--    <select id="field-hotel-room-num" class="form-control --><?php //if($old<4)echo 'hidden';?><!-- " name="bedrooms[]">-->
 <!--        --><?php //$adult_max=14;

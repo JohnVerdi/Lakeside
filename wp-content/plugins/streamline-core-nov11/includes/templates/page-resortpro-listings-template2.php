@@ -162,11 +162,11 @@
                                 <ul class="list booking-filters-list">
                                     <li><h5 class="booking-filters-title arrow">Bedrooms</h5>
                                         <div>
-                                            <?php if($_GET['bedrooms'] && $_GET['bedrooms'][0] == '') ?>
+                                            <?php if($_GET['bedrooms_number'] && $_GET['bedrooms_number'][0] == '') ?>
                                             <div class="checkbox check-bedroms" style="margin-left: 0px">
                                                 <label>
                                                     <input value=""
-                                                           class="i-check i-check-tax bedrooms-piker emty" type="checkbox" <?php echo !$_GET['bedrooms'] ? 'checked' : ''; ?> name=""
+                                                           class="i-check i-check-tax bedrooms-piker emty" type="checkbox" <?php echo !$_GET['bedrooms_number'] ? 'checked' : ''; ?> name=""
                                                            style="position: absolute; opacity: 0;">
                                                     <ins class="iCheck-helper"
                                                          style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
@@ -185,7 +185,7 @@
                                                 ?>
                                                 <label>
                                                     <input value="<?php echo implode(',', array_keys($bedRoom))?>" <?php echo $checked?'checked':''; ?>
-                                                                                class="i-check i-check-tax bedrooms-piker not-empty" type="checkbox" name="bedrooms[]"
+                                                                                class="i-check i-check-tax bedrooms-piker not-empty" type="checkbox" name="bedrooms_number[]"
                                                                                 style="position: absolute; opacity: 0;">
                                                         <ins class="iCheck-helper"
                                                              style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>

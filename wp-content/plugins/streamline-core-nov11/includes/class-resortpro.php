@@ -87,6 +87,24 @@ class ResortPro extends SibersStrimlineAPI
 
     public $sort = 'desc';
 
+    public $available_params = array(
+                                                'location_area_name',
+                                                'location_name',
+                                                'location_type_name',
+                                                'condo_type_group_name',
+                                                'occupants',
+                                                'adults',
+                                                'pets',
+                                                'min_occupants',
+                                                'min_adults',
+                                                'min_pets',
+                                                'bedrooms_number',
+                                                'min_bedrooms_number',
+                                                'bathrooms_number',
+                                                'min_bathrooms_number',
+                                                'longterm_enabled'
+                                              );
+
     /**
      * Constructor function.
      *
@@ -1136,13 +1154,21 @@ class ResortPro extends SibersStrimlineAPI
      *
      * @return array|mixed
      */
-    public function generateQuery(){
+    public function generateQuery($args){
         $bedroomData = array();
         $locationData = array();
         $rentalData = array();
         $dataArray = array();
-        if(isset($_GET['bedrooms']) && count($_GET['bedrooms'])){
-            foreach ($_GET['bedrooms'] as $bedrooms){
+        $shortData = array();
+        foreach ($args as $name => $arg){
+            $data = $this->getShortCodeParams($arg, $name);
+            if(count($data)){
+                $shortData[] = $data;
+            }
+        }
+        $dataArray = array_merge($dataArray, $shortData);
+        if(isset($_GET['bedrooms_number']) && count($_GET['bedrooms_number'])){
+            foreach ($_GET['bedrooms_number'] as $bedrooms){
                 foreach (explode(',', $bedrooms) as $bedroom){
                     if($bedroom != ''){
                         $bedroomData['bedrooms_number'][] = $bedroom;
@@ -1189,8 +1215,24 @@ class ResortPro extends SibersStrimlineAPI
         }
         // check founded data
         $result_data = $this->prepareData($request->getResponse());
-
         return $result_data;
+    }
+
+    /**
+     * add params to $_GET
+     *
+     */
+    public function getShortCodeParams ($arg, $name){
+        $data = array();
+            if(in_array($name, $this->available_params)) {
+                foreach ( explode(',', $arg)as $d){
+                    if($name != 'bedrooms_number'){
+                        $data[$name][] = $d;
+                    }
+                    $_GET[$name][] = $d;
+                }
+            }
+        return $data;
     }
 
     /**
@@ -1464,10 +1506,18 @@ class ResortPro extends SibersStrimlineAPI
         }
         return $fav;
     }
+
+    /**
+     *  Search data
+     *
+     * @param array $params
+     * @param bool $return_units
+     * @return string
+     */
     public function search_results($params = array(), $return_units = false)
     {
         // get all data from api by search params
-        $totalData = $this->sortData($this->generateQuery());
+        $totalData = $this->sortData($this->generateQuery($params));
         // save founded data
         $this->setStoredData($totalData);
         //used in template
@@ -1479,8 +1529,8 @@ class ResortPro extends SibersStrimlineAPI
         $max_occupants_small = (isset($options['inquiry_children_max']) && $options['inquiry_children_max'] > 0) ? $options['inquiry_children_max'] : 1;
         $max_pets = (isset($options['inquiry_pets_max']) && $options['inquiry_pets_max'] > 0) ? $options['inquiry_pets_max'] : 1;
         $selectedBedrooms = array();
-        if(isset($_GET['bedrooms'])){
-            $selectedBedrooms = $_GET['bedrooms'];
+        if(isset($_GET['bedrooms_number'])){
+            $selectedBedrooms = $_GET['bedrooms_number'];
         }
         $selectedLocation = array();
         if(isset($_GET['locations'])){
@@ -1506,6 +1556,9 @@ class ResortPro extends SibersStrimlineAPI
 
     }
 
+    public function prepareShortCodeParams($params){
+
+    }
 
 
     public function property_info()
