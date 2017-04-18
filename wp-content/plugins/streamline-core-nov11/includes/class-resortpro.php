@@ -88,22 +88,22 @@ class ResortPro extends SibersStrimlineAPI
     public $sort = 'desc';
 
     public $available_params = array(
-                                                'location_area_name',
-                                                'location_name',
-                                                'location_type_name',
-                                                'condo_type_group_name',
-                                                'occupants',
-                                                'adults',
-                                                'pets',
-                                                'min_occupants',
-                                                'min_adults',
-                                                'min_pets',
-                                                'bedrooms_number',
-                                                'min_bedrooms_number',
-                                                'bathrooms_number',
-                                                'min_bathrooms_number',
-                                                'longterm_enabled'
-                                              );
+                    'location_area_name',
+                    'resort_area_id',
+                    'location_type_name',
+                    'condo_type_group_name',
+                    'occupants',
+                    'adults',
+                    'pets',
+                    'min_occupants',
+                    'min_adults',
+                    'min_pets',
+                    'bedrooms_number',
+                    'min_bedrooms_number',
+                    'bathrooms_number',
+                    'min_bathrooms_number',
+                    'longterm_enabled'
+                );
 
     /**
      * Constructor function.
@@ -1179,8 +1179,8 @@ class ResortPro extends SibersStrimlineAPI
                 array_push($dataArray, $bedroomData);
             }
         }
-        if(isset($_GET['locations']) && count($_GET['locations'])){
-            foreach ($_GET['locations'] as $location){
+        if(isset($_GET['resort_area_id']) && count($_GET['resort_area_id'])){
+            foreach ($_GET['resort_area_id'] as $location){
                 $locationData['resort_area_id'][] = $location;
             }
             array_push($dataArray, $locationData);
@@ -1202,7 +1202,10 @@ class ResortPro extends SibersStrimlineAPI
             $end = new DateTime($_GET['end']);
             $params['enddate'] = $end->format('m/d/Y');
         }
+
+        $dataArray = $this->removeDuplicates($dataArray);
         $filterCombinations = $this->fill($dataArray);
+
         $queriesArgs = array();
         foreach ($filterCombinations as $filterCombination){
             $queriesArgs[] = StreamlineCore_Wrapper::prepareSearchArgs(array_merge($filterCombination, $params));
@@ -1216,6 +1219,27 @@ class ResortPro extends SibersStrimlineAPI
         // check founded data
         $result_data = $this->prepareData($request->getResponse());
         return $result_data;
+    }
+
+    /**
+     * Return array with unique values
+     *
+     * @param $arr
+     * @return array
+     */
+    public function removeDuplicates($array)
+    {
+        $result = array_map("unserialize", array_unique(array_map("serialize", $array)));
+
+        foreach ($result as $key => $value)
+        {
+            if ( is_array($value) )
+            {
+                $result[$key] = $this->removeDuplicates($value);
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -1533,8 +1557,8 @@ class ResortPro extends SibersStrimlineAPI
             $selectedBedrooms = $_GET['bedrooms_number'];
         }
         $selectedLocation = array();
-        if(isset($_GET['locations'])){
-            $selectedLocation = $_GET['locations'];
+        if(isset($_GET['resort_area_id'])){
+            $selectedLocation = $_GET['resort_area_id'];
         }
         $selectedRentalType = array();
         if(isset($_GET['rental_type'])){

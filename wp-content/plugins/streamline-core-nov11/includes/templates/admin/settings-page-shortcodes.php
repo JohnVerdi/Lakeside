@@ -10,8 +10,9 @@
     <p><?php _e( 'The list of attributes, which can be used:', 'streamline-core' ) ?></p>
     <ul>
       <li>location_area_name - <?php _e( 'Name of area', 'streamline-core' ) ?></li>
-      <li>location_name - <?php _e( 'Name of location', 'streamline-core' ) ?></li>
+      <li>resort_area_id - <?php _e( 'Name of location', 'streamline-core' ) ?></li>
       <li>location_type_name - <?php _e( 'Name of location type', 'streamline-core' ) ?></li>
+      <li>rental_type - <?php _e( 'Type of rental', 'streamline-core' ) ?></li>
       <li>condo_type_group_name - <?php _e( 'Name of group type', 'streamline-core' ) ?></li>
       <li>occupants – <?php _e( 'Number of occupants', 'streamline-core' ) ?></li>
       <li>adults – <?php _e( 'Number of adults', 'streamline-core' ) ?></li>
@@ -94,4 +95,22 @@
       <p><?php _e('No view names found.', 'streamline-core' ) ?></p>
     <?php endif; ?>
   </div>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h4 class="panel-title"><?php _e( 'Type of rental', 'streamline-core' ) ?></h4>
+    </div>
+    <div class="panel-body">
+        <?php $view_names = StreamlineCore_Wrapper::get_view_names() ?>
+        <?php if ( sizeof( $view_names ) ) : ?>
+            <ul>
+                <?php foreach ( $view_names as $view ) : ?>
+                    <li>[<?php echo $view->id ?>] <?php echo $view->name ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else : ?>
+            <p><?php _e('No view names found.', 'streamline-core' ) ?></p>
+        <?php endif; ?>
+    </div>
 </div>

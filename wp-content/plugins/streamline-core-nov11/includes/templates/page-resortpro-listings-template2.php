@@ -201,7 +201,7 @@
                                                 <div class="checkbox" style="margin-left: 0px">
                                                     <label>
                                                         <input value="<?php echo $locationResort->id; ?>" <?php echo in_array($locationResort->id, $selectedLocation)?'checked':''; ?>
-                                                               class="i-check i-check-tax" type="checkbox" name="locations[]"
+                                                               class="i-check i-check-tax" type="checkbox" name="resort_area_id[]"
                                                                style="position: absolute; opacity: 0;">
                                                         <ins class="iCheck-helper"
                                                              style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
