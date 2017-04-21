@@ -903,6 +903,7 @@
             var myLatlng = {lat: obj.data.latitude, lng: obj.data.longitude};
             map.setCenter(myLatlng);
           });
+          return $scope.property;
         });
       };
 
@@ -2135,6 +2136,24 @@
 
         return false;
       }
+
+    // Sibers
+    $scope.bookNowDay = 'night';
+    $scope.bookNowPrice = 0;
+
+    $scope.getBookNowTitle = function () {
+        return '$' + $scope.bookNowPrice + '/' + $scope.bookNowDay;
+    }
+
+    $scope.extras_top = [
+      { title: 'Child lift ticket, snowbasin - 99$', value: 1 },
+      { title: 'humidifier - 45$', value: 2 },
+      { title: 'in room massage - 99$', value: 3 },
+      { title: 'snowbasin lift ticket', value: 4 },
+      { title: 'CSA trip insurance', value: 5 },
+      { title: 'Child lift ticket, snowbasin - 99$', value: 6 }
+    ];
+
     }
   ]);
 })();

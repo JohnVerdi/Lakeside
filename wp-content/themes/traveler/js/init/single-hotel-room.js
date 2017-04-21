@@ -164,7 +164,7 @@ jQuery(document).ready(function($) {
     });
 
     function ajaxGetHotelOrder(month, year, me){
-        post_id = $('#current_post_id').text();
+        post_id = angular.element(document.querySelector('[ng-controller="PropertyController as property"]')).scope().propertyId;
         $('.date-overlay').addClass('open');
         if( !typeof post_id != 'undefined' || parseInt(post_id) > 0 ){
             var data = {
@@ -242,7 +242,7 @@ jQuery(document).ready(function($) {
                         type:'post',
                         data: {
                             action:'st_get_availability_hotel_room_custom',
-                            post_id:$('#current_post_id').text(),
+                            post_id: angular.element(document.querySelector('[ng-controller="PropertyController as property"]')).scope().propertyId,
                             start: start.unix(),
                             end: end.unix()
                         },
