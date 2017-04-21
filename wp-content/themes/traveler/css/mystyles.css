@@ -92,7 +92,7 @@
 
 .resortpro_form_checkout .form-group h4:hover{
     text-decoration: underline;
-    transform: scale(1.02);
+    /*transform: scale(1.02);*/
 }
 
 #resortpro_unit_submit_blue {
@@ -111,4 +111,62 @@
     -moz-border-radius:6px;
     border-radius:6px;
     padding: 15px;
+}
+
+#coupon-code-wrap {
+    margin: 15px 0;
+}
+
+#coupon-code-wrap .counpon {
+    width: 70%;
+}
+
+#coupon-code-wrap .counpon-line {
+    height: 40px;
+    border: 1px solid #eee;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 7px;
+}
+
+#coupon-code-wrap .check-counpon {
+    width: 30%;
+    float: right;
+    color: #ffffff;
+    background-color: #4BB6E4;
+}
+
+#coupon-code-wrap .check-counpon:hover {
+    background-color: #47a0cc;
+}
+
+#coupon-code-wrap p {
+    margin: 0;
+}
+
+.resortpro_form_checkout .form-group.sub-collapse h4 {
+    width: 70%;
+    float: left;
+    border: 1px solid #eee;
+    height: 42px;
+    line-height: 42px;
+    margin: 0;
+    padding: 0 5px;
+}
+
+.resortpro_form_checkout .form-group.sub-collapse h4 .fa {
+    line-height: 42px;
+}
+
+.extras-results {
+    height: 42px;
+    text-align: right;
+    float: left;
+    width: 30%;
+    border: 1px solid #eee;
+    padding: 5px;
+}
+
+.sub-collapse.form-group {
+    margin-bottom: 0;
 }

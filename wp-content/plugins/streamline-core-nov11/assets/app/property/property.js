@@ -2138,11 +2138,9 @@
       }
 
     // Sibers
-    $scope.bookNowDay = 'night';
-    $scope.bookNowPrice = 0;
 
     $scope.getBookNowTitle = function () {
-        return '$' + $scope.bookNowPrice + '/' + $scope.bookNowDay;
+        return '$' + $scope.bookNowPrice + '/night';
     }
 
     $scope.extras_top = [

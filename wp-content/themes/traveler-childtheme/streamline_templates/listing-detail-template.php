@@ -1,3 +1,6 @@
+<pre>
+<!--    --><?php //print_r($property) ;exit;?>
+</pre>
 <div class="container" >
     <ol class="breadcrumb">
         <li><a href="/"><?php _e( 'Home', 'streamline-core' ) ?></a></li>
@@ -16,10 +19,11 @@
 </div>
 
 <div id="single-room" class="booking-item-details" ng-controller="PropertyController as property">
-    <main id="main" class="site-main" role="main" ng-init="propertyId=<?php echo $property['id']; ?>;
-    initializeData();
-    getRatesDetails(<?php echo $property['id']; ?>);
-    getRoomDetails(<?php echo $property['id']; ?>);">
+    <main id="main" class="site-main" role="main" ng-init="
+            propertyId=<?php echo $property['id']; ?>;
+            initializeData();
+            getRatesDetails(<?php echo $property['id']; ?>);
+            getRoomDetails(<?php echo $property['id']; ?>);">
     <div class="thumb">
         <div class="thumb-img-pages" style="background-image: url('<?php echo $property['gallery']['image'][0]['image_path'];?>')" ></div>
     </div>

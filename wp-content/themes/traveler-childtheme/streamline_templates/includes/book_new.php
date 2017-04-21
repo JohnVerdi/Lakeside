@@ -5,6 +5,7 @@
      total_reservation=0;
      book.unit_id=<?php echo $property['id'] ?>;
      book.checkin='<?php echo $start_date; ?>';
+     bookNowPrice=<?php echo $property['price_data']['daily'];?>;
      book.checkout='<?php echo $end_date ?>';
      getPreReservationPrice(book,<?php echo $res ?>)"
 >
@@ -18,9 +19,7 @@
         <div ng-bind-html="alert.message | trustedHtml"></div>
     </div>
 
-
-
-    <form action="<?php echo $checkout_url ?>" method="post" name="resortpro_form_checkout" class="resortpro_form_checkout">
+    <form action="<?php echo $checkout_url ?>" method="post" name="resortpro_form_checkout" class="resortpro_form_checkout" novalidate>
         <input type="hidden" name="resortpro_book_unit" value="<?php echo $nonce; ?>"/>
         <input type="hidden" name="book_unit" value="<?php echo $property['id'] ?>"/>
         <?php if(!empty($hash)): ?>
@@ -153,81 +152,92 @@
                         <td>$279.00</td>
                     </tr>
                 </table>
+
+                <div class="form-group sub-collapse clearfix">
+                    <h4 data-toggle="collapse"
+                        href="#extras_bot"
+                        aria-expanded="true"
+                        aria-controls="extras_bot"
+                        ng-click="isBotExtrasArrowActive = !isBotExtrasArrowActive">
+                        <?php _e( 'Extras', 'streamline-core' ) ?>
+                        <i class="fa fa-angle-up fa-angle-button" aria-hidden="true" ng-show="isBotExtrasArrowActive" ng-cloak></i>
+                        <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isBotExtrasArrowActive" ng-cloak></i>
+                    </h4>
+                    <div class="extras-results">
+                        <span>$99.99</span>
+                    </div>
+                    <div id="extras_bot" class="collapse">
+                        <table>
+                            <tr>
+                                <td>Child Lift Ticket, Snowbasin</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>Humidifier</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>In Room Massage</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>Snowbasin Lift Ticket</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>CSA Trip Insurance</td>
+                                <td>$279.00</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group sub-collapse clearfix">
+                    <h4 data-toggle="collapse"
+                        href="#taxes_fees"
+                        aria-expanded="true"
+                        aria-controls="taxes_fees"
+                        ng-click="isTaxesFeesArrowActive = !isTaxesFeesArrowActive">
+                        <?php _e( 'Taxes and fees', 'streamline-core' ) ?>
+                        <i class="fa fa-angle-up fa-angle-button" aria-hidden="true" ng-show="isTaxesFeesArrowActive" ng-cloak></i>
+                        <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isTaxesFeesArrowActive" ng-cloak></i>
+                    </h4>
+                    <div class="extras-results">
+                        <span>$99.99</span>
+                    </div>
+                    <div id="taxes_fees" class="collapse">
+                        <table>
+                            <tr>
+                                <td>Lodging Tax(fees)</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>Lodging Tax</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>Sales Tax</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>Cleaning Fees (Taxed)</td>
+                                <td>$279.00</td>
+                            </tr>
+                            <tr>
+                                <td>Processing Fee (Taxed)</td>
+                                <td>$279.00</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <h4 data-toggle="collapse"
-                href="#extras_bot"
-                aria-expanded="true"
-                aria-controls="extras_bot"
-                ng-click="isBotExtrasArrowActive = !isBotExtrasArrowActive">
-                <?php _e( 'Extras', 'streamline-core' ) ?>
-                <i class="fa fa-angle-up fa-angle-button" aria-hidden="true" ng-show="isBotExtrasArrowActive" ng-cloak></i>
-                <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isBotExtrasArrowActive" ng-cloak></i>
-            </h4>
-            <div id="extras_bot" class="collapse">
-                <table>
-                    <tr>
-                        <td>Child Lift Ticket, Snowbasin</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>Humidifier</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>In Room Massage</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>Snowbasin Lift Ticket</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>CSA Trip Insurance</td>
-                        <td>$279.00</td>
-                    </tr>
-                </table>
-            </div>
+        <div class="form-group" id="coupon-code-wrap">
+            <p>Coupon code</p>
+            <input class="counpon counpon-line" ng-model="couponCode" type="text">
+            <button class="check-counpon counpon-line">Redeem</button>
         </div>
-
-        <div class="form-group">
-            <h4 data-toggle="collapse"
-                href="#taxes_fees"
-                aria-expanded="true"
-                aria-controls="taxes_fees"
-                ng-click="isTaxesFeesArrowActive = !isTaxesFeesArrowActive">
-                <?php _e( 'Taxes and fees', 'streamline-core' ) ?>
-                <i class="fa fa-angle-up fa-angle-button" aria-hidden="true" ng-show="isTaxesFeesArrowActive" ng-cloak></i>
-                <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isTaxesFeesArrowActive" ng-cloak></i>
-            </h4>
-            <div id="taxes_fees" class="collapse">
-                <table>
-                    <tr>
-                        <td>Lodging Tax(fees)</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>Lodging Tax</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>Sales Tax</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>Cleaning Fees (Taxed)</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>Processing Fee (Taxed)</td>
-                        <td>$279.00</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
 
         <?php if(!(is_numeric($property['online_bookings']) && $property['online_bookings'] == 0)): ?>
             <div class="form-group">
