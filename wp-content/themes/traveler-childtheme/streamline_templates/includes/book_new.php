@@ -29,9 +29,9 @@
                 class="text"> <?php _e( 'Per Night', 'streamline-core' ) ?></span>
         </h3>
 
-        <h3 class="price" ng-show="res == 1 && total_reservation > 0" ng-cloak >{[total_reservation |
-            currency:undefined:0]}
-            <span class="text" style="font-size: 0.6em"><?php _e( 'including taxes and fees', 'streamline-core' ) ?></span>
+        <h3 class="price" ng-show="res == 1 && total_reservation > 0" ng-cloak >
+            {[total_reservation | currency:undefined:0]} <br>
+            <span class="text" style="font-size: 0.6em"><?php _e( 'Including taxes and fees', 'streamline-core' ) ?></span>
         </h3>
 
         <div class="row">
@@ -119,9 +119,9 @@
             </h4>
             <div id="extras_top" class="collapse">
                 <table>
-                    <tr ng-repeat="extra_top in extras_top">
-                        <td><label for="{[$index+1]}">{[extra_top.title]}:</label></td>
-                        <td><input id="{[$index+1]}" ng-model="extra_top.value" type="number"/></td>
+                    <tr ng-repeat="optional_fee in optional_fees">
+                        <td><label for="{[$index+1]}">{[optional_fee.name]}:</label></td>
+                        <td><input id="{[$index+1]}" ng-model="optional_fee.value" type="number"/></td>
                     </tr>
                 </table>
             </div>
@@ -139,17 +139,9 @@
             </h4>
             <div id="price_breakdown" class="collapse">
                 <table>
-                    <tr>
-                        <td>03/24/2017</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>03/24/2017</td>
-                        <td>$279.00</td>
-                    </tr>
-                    <tr>
-                        <td>03/24/2017</td>
-                        <td>$279.00</td>
+                    <tr ng-repeat="reservation_day in reservation_days">
+                        <td>{[reservation_day.date]}</td>
+                        <td>{[reservation_day.price]}$</td>
                     </tr>
                 </table>
 
@@ -164,29 +156,13 @@
                         <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isBotExtrasArrowActive" ng-cloak></i>
                     </h4>
                     <div class="extras-results">
-                        <span>$99.99</span>
+                        <span>{[totalRequiredExtras]}$</span>
                     </div>
                     <div id="extras_bot" class="collapse">
                         <table>
-                            <tr>
-                                <td>Child Lift Ticket, Snowbasin</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>Humidifier</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>In Room Massage</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>Snowbasin Lift Ticket</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>CSA Trip Insurance</td>
-                                <td>$279.00</td>
+                            <tr ng-repeat="required_fee in required_fees">
+                                <td>{[required_fee.name]}</td>
+                                <td>{[required_fee.value]}$</td>
                             </tr>
                         </table>
                     </div>
@@ -203,34 +179,27 @@
                         <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isTaxesFeesArrowActive" ng-cloak></i>
                     </h4>
                     <div class="extras-results">
-                        <span>$99.99</span>
+                        <span>{[totalTaxesAndFees]}$</span>
                     </div>
                     <div id="taxes_fees" class="collapse">
                         <table>
-                            <tr>
-                                <td>Lodging Tax(fees)</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>Lodging Tax</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>Sales Tax</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>Cleaning Fees (Taxed)</td>
-                                <td>$279.00</td>
-                            </tr>
-                            <tr>
-                                <td>Processing Fee (Taxed)</td>
-                                <td>$279.00</td>
+                            <tr ng-repeat="taxes_detail in taxes_details">
+                                <td>{[taxes_detail.name]}</td>
+                                <td>{[taxes_detail.value]}$</td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="form-group" id="total-price-code-wrap">
+            <table>
+                <tr>
+                    <td>Total</td>
+                    <td ng-cloak>{[total_reservation | currency:undefined:0]}</td>
+                </tr>
+            </table>
         </div>
 
         <div class="form-group" id="coupon-code-wrap">

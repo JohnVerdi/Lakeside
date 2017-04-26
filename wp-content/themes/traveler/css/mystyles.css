@@ -167,6 +167,19 @@
     padding: 5px;
 }
 
+.extras-results span {
+    line-height: 32px;
+}
+
 .sub-collapse.form-group {
     margin-bottom: 0;
+}
+
+h3.price {
+    color: #4bb6e4;
+    text-align: center;
+}
+
+#total-price-code-wrap td {
+    font-weight: bold;
 }

@@ -1112,7 +1112,7 @@
                 'occupants': booking.occupants,
                 'occupants_small' : booking.occupants_small,
                 'pets' : booking.pets,
-                'coupon_code' : booking.coupon_code
+                'coupon_code' : 'SIBERS17'
               }).success(function (obj) {
                 if (obj.data != undefined) {
                   var total_fees = 0;
@@ -1155,6 +1155,21 @@
                   } else {
                     $scope.days = true;
                   }
+
+                  $scope.required_fees = obj.data.required_fees;
+                  $scope.optional_fees = obj.data.optional_fees;
+                  $scope.reservation_day = obj.data.reservation_day;
+                  $scope.taxes_details = obj.data.taxes_details;
+                  $scope.totalRequiredExtras = 0;
+                  $scope.totalTaxesAndFees = 0;
+
+                  angular.forEach($scope.required_fees, function(fee){
+                      $scope.totalRequiredExtras += (+fee.value);
+                  });
+
+                  angular.forEach($scope.taxes_details, function(tax){
+                      $scope.totalTaxesAndFees += (+tax.value);
+                  });
 
                   hide_waitMe('#resortpro-book-unit form');
                 }
@@ -1933,10 +1948,7 @@
               'pets' : $scope.modal_pets
             }).success(function (obj) {
               if (obj.data != undefined) {
-
                 $scope.showDays = false;
-
-
                 $scope.modal_total_reservation = obj.data.total;
                 $scope.modal_rent = obj.data.price;
                 $scope.modal_taxes = obj.data.taxes;
@@ -1946,7 +1958,6 @@
                 $scope.modal_first_day_price = obj.data.first_day_price;
                 $scope.modal_required_fees = obj.data.required_fees;
                 $scope.modal_taxes_details = obj.data.taxes_details;
-
 
                 if (obj.data.reservation_days.date != undefined) {
                   $scope.modal_days = false;
@@ -2137,21 +2148,9 @@
         return false;
       }
 
-    // Sibers
-
     $scope.getBookNowTitle = function () {
         return '$' + $scope.bookNowPrice + '/night';
-    }
-
-    $scope.extras_top = [
-      { title: 'Child lift ticket, snowbasin - 99$', value: 1 },
-      { title: 'humidifier - 45$', value: 2 },
-      { title: 'in room massage - 99$', value: 3 },
-      { title: 'snowbasin lift ticket', value: 4 },
-      { title: 'CSA trip insurance', value: 5 },
-      { title: 'Child lift ticket, snowbasin - 99$', value: 6 }
-    ];
-
+      }
     }
   ]);
 })();
