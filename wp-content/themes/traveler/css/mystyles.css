@@ -183,3 +183,8 @@ h3.price {
 #total-price-code-wrap td {
     font-weight: bold;
 }
+
+.resortpro_form_checkout h4 {
+    font-weight: bold;
+    font-size: 20px;
+}
