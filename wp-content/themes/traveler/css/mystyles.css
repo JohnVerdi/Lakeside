@@ -1,0 +1,185 @@
+#resortpro-book-unit .book-now-title-wrap {
+    width: 100%;
+    height: 60px;
+    background-color: #4BB6E4;
+}
+
+#resortpro-book-unit .book-now-title {
+    font-size: 20px;
+    line-height: 40px;
+    text-align: left;
+    color: #ffffff;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.nopadding {
+    padding: 0!important;;
+}
+
+.fa-calendar-wrapper {
+    position: relative;
+}
+
+.fa-calendar-wrapper .fa-calendar {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    display: block;
+     top: 29px;
+    left: 1px;
+    text-align: center;
+    color: #b3b3b3;
+}
+
+.fa-calendar-wrapper .form-control {
+    padding-left: 32px;
+}
+
+.brad-5 {
+    border-radius: 5px;
+}
+
+#resortpro_unit_submit_blue {
+    background-color: #4BB6E4;
+    border-radius: 7px;
+    background-image: none;
+}
+
+.fa-angle-button {
+    float: right;
+    padding-right: 5px;
+}
+
+.book-now-collapse-toggle {
+    cursor: pointer;
+}
+
+.resortpro_form_checkout .collapse table {
+    width: 100%;
+}
+
+.resortpro_form_checkout table td:first-child {
+    width: 70%;
+}
+
+.resortpro_form_checkout table td:first-child label {
+    text-transform: capitalize;
+}
+
+.resortpro_form_checkout table td:last-child {
+    text-align: right;
+    width: 30%;
+}
+
+.resortpro_form_checkout table td:last-child input[type="number"] {
+    max-width: 80px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding-left: 10%;
+}
+
+.resortpro_form_checkout table td:last-child input[type="number"]:active, .resortpro_form_checkout table td:last-child input[type="number"]:focus, .resortpro_form_checkout table td:last-child input[type="number"]:hover {
+    outline: none; !important;
+}
+
+
+.resortpro_form_checkout .form-group h4 {
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.resortpro_form_checkout .form-group h4:hover{
+    text-decoration: underline;
+    /*transform: scale(1.02);*/
+}
+
+#resortpro_unit_submit_blue {
+    border-color: #777777;
+}
+
+.thumb-img-pages {
+    background: 50% 75% no-repeat;
+    background-size: cover ;
+    height: 500px;
+    width: 100%;
+}
+.booking-item-details {
+    border: 1px solid #aaa;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    border-radius:6px;
+    padding: 15px;
+}
+
+#coupon-code-wrap {
+    margin: 15px 0;
+}
+
+#coupon-code-wrap .counpon {
+    width: 70%;
+}
+
+#coupon-code-wrap .counpon-line {
+    height: 40px;
+    border: 1px solid #eee;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 7px;
+}
+
+#coupon-code-wrap .check-counpon {
+    width: 30%;
+    float: right;
+    color: #ffffff;
+    background-color: #4BB6E4;
+}
+
+#coupon-code-wrap .check-counpon:hover {
+    background-color: #47a0cc;
+}
+
+#coupon-code-wrap p {
+    margin: 0;
+}
+
+.resortpro_form_checkout .form-group.sub-collapse h4 {
+    width: 70%;
+    float: left;
+    border: 1px solid #eee;
+    height: 42px;
+    line-height: 42px;
+    margin: 0;
+    padding: 0 5px;
+}
+
+.resortpro_form_checkout .form-group.sub-collapse h4 .fa {
+    line-height: 42px;
+}
+
+.extras-results {
+    height: 42px;
+    text-align: right;
+    float: left;
+    width: 30%;
+    border: 1px solid #eee;
+    padding: 5px;
+}
+
+.extras-results span {
+    line-height: 32px;
+}
+
+.sub-collapse.form-group {
+    margin-bottom: 0;
+}
+
+h3.price {
+    color: #4bb6e4;
+    text-align: center;
+}
+
+#total-price-code-wrap td {
+    font-weight: bold;
+}

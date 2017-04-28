@@ -1,0 +1,25 @@
+typeahead()
+
+	.tt-hint
+		color #999
+
+	.tt-dropdown-menu
+		width 100%
+		margin-top 7px
+		background #fff
+		border 1px solid darken(white, 10%)
+		max-height 300px
+		overflow-y auto
+		white-space nowrap
+
+	.tt-suggestion
+		line-height 1em
+		padding 15px 20px
+		font-size $font_size - 1
+		border-bottom 1px solid darken(white, 10%)
+		p
+			margin 0
+		&.tt-cursor
+			color #fff
+			background _base
+			cursor pointer

@@ -1,0 +1,861 @@
+misc()
+	// html
+	// 	width 100%
+	// 	height 100%
+	// body
+	// 	width 100%
+	// 	height 100%
+	.nav-tabs
+		> li > a
+			border-radius 0
+
+	body
+		overflow hidden
+
+	body.boxed
+		.global-wrap
+			@media _from_screen_md
+				width 1230px
+				margin 30px auto
+				box-shadow 0 4px 2px fade-out(black, 80%)
+
+	.global-wrap
+		background white
+
+	.dis-table
+		display table
+
+	.full,
+	.full-page
+		width 100%
+		height 100%
+		@media _to_screen_md
+			min-height 1000px
+
+	.rel
+		position relative
+
+	.full-height
+		height 100%	
+
+	.full-page
+		position relative
+
+	.top-area,
+	.special-area
+		 
+		position relative
+		overflow hidden
+		@media _to_screen_md
+			height auto
+
+	.special-area
+		height 500px
+
+	.bg-cover
+		background-size cover
+		background-attachment fixed
+		background-position center center
+		background-repeat no-repeat
+
+	.bg-darken
+		background darken(white, 5%)
+
+	.bg-color
+		background _base
+
+	.bg-holder
+		position relative
+		overflow hidden
+		> .bg-mask,
+		> .bg-blur,
+		> .bg-mask-darken,
+		> .bg-mask-lighten,
+		> .bg-parallax,
+		> .bg-img,
+		> .bg-video
+			display block
+			position absolute
+			top 0
+			left 0
+			background-size cover
+			background-position center center
+		> .bg-video
+			width 100%
+			height auto
+			z-index 4
+		> .bg-mask,
+		> .bg-parallax,
+		> .bg-img
+			width 100%
+			height 100%
+		> .bg-mask,
+		> .bg-mask-darken,
+		> .bg-mask-lighten,
+		> .bg-mask-white,
+		> .bg-mask-color
+		> .bg-mask-color-invert
+			width 100%
+			height 100%
+			z-index 5
+			opacity 0.5
+			background #000
+		> .bg-mask-lighten
+			opacity 0.3
+		> .bg-mask-darken
+			opacity 0.8
+		> .bg-mask-color
+			background $base_color
+		> .bg-mask-white
+			background white
+		> .bg-mask-color-invert
+			background $base_color_invert
+		> .bg-parallax
+			background-position 50% 0
+			background-attachment fixed
+		> .bg-blur
+			width 50% !important
+			height 50% !important
+			transform-origin 1% 1%
+			transform scale(2.1)
+			background-size cover
+			-webkit-filter blur(2px)
+			-moz-filter blur(2px)
+			-o-filter blur(2px)
+			filter blur(2px)
+			z-index 0
+			&:before
+				content ''
+				backface-visibility hidden
+			&.bg-parallax
+				background-attachment scroll	
+		> .bg-holder-content,
+		> .bg-content
+			position relative
+			z-index 7
+		> .bg-front
+			top 0
+			left 0
+			width 100%
+			position absolute
+			z-index 6
+			&.bg-front-mob-rel
+				@media _to_screen_md
+					position relative
+
+	.vert-center
+		left 0 !important
+		position absolute !important
+		top 50% !important
+		transform translate(0, -50%)
+
+	.hor-center
+		left 50% !important
+		position absolute !important
+		top 0 !important
+		transform translate(-50%, 0)
+
+	.full-center
+		left 50% !important
+		position absolute !important
+		top 50% !important
+		transform translate(-50%, -50%)
+
+	.to-top
+		transform translate(0, -50%)
+		position relative
+		z-index 10
+
+
+
+
+	.loc-info
+		opacity 0.5
+		padding-top 50px
+		color white
+		transition 0.3s
+		transform translate3d(0,0,0)
+		&:hover
+			opacity 1
+		.loc-info-title
+			color white
+			img
+				width auto
+				margin-right 10px
+				margin-top -5px
+		.loc-info-weather
+			margin 0		
+		.loc-info-weather-icon
+			font-size 60px
+			margin-left 5px
+		.loc-info-weather-num
+			font-size 30px
+			position relative
+			top -15px
+			.meteocon
+				margin-left -5px
+		.loc-info-list
+			list-style none
+			// padding 10px 0 0 0
+			padding 0
+			// margin 20px 0 20px 0 
+			margin 5px 0 10px 0
+			// display block
+			font-size 13px
+			// border-top 1px solid fade-out(white, 85%)
+			> li > a
+				.fa
+					margin-right 5px
+				color white
+				opacity 0.8
+				&:hover
+					opacity 1
+
+	.round
+		border-radius 50%
+		img
+			border-radius 50%
+
+	.curved
+		border-radius 5px
+
+	img
+		width 100%
+		&.origin
+			width auto
+		&.pp-img
+			width 200px
+			margin-bottom 10px
+
+	.header-top
+		padding (base_sp/3) 0
+		max-height 60px
+		// background darken(white, 5%)
+		background lighten(black, 30%)
+		@media _to_screen_md
+			max-height none
+
+	.logo
+		display block
+		img
+			width auto
+
+	.top-user-area 
+		font-size $font_size - 2px
+		position relative
+		> ul >li 
+			line-height 40px
+		.top-user-area-list
+			position absolute
+			top 0
+			right 0
+			@media _to_screen_md
+				margin-top 10px
+				position relative
+			> li
+				position relative
+				border none !important
+				&:after
+					content ''
+					position absolute
+					top 30%
+					right 0
+					height 40%
+					// background fade-out(#000, 87%)
+					background fade-out(#fff, 87%)
+					width 1px
+				&:last-child:after
+					background none
+				> a
+					// color lighten($font_color, 10%)
+					color darken(white, 5%)
+					&:hover
+						color lighten(_base, 20%)
+				&.top-user-area-avatar
+					font-weight 400
+					> a
+						> img
+							width 44px
+							height 44px
+							margin-right 5px
+							transition 0.3s
+							// box-shadow 0 0 3px fade-out(#000, 80%)
+							// box-shadow 0 0 10px green
+							border 2px solid fade-out(#000, 90%)
+						&:hover > img
+							// box-shadow 0 0 0 2px _base
+							border 2px solid _base
+				&.top-user-area-lang
+					> a
+						> img
+							margin-top -2px
+							width 16px
+							height 16px
+							margin-right 3px
+							opacity 0.8
+							transition 0.3s
+						&:hover > img
+							opacity 1
+					.nav-drop-menu li a
+						line-height 20px 
+						img
+							width 20px
+							height 20px
+
+	div.nav-drop
+		display inline-block
+	.nav-drop
+		position relative
+		padding-right 23px !important
+		// transition 0.3s
+		.fa-angle-up,
+		.fa-angle-down
+			position absolute
+			right 8px
+			line-height inherit
+			top 0
+			font-size 90%
+			opacity 0.7
+			transition  0.3s
+		.fa-angle-up
+			top 5px
+			opacity 0
+		> .nav-drop-menu
+			min-width 85px
+			height 0
+			overflow hidden
+			position absolute
+			z-index 999
+			left -5px
+			color white
+			transform translate3d(0, 10px, 0)
+			opacity 0
+			transition opacity 0.3s, transform 0.3s
+			list-style none
+			margin 0
+			padding 0
+			> li 
+				> a 
+					background lighten(#000, 20%)
+					color white
+					padding 10px 15px
+					line-height 1em 
+					border-bottom 1px solid lighten(#000, 15%)
+					display block
+					position relative
+					transition 0.3s
+					> .right
+						float right
+					&:hover
+						// color _base
+						background _base
+				&:last-child > a
+					border-bottom none
+				&:first-child > a:before
+					position absolute
+					content ''
+					width 0px
+					height 0px
+					border-style solid
+					border-width 0 10px 10px 10px
+					border-color transparent transparent lighten(#000, 15%) transparent
+					top -10px
+					left 10px	
+		&.active-drop
+			.fa-angle-up
+				top 0
+				opacity 1
+			.fa-angle-down
+				top 5px
+				opacity 0
+			> .nav-drop-menu
+				height auto
+				overflow visible
+				opacity 1
+				transform translate3d(0, 0, 0)
+
+	.list 
+		list-style none
+		margin 0
+		padding 0
+
+	.list-center
+		display table
+		margin 0 auto
+
+	.list-inline-block
+		> li
+			display inline-block
+
+	.list-horizontal,
+	.list-inline
+		// overflow hidden
+		> li
+			float left
+			margin-right 10px
+			padding 0
+			display block
+			&:last-child
+				margin-right 0	
+		&.list-border > li
+			margin-right 10px
+			padding-right 10px
+			border-right 1px solid fade-out(#000, 87%)
+			&:last-child
+				margin-right 0
+				padding-right 0
+				border none
+		&:after
+			content '.'
+			display block
+			height 0
+			clear both
+			visibility hidden
+
+	.breadcrumb
+		background none
+		padding 0
+		font-size 13px
+		margin-top 15px
+		margin-bottom 0
+		> li + li:before
+			content '\f105'
+			font-family $icon_font
+			padding 0 7px
+
+	// .fixed
+	// 	position fixed
+	// 	top 0
+	// 	left 0
+	// 	right 0
+	// 	z-index 100					
+
+	footer#main-footer
+		background lighten(#000, 15%)
+		padding 30px 0
+		color darken(white, 10%)
+		font-size $font_size - 3
+		line-height 1.4em
+		.logo
+			margin-bottom 15px
+		a, h1, h2, h3, h4, h5
+			color white
+		.form-control
+			background lighten(#000, 7%)
+			border-color #000
+			color white
+			&:focus
+				border-color _base
+
+	header#main-header
+		border-bottom 2px solid _base
+
+
+	.pagination
+		// margin-top 30px
+		// margin-bottom 0
+		margin 0
+		list-style none
+		padding 0
+		overflow hidden
+		display block
+		font-size $font_size - 2
+		border-radius 0
+		> li 
+			display block
+			float left
+			min-width 35px
+			// line-height 20px
+			// height 20px
+			> a
+				border none
+				color _base
+				border-radius 0 !important
+				transition 0.2s
+				&:hover
+					background lighten(#000, 30%)
+					color white
+				// border-radius none !important
+				// border-radius none !important
+			&.active > a, &.active > a:hover
+				// border-radius 5px !important
+				background _base
+			&.dots
+				line-height 16px
+				text-align center
+				font-size 30px
+				color darken(#fff, 20%)
+
+	.nav-pills
+		> li
+			&.active > a
+				background _base
+				cursor default
+				&:hover
+					background _base
+	.nav-sm
+		> li > a
+			padding 5px 10px
+			font-size _fs - 1
+
+	.nav-no-br
+		> li > a
+			border-radius 0		
+
+	.nav-bot-space
+		margin-bottom 15px
+
+
+	.card-select
+		list-style none
+		margin 0
+		padding 0
+		> li
+			overflow hidden
+			padding 10px 15px
+			border 1px solid darken(white, 20%)
+			border-radius 3px
+			margin-bottom 15px
+			cursor pointer
+			width 90%
+			&.card-item-selected
+				border-color _base
+				.card-select-cvc
+					display inline-block
+		.card-select-img
+			width 64px
+			float left
+			margin-right 15px
+		.card-select-data
+			display table
+		.card-select-cvc
+			display none
+			width 60px
+			transition 0.3s
+		.card-select-number
+			font-size 14px
+			display inline-block
+			margin-right 20px
+			line-height 40px
+			margin-bottom 0
+
+
+	.order-payment-list
+		> li
+			padding 10px 15px
+			// background darken(white, 5%)
+			border-bottom 1px dashed darken(white, 20%)
+			&:first-child
+				border-top 1px dashed darken(white, 20%)
+			h5, p
+				margin-bottom 0
+			h5 .fa
+				margin-right 10px
+			small
+				margin-left 35px
+
+	.addional-offers
+		font-size _fs - 2
+		margin-bottom 0
+		margin-top 5px
+		line-height 1.4em
+	
+	.rounded
+		border-radius 50%
+
+	aside
+		&.sidebar-right
+			margin-left 30px
+		&.sidebar-left
+			margin-right 30px
+
+	.sidebar-widget
+		margin-bottom 30px
+
+	.list-category
+		> li > a
+			color darken(_fc, 10%)
+			margin-bottom 7px
+			padding-bottom 7px
+			display block
+			border-bottom 1px dashed darken(white, 5%)
+			&:hover
+				color _base
+
+	.address-list
+		> li
+			margin-bottom 20px
+			> h5
+				margin-bottom 3px
+
+	.tooltip-inner
+		border-radius 0
+
+	.logo-holder
+		position absolute
+		top 0
+		left 0
+		margin 30px 0 0 30px
+		display block
+		opacity .5
+		transition 0.3s
+		> img
+			width auto
+		&:hover
+			opacity 1
+
+	.footer-links
+		list-style none
+		font-size _fs - 4
+		text-align center
+		position absolute
+		bottom 50px
+		width 100%
+		> li
+			display inline-block
+			margin 0 10px
+			> a
+				opacity .7
+				color white
+				&:hover
+					text-decoration underline
+					opacity 1
+
+	.footer-social
+		position absolute
+		bottom 50px
+		text-align center
+		width 100%
+		> li
+			display inline-block
+			margin 0 7px
+
+
+	.card-thumb
+		position relative
+		height 170px
+		border-radius 5px
+		background darken(white, 2%)
+		padding 15px 20px
+		border 1px solid darken(white, 10%)
+		display block
+		&.card-thumb-primary
+			border-color _base
+		.card-thumb-primary-label
+			position absolute
+			top 10px
+			left 10px
+			display inline-block
+			line-height 1em
+			padding 4px 6px
+			background _base
+			// border 1px solid _base
+			color white
+			font-size _fs - 4
+			// color _base
+			border-radius 3px
+		.card-thumb-new
+			height 50px
+			line-height 50px
+			width 50px
+			text-align center
+			// background lighten(black, 20%)
+			background _base
+			color white
+			border-radius 50%
+			font-size 30px
+			float left
+			margin-right 10px
+			margin-top 45px
+			margin-left 35px
+			+ p
+				margin-top 55px
+				font-size _fs - 2
+		.card-thumb-type
+			position absolute
+			bottom 10px
+			right 10px
+			width auto
+		.card-thumb-number
+			font-size _fs + 2
+			color darken(_fc, 20%)
+			font-weight 400
+			letter-spacing 2px
+			margin-top 30px
+			margin-bottom 0
+		.card-thumb-valid
+			font-size _fs - 2
+			color lighten(_fc, 15%)
+			> span
+				font-size _fs + 1
+				color darken(_fc, 15%)
+		.card-thumb-actions
+			list-style none
+			margin 0
+			padding 0
+			position absolute
+			top 7px
+			right 10px
+			> li
+				display inline-block
+				margin-right 8px
+				&:last-child
+					margin-right 0
+				> a
+					display block
+					width 23px
+					line-height 23px
+					height 23px
+					text-align center
+					border-radius 50%
+					// background black
+					font-size _fs - 2
+					box-shadow 0 0 0 1px _fc
+					color _fc
+					opacity 0.5
+					transition 0.3s
+					&:hover
+						background _base
+						color white
+						box-shadow 0 0 0 1px darken(_base, 15%)
+		&:hover
+			.card-thumb-actions > li > a
+				opacity 1
+
+
+
+
+	.spinner-clock
+		width 150px
+		height 150px
+		border 4px solid white
+		border-radius 50%
+		position relative
+		margin 0 auto 20px auto
+		// background fade-out(white, 90%)
+		&:before
+			width 12px
+			height 12px
+			position absolute
+			top 50%
+			left 50%
+			background white
+			// background _base
+			border-radius 50%
+			content ''
+			margin -6px 0 0 -6px
+			z-index 1
+		.spinner-clock-hour,
+		.spinner-clock-minute
+			animation-name spinner
+			animation-iteration-count infinite
+			animation-timing-function linear
+			width 4px
+			background white
+			// background _base
+			margin-left -2px
+			transform-origin center bottom
+			position absolute
+			left 50%
+			border-radius 0 0 3px 3px
+		.spinner-clock-minute
+			animation-duration 1s
+			top 15px
+			height 56px
+			opacity .8
+		.spinner-clock-hour
+			// background _base
+			animation-duration 12s
+			top 31px
+			height 40px
+		&.spinner-clock-slow
+			.spinner-clock-minute
+				animation-duration 3px
+			.spinner-clock-hour
+				animation-duration 36s
+
+	// accourdion customization
+	.panel-default > .panel-heading
+		background white
+		padding 0
+
+	.panel-group .panel
+		border-radius 0
+
+	.panel-title
+		font-weight 300
+		> a
+			display block
+			position relative
+			padding 10px 15px
+			background white
+			&:before
+				font-family _fa
+				content '\f107'
+				position absolute
+				font-size 16px
+				top 10px
+				right 15px
+
+	.tagline
+		font-size 70px
+		font-family _hf
+		font-weight 100
+		color white
+		position absolute
+		line-height 1em
+		margin-top 100px
+		overflow hidden
+		height 85px
+		top 0
+		left 0
+		> span
+			float left
+			display block
+			height 85px
+			line-height 85px
+			color fade-out(white, 15%)
+		> ul
+			height 85px
+			line-height 85px
+			position relative
+			top 0
+			display block
+			float left
+			// display inline-block
+			// text-align left
+			// width 100px
+			// height 50px
+			perspective 1000
+			list-style none
+			margin 0
+			padding 0
+			width 600px
+			> li
+				font-weight 500
+				position absolute
+				top 0
+				margin 0
+				// padding 0 5px
+				padding-left 15px
+				// color transparent
+				top -85px
+				transition .5s
+				transform rotateX(180deg)
+				transform-origin 25% 0
+				width 100%
+				opacity 0
+				&.active
+					top 0
+					opacity 1
+					transform rotateY(0deg)
+				&.vs-out
+					top 85px
+					transform rotateX(-180deg)
+
+	.nav-side
+		> li > a
+			border-radius 0
+			color darken(_fc, 10%)
+			transition 0.2s
+			font-size _fs + 3

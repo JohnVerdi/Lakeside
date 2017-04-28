@@ -1,0 +1,124 @@
+/*
+Theme Name:     Traveler Childtheme
+Description:    
+Author:         Shinetheme
+Template:       traveler
+
+(optional values you can add: Theme URI, Author URI, Version)
+*/
+
+@import url("../traveler/style.css");
+
+#streamlinecore_home_search label {
+    display: none;
+}
+#streamlinecore_home_search .has-feedback label ~ .form-control-feedback {
+    top: 0;
+} 
+#streamlinecore_home_search {
+    position: relative;
+    z-index: 99;
+    margin-bottom:15px;
+}
+ul.amenities .list-group-item {
+    width: 100%;
+    text-align: center;
+}
+
+.wpb_wrapper h3 {
+    margin: 20px 0 !important;
+}
+
+.bnt-booked {
+    opacity: .75 !important;
+    border: 1px solid #7a0000 !important;
+    background-color: rgba(125, 0, 0, 0.12) !important;
+}
+
+.bnt-still {
+    opacity: .75 !important;
+    border: 1px solid #7a0000 !important;
+    background-color: transparent !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.bnt-still:before {
+    border-bottom: 43px solid rgba(125, 0, 0, 0.12);
+    border-left: 96px solid transparent;
+    content: "";
+    height: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: -1;
+}
+
+.bnt-still:hover {
+    background-color: #1E4673 !important;
+    border: 1px solid #1C455B !important;
+}
+
+.bnt-still:hover::before {
+    border-bottom: 43px solid #48a5d0!important;
+}
+
+.redopacity .color{
+    border: 1px solid #7a0000 !important;
+    background-color: rgba(125, 0, 0, 0.12);
+}
+
+.calendar-bottom .color {
+    margin-bottom: -4px;
+}
+
+body {
+    overflow: visible !important;
+}
+
+.calendar-bottom .item.still .color::before {
+    border-color: transparent rgba(125, 0, 0, 0.25) #ccc transparent !important;
+}
+.calendar-bottom .item.still .color {
+    border-color: #7a0000 !important;
+}
+
+@media all and (min-width:992px){
+ #streamlinecore_home_search .search_widget {
+    position: absolute;
+    top: 230px;
+    width: 100%;
+ }
+ #streamlinecore_home_search h1 {
+    color: #fff;
+ }
+}
+
+#streamlinecore_home_search .row:nth-child(3) {
+    background: #fff none repeat scroll 0 0;
+}
+#streamlinecore_home_search .form-group {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+#streamlinecore_home_search .row:nth-child(2) .col-md-12 {
+    padding-left: 0;
+}
+.btn.btn-warning.btn-block, .btn.btn-warning.btn-block:hover {
+    background: #4ab6e4 none repeat scroll 0 0;
+    border-color: #4ab6e4;
+}
+h1.property-title {
+    font-size: 35px;
+    margin: 10px 0 20px !important;
+}
+.page-title{
+    text-align: center;
+}
+.pagination li{
+    cursor: pointer;
+}
+.booking-filters h3{
+    text-align: center;
+}

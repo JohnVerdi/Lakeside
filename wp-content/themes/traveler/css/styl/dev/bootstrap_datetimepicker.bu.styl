@@ -1,0 +1,159 @@
+bootstrap_datetimepicker()
+	prefix = 'bootstrap-datetimepicker-widget'
+
+	sel($var_name, $pfx = true, $class = true)
+		return set_sel($var_name, $pfx, $class, prefix)
+
+	core = sel(prefix, false)
+
+	{core}
+		top 0
+		left 0
+		width 250px
+		padding 4px
+		margin-top 1px
+		z-index 999999
+		border-radius 4px
+
+		.btn
+			padding 6px
+
+		&:before
+			content ''
+			display inline-block
+			border-left 7px solid transparent
+			border-right 7px solid transparent
+			border-bottom 7px solid #ccc
+			border-bottom-color fade-out(#000, 80%)
+			position absolute
+			top -7px
+			left 6px
+		
+		&:after
+			content ''
+			display inline-block
+			border-left 6px solid transparent
+			border-right 6px solid transparent
+			border-bottom 6px solid white
+			position absolute
+			top -6px
+			left 7px
+
+		&.pull-right:before
+			left auto
+			right 6px
+
+		&.pull-rught:after
+			left auto
+			right 7px
+
+		> ul
+			list-style none
+			margin 0
+
+		.timepicker-hour,
+		.timepicker-minute,
+		.timepicker-second
+			width 100%
+			font-weight bold
+			font-size 1.2em
+
+		table[data-hour-format="12"] .separator
+			width 4px
+			padding 0
+			margin 0
+
+		.datepicker > div
+			display none
+
+		.picker-switch
+			text-align center
+
+		table
+			width 100%
+			margin 0
+
+		td, th
+			text-align center
+			width 20px
+			height 20px
+			border-radius 4px
+
+		td
+			&.day:hover,
+			&.hour:hover
+			&.minute:hover,
+			&.second:hover
+				background #eee
+				cursor pointer
+			&.old,
+			&.new
+				color #999
+			&.active,
+			&.active:hover
+				background-color $base_color
+				color white
+				text-shadow 0 -1px 0 fade-out(#000, 80%)
+			&.disabled,
+			&.disabled:hover
+				// background none
+				color darken(white, 15%)
+				cursor not-allowed
+				// background black
+			span
+				display block
+				width 47px
+				height 54px
+				line-height 54px
+				float left
+				margin 2px
+				cursor pointer
+				border-radius 4px
+				&:hover
+					background #eee
+				&.active
+					background $base_color
+					color white
+					text-shadow 0 -1px 0 fade-out(#000, 75%)
+				&.old
+					color #999
+				&.disabled,
+				&.disabled:hover
+					background none
+					color #999
+					// cursor not-allowed
+					cursor default
+
+		th
+			&.switch
+				width 145px
+			&.next,
+			&.prev
+				font-size 21px
+			&.disabled,
+			&.disabled:hover
+				background none
+				color #999
+				cursor not-allowed
+
+		thead tr:first-child th
+			cursor pointer
+			&:hover
+				background #eee
+
+		&.left-oriented
+			&:before
+				left auto
+				right 6px
+			&:after
+				left auto
+				right 7px
+
+		ul.list-unstyled li.in div.timepicker div.timepicker-picker table.table-condensed tbody > tr > td
+			padding 0px !important
+
+		.input-group.date .input-group-addon span
+			display block
+			cursor pointer
+			width 16px
+			height 16px

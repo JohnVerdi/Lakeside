@@ -1,0 +1,283 @@
+body.customQuote {
+  /*
+    background: #f7f7f7 !important;
+    font-family: 'Open Sans', sans-serif;
+*/ }
+  body.customQuote .quoteDetails {
+    background: #ffffff none repeat scroll 0 0;
+    padding: 20px 0; }
+  body.customQuote .quoteConfirmationNumber {
+    font-size: 30px; }
+  body.customQuote .quoteAgent {
+    background: #333;
+    color: white;
+    padding: 10px;
+    width: 100%; }
+  body.customQuote .unitListing {
+    background: #ffffff;
+    padding: 15px 0;
+    margin-bottom: 15px; }
+    body.customQuote .unitListing h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin: 10px 0 20px;
+      border-bottom: 1px solid #eee;
+      padding: 0 0 10px 0; }
+      body.customQuote .unitListing h2 span {
+        font-size: 24px;
+        font-weight: 300;
+        color: #666; }
+      body.customQuote .unitListing h2 em {
+        font-style: italic;
+        font-weight: 200;
+        color: #ccc; }
+  body.customQuote .prettyBookForm {
+    padding-top: 12px; }
+  body.customQuote .unitLocation {
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px; }
+  body.customQuote .unitBedsBaths {
+    font-size: 18px;
+    font-weight: 300;
+    color: #666666; }
+  body.customQuote .unitThumbnail {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    height: 240px;
+    width: 100%;
+    background-position: center center; }
+  body.customQuote .unitPriceBlockTop {
+    border-radius: 15px 15px 0 0;
+    padding: 5px 15px;
+    text-align: center;
+    background: #333;
+    color: #ffffff;
+    position: relative; }
+    body.customQuote .unitPriceBlockTop .caret {
+      color: #333333;
+      left: 0;
+      margin: 0 auto;
+      position: absolute;
+      right: 0;
+      bottom: -10px;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px dashed; }
+  body.customQuote .unitPriceBlockBottom {
+    border-radius: 0 0 15px 15px;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ccc; }
+    body.customQuote .unitPriceBlockBottom button {
+      width: 100%;
+      margin: 0 0 10px 0; }
+  body.customQuote .unitPrice {
+    font-weight: 700;
+    font-size: 300%;
+    margin-bottom: 0; }
+  body.customQuote .cards {
+    margin: 0 auto;
+    width: 175px;
+    height: 27px;
+    background: transparent url("../../images/creditcards.png") no-repeat scroll left center; }
+  body.customQuote .unitSafe {
+    background: transparent url("../../images/lock.png") no-repeat scroll left center/20px auto;
+    color: #333333;
+    font-size: 12px;
+    font-style: italic;
+    height: 25px;
+    line-height: 25px;
+    padding-left: 30px;
+    text-align: left;
+    overflow: hidden; }
+  body.customQuote .customQuote .copyright p {
+    font-size: 10px; }
+  body.customQuote .customQuote .col-sm-12 {
+    margin-bottom: 20px !important; }
+  body.customQuote .property-info {
+    color: #666;
+    font-size: 2em; }
+  @media screen and (min-width: 768px) and (max-width: 989px) {
+    body.customQuote .unitThumbnail {
+      height: 450px; } }
+  @media screen and (min-width: 481px) and (max-width: 767px) {
+    body.customQuote .unitThumbnail {
+      height: 350px; } }
+  @media screen and (max-width: 480px) {
+    body.customQuote .unitListing div:first-child {
+      clear: left; }
+    body.customQuote .unitListing h2 {
+      float: left; }
+    body.customQuote .unitListing h2 span {
+      clear: left; }
+    body.customQuote .unitListing h2 em {
+      display: none; }
+    body.customQuote .unitLocation {
+      margin: 15px 0; }
+    body.customQuote .customQuote .header h1 {
+      font-size: 32px; }
+    body.customQuote .quoteConfirmationNumber {
+      font-size: 16px; }
+    body.customQuote .unitListing h2 {
+      font-size: 28px; }
+    body.customQuote .unitThumbnail {
+      height: 275px; } }
+  @media screen and (max-width: 480px) {
+    body.customQuote .unitThumbnail {
+      height: 175px; } }
+  body.customQuote .well.sticky {
+    z-index: 1000; }
+    body.customQuote .well.sticky h3 {
+      margin-top: 0; }
+  body.customQuote .entry-header {
+    display: none; }
+  body.customQuote ul.ccards {
+    display: inline-block;
+    list-style-type: none;
+    height: 27px;
+    padding: 0; }
+    body.customQuote ul.ccards li {
+      display: block;
+      float: left;
+      width: 44px;
+      height: 27px;
+      background: transparent url("../../images/creditcards.png") no-repeat scroll;
+      text-indent: -9999px;
+      outline: none; }
+    body.customQuote ul.ccards li.mastercard {
+      background-position: -44px 0; }
+    body.customQuote ul.ccards li.amex {
+      background-position: -88px 0; }
+    body.customQuote ul.ccards li.discover {
+      background-position: -132px 0; }
+
+/**
+ * Common to all layouts.
+ */
+.layout-1 .entry-header, .layout-2 .entry-header, .layout-3 .entry-header {
+  display: none; }
+
+.layout-1 .ms-caption, .layout-2 .ms-caption, .layout-3 .ms-caption {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  color: #fff; }
+
+.layout-1 .top-row {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: solid 1px #666; }
+
+.layout-1 .ms-showcase2-template {
+  padding-bottom: 155px; }
+
+.layout-1 .ms-showcase2-template .ms-view {
+  background: transparent; }
+
+.layout-1 .ms-showcase2-template .ms-bar {
+  background: black !important; }
+
+.layout-1 .ms-showcase2-template .ms-tabs-vertical-template {
+  margin: 0 auto; }
+
+.layout-1 .ms-showcase2-template.ms-dir-v {
+  padding-right: 140px;
+  padding-bottom: 0 !important; }
+
+.layout-1 .ms-showcase2-template .ms-thumb-list.ms-dir-h {
+  bottom: -145px;
+  width: 100%;
+  height: 137px; }
+
+.layout-1 .ms-showcase2-template .ms-thumb-list.ms-dir-v {
+  height: 100%;
+  width: 130px;
+  right: -140px;
+  top: 0; }
+
+.layout-1 .ms-showcase2-template .ms-thumb-list .ms-thumb-frame {
+  width: 127px;
+  height: 137px;
+  opacity: 0.5;
+  -webkit-transition: opacity 300ms;
+  -moz-transition: opacity 300ms;
+  -ms-transition: opacity 300ms;
+  -o-transition: opacity 300ms;
+  transition: opacity 300ms; }
+
+.layout-1 .ms-showcase2-template .ms-thumb-frame {
+  cursor: pointer; }
+
+.layout-1 .ms-showcase2-template .ms-thumb-list.ms-dir-h .ms-thumb-frame {
+  margin-right: 10px; }
+
+.layout-1 .ms-showcase2-template .ms-thumb-list.ms-dir-v .ms-thumb-frame {
+  margin-bottom: 10px; }
+
+.layout-1 .ms-showcase2-template .ms-thumb-list .ms-thumb-frame-selected {
+  opacity: 1; }
+
+.layout-1 .nav-pills {
+  margin-top: 0;
+  margin-bottom: 12px; }
+
+.layout-1 .nav-pills li {
+  border: solid 1px #ccc; }
+
+.layout-1 .nav-pills a {
+  color: #cb9e4b;
+  font-weight: 700; }
+
+.layout-1 .section-title {
+  margin: 0; }
+
+.layout-1 .price {
+  color: #ff9803; }
+
+.layout-1 .price .concluding_text {
+  color: #333;
+  font-size: .5em; }
+
+@media (max-width: 400px) {
+  .layout-1 .ms-showcase2-template .ms-thumb-list.ms-dir-v {
+    width: 64px;
+    right: -70px; }
+  .layout-1 .ms-showcase2-template .ms-thumb-list .ms-thumb-frame {
+    width: 64px;
+    height: 69px; }
+  .layout-1 .ms-showcase2-template {
+    padding-bottom: 75px; }
+  .layout-1 .ms-showcase2-template.ms-dir-v {
+    padding-right: 70px; } }
+
+@media (max-width: 200px) {
+  .layout-1 .ms-showcase2-template .ms-thumb-list {
+    display: none; }
+  .layout-1 .ms-showcase2-template {
+    padding-bottom: 0px; }
+  .layout-1 .ms-showcase2-template.ms-dir-v {
+    padding-right: 0px; } }
+
+.layout-3 .property-title {
+  margin-bottom: 25px !important; }
+
+.layout-3 .unit-rating > .star-rating {
+  vertical-align: top; }
+
+.layout-3 .unit-rating > .star-rating p {
+  vertical-align: top;
+  display: inline-block;
+  font-size: 1em !important;
+  line-height: 36px;
+  width: auto !important; }
+
+.layout-3 .unit-rating .star-rating .star-rating {
+  display: inline-block; }
+

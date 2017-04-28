@@ -1,0 +1,596 @@
+icon()
+	core = 'box-icon'
+	core_anim = 'animate-icon'
+
+	_box($varname, $pfx = true, $class = true)
+		return set_sel($varname, $pfx, $class, core)
+
+	anim($varname, $pfx = true, $class = true)
+		return set_sel($varname, $pfx, $class, core_anim)
+	
+	box = _box(core, false)
+	big = _box('big')
+	large = _box('large')
+	huge = _box('huge')
+
+	_center = _box('center')
+	_left = _box('left')
+	_right = _box('right')
+
+	_inline = _box('inline')
+
+	// colors
+	inverse = _box('inverse')
+	black = _box('black')
+	gray = _box('gray')
+	success = _box('success')
+	info = _box('info')
+	warning = _box('warning')
+	danger = _box('danger')
+	_white = _box('white')
+
+
+	to_normal = _box('to-normal')
+	to_black = _box('to-black')
+	to_white = _box('to-white')
+	to_gray = _box('to-gray')
+	to_success = _box('to-success')
+	to_info = _box('to-info')
+	to_warning = _box('to-warning')
+	to_danger = _box('to-danger')
+	to_inverse = _box('to-inverse')
+
+
+	_border = _box('border')
+	border_dashed = _box('border-dashed')
+
+	animate = anim(core_anim, false)
+	a_flash = anim('flash')
+	a_shake = anim('shake')
+	a_bounce = anim('bounce')
+	a_tada = anim('tada')
+	a_swing = anim('swing')
+	a_wobble = anim('wobble')
+	a_pulse = anim('pulse')
+	a_border_rise = anim('border-rise')
+	a_border_rise_alt = anim('border-rise-alt')
+	a_border_fadeout = anim('border-fadeout')
+	a_border_fadein = anim('border-fadein')
+	a_left_to_right = anim('left-to-right')
+	a_right_to_left = anim('right-to-left')
+	a_bottom_to_top = anim('bottom-to-top')
+	a_top_to_bottom = anim('top-to-bottom')
+
+	.icon-list
+		list-style none
+		padding 0
+		.fa
+			margin-right 7px
+
+	.icon-list-inline
+		margin-bottom 0
+		// font-size _fs - 2
+		> li
+			display inline-block
+			margin-right 3px
+			&:last-child
+				margin-right 0
+		.fa
+			margin-right 0
+
+	.icon-group
+		list-style none
+		margin 0
+		padding 0
+		overflow hidden
+		> li
+			float left
+			margin-right 5px
+			&:last-child
+				margin-right 0
+
+	// override in future -> global select // slow css
+	{box},
+	[class^="box-icon-"],
+	[class*=" box-icon-"]
+		z-index 2
+		position relative
+		width $base_space
+		height $base_space
+		line-height $base_space
+		text-align center
+		display block
+		background $base_color
+		color #fff
+		transition 0.3s
+		&:hover
+			background darken($base_color, 20%)
+			color #fff
+		&:before
+			display inline-block
+
+	{_inline}
+		display inline-block			
+
+	{big}
+		width $base_space*2
+		height $base_space*2
+		line-height $base_space*2
+		font-size $font_size*2
+
+	{large}
+		width $base_space*3
+		height $base_space*3
+		line-height $base_space*3
+		font-size $font_size*3
+
+	{huge}
+		width $base_space*4
+		height $base_space*4
+		line-height $base_space*4
+		font-size $font_size*4	
+
+	
+
+	{black}
+		background lighten(#000, 20%)
+		&:hover
+			background #000
+
+	{gray}
+		background lighten(#000, 50%)
+		&:hover
+			background lighten(#000, 30%)
+
+	{_white}
+		background #fff
+		color $base_color
+		&:hover
+			color $base_color 
+			background darken(#fff, 10%)		
+
+	{info}
+		background $info_color
+		&:hover
+			background darken($info_color, 20%)
+
+	{success}
+		background $success_color
+		&:hover
+			background darken($success_color, 20%)
+
+	{warning}
+		background $warning_color
+		&:hover
+			background darken($warning_color, 20%)
+
+	{danger}
+		background $danger_color
+		&:hover
+			background darken($danger_color, 20%)										
+
+	{inverse}
+		background invert($base_color)
+		&:hover
+			background darken(invert($base_color), 20%)
+	
+	{to_normal}:hover
+		background $base_color
+	{to_black}:hover
+		background lighten(#000, 20%)
+	{to_gray}:hover
+		background lighten(#000, 50%)
+	{to_white}:hover
+		background #fff
+		color $base_color	
+	{to_info}:hover
+		background $info_color
+	{to_success}:hover
+		background $success_color
+	{to_warning}:hover
+		background $warning_color
+	{to_danger}:hover
+		background $danger_color
+	{to_inverse}:hover
+		background invert($base_color)										
+
+
+	{_border},
+	[class^="box-icon-border"],
+	[class*=" box-icon-border"]
+		background none
+		border 1px solid $base_color
+		color $base_color
+		&:hover
+			background $base_color
+			color #fff !important
+		&{black}, &{to_black}:hover
+			border-color lighten(#000, 20%)
+			color lighten(#000, 20%)
+			&:hover
+				background lighten(#000, 20%)
+		&{gray}, &{to_gray}:hover
+			border-color lighten(#000, 50%)
+			color lighten(#000, 50%)
+			&:hover
+				background lighten(#000, 50%)
+
+		&{_white}, &{to_white}:hover
+			border-color #fff
+			color #fff
+			&:hover
+				color $base_color
+				background #fff
+
+		&{info}, &{to_info}:hover
+			border-color $info_color
+			color $info_color
+			&:hover
+				background $info_color
+
+		&{success}, &{to_success}:hover
+			border-color $success_color
+			color $success_color
+			&:hover
+				background $success_color
+		&{warning}, &{to_warning}:hover
+			border-color $warning_color
+			color $warning_color
+			&:hover
+				background $warning_color
+		&{danger}, &{to_danger}:hover
+			border-color $danger_color
+			color $danger_color
+			&:hover
+				background $danger_color
+		&{inverse}, &{to_inverse}:hover
+			border-color invert($base_color)
+			color invert($base_color)
+			&:hover
+				background invert($base_color)
+
+		&{to_normal}:hover
+			border-color $base_color
+			background $base_color														
+
+	{border_dashed}
+		border-style dashed
+						
+
+	{_left}
+		float left
+		margin-right ($base_space/2)
+
+	{_right}
+		float right
+		margin-left ($base_space/2)
+
+	{_center}
+		margin 0 auto
+
+
+	{animate},
+	[class^="animate-icon"],
+	[class*=" animate-icon"]
+		backface-visibility hidden
+		&:before
+			backface-visibility hidden
+		&:hover:before
+			animation-duration 1s
+		&:after
+			z-index -1
+			backface-visibility hidden
+			position absolute
+			opacity 0
+			transition 0.3s
+			width 100%
+			height 100%
+			content ''
+			left 0
+			top 0
+		&:hover:after
+			opacity 1
+
+	{a_flash}:hover:before
+		animation-name flash
+
+	{a_shake}:hover:before
+		animation-name shake
+
+	{a_bounce}:hover:before
+		animation-name bounce
+
+	{a_tada}:hover:before
+		animation-name tada
+
+	{a_swing}:hover:before
+		animation-name swing
+
+	{a_wobble}:hover:before
+		animation-name wobble
+
+	{a_pulse}:hover:before
+		animation-name pulse
+
+
+	{a_left_to_right},
+	{a_right_to_left},
+	{a_bottom_to_top},
+	{a_top_to_bottom}
+		overflow hidden		
+
+	{a_left_to_right}:hover:before
+		animation left-to-right 0.3s forwards
+
+	{a_right_to_left}:hover:before
+		animation right-to-left 0.3s forwards
+
+	{a_bottom_to_top}:hover:before
+		animation bottom-to-top 0.3s forwards
+
+	{a_top_to_bottom}:hover:before
+		animation top-to-bottom 0.3s forwards					
+
+	{a_border_rise}, {a_border_rise_alt}
+		&:after
+			box-shadow 0 0 0 2px $base_color
+		&{black}:after, &{to_black}:hover:after
+			box-shadow 0 0 0 2px lighten(#000, 20%)
+		&{gray}:after, &{to_gray}:hover:after
+			box-shadow 0 0 0 2px lighten(#000, 50%)
+		&{info}:after, &{to_info}:hover:after
+			box-shadow 0 0 0 2px $info_color
+		&{success}:after, &{to_success}:hover:after
+			box-shadow 0 0 0 2px $success_color
+		&{warning}:after, &{to_warning}:hover:after
+			box-shadow 0 0 0 2px $warning_color
+		&{danger}:after, &{to_danger}:hover:after
+			box-shadow 0 0 0 2px $danger_color
+		&{inverse}:after, &{to_inverse}:hover:after
+			box-shadow 0 0 0 2px invert($base_color)
+		&{to_normal}:after:hover
+			box-shadow 0 0 0 2px $base_color
+		&.round:after
+			border-radius 50%		
+
+	{a_border_rise}
+		&:after
+			transform scale(0.8)
+		&:hover:after
+			transform scale(1.2)							
+						
+	{a_border_rise_alt}
+		&:after
+			transform scale(1.6)
+		&:hover:after
+			transform scale(1.2)
+
+	{a_border_fadeout}
+		color #fff
+		background none
+		border 2px solid $base_color
+		&:after
+			opacity 1
+			background $base_color
+		&:hover
+			color $base_color
+			background none
+			&:after
+				opacity 0
+				transform scale(1.5)
+		&{black}, &{to_black}:hover
+			border-color lighten(#000, 20%)
+			&:after
+				background lighten(#000, 20%)
+			&:hover
+				color lighten(#000, 20%)
+		&{gray}, &{to_gray}:hover
+			border-color lighten(#000, 50%)
+			&:after
+				background lighten(#000, 50%)
+			&:hover
+				color lighten(#000, 50%)
+		&{info}, &{to_info}:hover
+			border-color $info_color
+			&:after
+				background $info_color
+			&:hover
+				color $info_color
+		&{success}, &{to_success}:hover
+			border-color $success_color
+			&:after
+				background $success_color
+			&:hover
+				color $success_color
+		&{warning}, &{to_warning}:hover
+			border-color $warning_color
+			&:after
+				background $warning_color
+			&:hover
+				color $warning_color
+		&{danger}, &{to_danger}:hover
+			border-color $danger_color
+			&:after
+				background $danger_color
+			&:hover
+				color $danger_color
+		&{inverse}, &{to_inverse}:hover
+			border-color invert($base_color)
+			&:after
+				background invert($base_color)
+			&:hover
+				color invert($base_color)
+		&{to_normal}
+			border-color $base_color
+			&:after
+				background $base_color
+			&:hover
+				color $base_color
+		&.round:after
+			border-radius 50%																 
+											
+
+
+	{a_border_fadein}
+		color $base_color
+		background none
+		border 2px solid $base_color
+		&:after
+			transform scale(1.5)
+		&:hover
+			color #fff !important
+			&:after
+				background $base_color
+				transform scale(1)
+		&{black}, &{to_black}:hover
+			color lighten(#000, 20%)
+			border-color lighten(#000, 20%)
+			&:hover:after
+				background lighten(#000, 20%)
+		&{gray}, &{to_gray}:hover
+			color lighten(#000, 50%)
+			border-color lighten(#000, 50%)
+			&:hover:after
+				background lighten(#000, 50%)
+		&{info}, &{to_info}:hover
+			color $info_color
+			border-color $info_color
+			&:hover:after
+				background $info_color
+		&{success}, &{to_success}:hover
+			color $success_color
+			border-color $success_color
+			&:hover:after
+				background $success_color
+		&{warning}, &{to_warning}:hover
+			color $warning_color
+			border-color $warning_color
+			&:hover:after
+				background $warning_color
+		&{danger}, &{to_danger}:hover
+			color $danger_color
+			border-color $danger_color
+			&:hover:after
+				background $danger_color
+		&{inverse}, &{to_inverse}:hover
+			color invert($base_color)
+			border-color invert($base_color)
+			&:hover:after
+				background invert($base_color)
+		&{to_normal}:hover
+			color $base_color
+			border-color $base_color
+			&:hover:after
+				background $base_color
+		&.round:after
+			border-radius 50%																				
+						
+
+	@keyframes flash
+		0%, 50%, 100%
+			opacity 1
+		25%, 75%
+			opacity 0
+		
+	@keyframes shake
+		0%, 100%
+			transform translateX(0)
+		10%, 30%, 50%, 70%, 90% 
+			transform translateX(-10%)
+		20%, 40%, 60%, 80%
+			transform translateX(10%)
+
+	@keyframes bounce
+		0%, 20%, 50%, 80%, 100%
+			transform translateY(0)
+		40%
+			transform translateY(-30%)
+		60%	
+			transform translateY(-15%)
+			
+	@keyframes tada
+		0%
+			transform scale(1)
+		10%, 20%
+			transform scale(0.9) rotate(-3deg)
+		30%, 50%, 70%, 90%
+			transform scale(1.1) rotate(3deg)
+		40%, 60%, 80%
+			transform scale(1.1) rotate(-3deg)
+		100%
+			transform scale(1) rotate(0)
+			
+	@keyframes swing
+		20%, 40%, 60%, 80%, 100%
+			transform-origin top center
+		20%
+			transform rotate(15deg)
+		40%
+			transform rotate(-10deg)
+		60%
+			transform rotate(5deg)
+		80%
+			transform rotate(-5deg)
+		100%
+			transform rotate(0deg)
+	
+	@keyframes wobble
+		0% 
+			transform translateX(0%)
+		15%
+			transform translateX(-25%) rotate(-5deg)
+		30%
+			transform translateX(20%) rotate(3deg)
+		45%
+			transform translateX(-15%) rotate(-3deg)
+		60%
+			transform translateX(10%) rotate(2deg)
+		75%
+			transform translateX(-5%) rotate(-1deg)
+		100%
+			transform translateX(0%)
+	
+	@keyframes pulse
+		0% 
+			transform scale(1)
+		50%
+			transform scale(1.3)
+		100%
+			transform scale(1)
+
+	@keyframes 	left-to-right
+		49%
+			transform translate(100%)
+		50%
+			opacity 0
+			transform translate(-100%)
+		51%
+			opacity 1
+
+	@keyframes right-to-left
+		49%
+			transform translate(-100%)
+		50%
+			transform translate(100%)
+			opacity 0
+		51%
+			opacity 1
+
+	@keyframes bottom-to-top
+		49%
+			transform translateY(-100%)
+		50%
+			transform translateY(100%)
+			opacity 0
+		51%
+			opacity 1
+			
+	@keyframes top-to-bottom
+		49%
+			transform translateY(100%)
+		50%
+			transform translateY(-100%)
+			opacity 0
+		51%
+			opacity 1								
+										

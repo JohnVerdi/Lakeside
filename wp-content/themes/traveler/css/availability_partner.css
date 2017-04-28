@@ -1,0 +1,88 @@
+.fc-event
+{
+    border-radius: 0px;
+}
+.calendar-wrapper {position: relative;}
+.calendar-content.fc-unthemed {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 4px;
+}
+.calendar-wrapper .overlay {
+  position: absolute; top: 45% ; left: 45% ; z-index: 2  ;     
+  -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);}
+.calendar-content.fc-unthemed .fc-toolbar button :not (.fc-right button:last-child){margin-right: 5px}
+.calendar-content.fc-unthemed .fc-center h2 {font-size: 2em}
+.calendar-content.fc-unthemed th { border-left: 0 ; border-right : 0 ; padding :  1em 0;}
+.calendar-content.fc-unthemed td{border-width: 0 ; text-align: center}
+.calendar-content.fc-unthemed  .fc-basic-view .fc-head{
+  background-color :rgba(204, 204, 204, 0.2);
+  border-bottom: 1px solid #ccc ;
+}
+.calendar-content.fc-unthemed .fc-content-skeleton .fc-day-number {text-align: center}
+/*.calendar-content.fc-unthemed .fc-day-grid-container {margin-top : 30px}*/
+/*.calendar-content.fc-unthemed .fc-event-container:hover .bgr-default {display: block}
+.calendar-content.fc-unthemed .fc-event-container .bgr-default {display: none}*/
+.calendar-content.fc-unthemed .fc-basic-view .fc-body .fc-row {min-height: auto; display: table;}
+/*.calendar-content.fc-unthemed .fc-content-skeleton thead {display: none}*/
+.calendar-content.fc-unthemed .tooltip-inner {min-width: 150px ;  background-color: #666666; color: white; padding : 10px ; line-height: 1.5em ; opacity: 1  ; border-radius: 4px}
+.calendar-content.fc-unthemed .tooltip-arrow  {border-top-color: #666666!important ; opacity: 1 }
+.calendar-content.fc-unthemed .tooltip.in {opacity: 1 !important}
+.calendar-content.fc-unthemed .fc-content-skeleton .fc-event {border: none ; background: none ; color: #666666 ; font-size: 14px}
+.calendar-content.fc-unthemed .btn.btn-available ,.calendar-content.fc-unthemed .btn-disabled{    
+  height: auto;
+    width: 100%;
+    line-height: 35px;
+    color: white;
+}
+.calendar-content.fc-unthemed .btn { border:  1px solid #ccc ;color: #666 }
+.calendar-content.fc-unthemed .btn.btn-available:hover , .calendar-content.fc-unthemed .st-active .btn.btn-available, .calendar-content.fc-unthemed .btn.btn-available.selected {color: white}
+.calendar-content.fc-unthemed .btn-disabled {background-color : #ccc;}
+.calendar-content.fc-unthemed .fc-day-grid-event .fc-content {overflow: initial; font-size: 12px; color: white ; }
+.calendar-content.fc-unthemed .fc-day-grid-event .fc-content .bgr-main {margin: 0 5px ; border-radius: 3px; padding: 5px 0 ; font-size: 11px}
+.calendar-content.fc-unthemed .fc-content {margin : 0 2px;}
+.calendar-content.fc-unthemed .fc-content .btn {padding : 0;}
+.calendar-content.fc-unthemed .fc-content span{ line-height: 35px}
+.calendar-bottom {margin-top: 20px ;  padding-bottom: 20px ; }.calendar-bottom .item {display: inline-block ; margin-right: 30px}
+.calendar-bottom .color {display: inline-block; width: 20px ; height: 20px}
+.calendar-bottom .color.available   {border: 1px solid #ccc }
+.calendar-bottom .cellgrey .color {background-color : #ccc }
+.triangle {    
+    position: relative;
+    display: inline-block;
+    right: 12px; 
+    bottom: 12px;
+    position: absolute;
+}
+.triangle::before {
+  content: "";
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;    
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg); 
+    border-top-color: #ccc;
+} 
+.calendar-content.fc-unthemed button.btn-disabled .triangle::before  {border-top-color: #fff; }
+.calendar-content.fc-unthemed .fc-today {background: none} 
+.calendar-content.fc-unthemed .st-active .triangle::before , .calendar-content.fc-unthemed .btn.btn-available:hover .triangle::before{border-top-color: white}
+.calendar-content.fc-unthemed button {position: relative;}
+.calendar-wrapper .calendar-wrapper-inner {position: relative;}
+.calendar-wrapper {clear: both}
+.calendar-content.fc-unthemed .btn[disabled] {opacity: 1}
+.template-user .calendar-content .fc-toolbar {background-color: #333;}
+.calendar-content.fc-unthemed .fc-day-grid-container {
+    height: auto !important;
+}
+.template-user .calendar-content.fc-unthemed .fc-day-grid-container {
+    overflow: hidden;
+}
+.template-user .calendar-content.fc-unthemed .fc-content-skeleton thead {display: table-header-group;}
+body.add-tour-booking .qtip-wrapper .calendar-content.fc-unthemed .fc-state-default,body.add-activity-booking .qtip-wrapper .calendar-content.fc-unthemed .fc-state-default{padding: 5px;}
+body.add-tour-booking .qtip .calendar-wrapper,body.add-activity-booking .qtip .calendar-wrapper {padding: 0 !important;}
+body.add-tour-booking .qtip .calendar-wrapper .calendar-content.fc-unthemed,body.add-activity-booking .qtip .calendar-wrapper .calendar-content.fc-unthemed {border: none !important;}

@@ -1,0 +1,102 @@
+search_tabs()
+	.search-tabs
+		> .tabbable
+			>.tab-content > .tab-pane
+				padding 15px
+			> .nav-tabs
+				> li > a
+					text-transform uppercase
+
+	.search-tabs-abs
+		position absolute
+		top 0
+		left 14%
+		width 55%
+		@media _to_screen_md
+			position relative
+			width 70%
+
+	.search-tabs-abs-bottom
+		position absolute
+		top 320px
+		@media _to_screen_md
+			position relative
+			top 0
+			margin 50px 0
+
+	.search-tabs-bottom
+		position absolute
+		left 0
+		bottom 50px
+		width 100%
+		@media _to_screen_md
+			position relative
+			bottom auto
+			top 0
+			margin-top 50px
+
+	.search-tabs-to-top
+		position relative
+		z-index 10
+		margin-top -120px
+
+	.search-tabs-bg
+		// padding-top 50px
+		> h1
+			color white
+			margin-bottom 25px
+		> .tabbable
+			>.tab-content > .tab-pane
+				// background fade-out(white, 5%)
+				background white
+				padding 25px
+				box-shadow 0 2px 1px fade-out(#000, 85%)
+				.form-control
+					background fade-out(white, 50%)
+			> .nav-tabs
+				border none
+				> li
+					margin-bottom 0
+					margin-right 5px 
+					> a
+						// background fade-out(darken(white, 10%), 5%)
+						background fade-out(#000, 60%)
+						border none !important
+						// color darken($font_color, 10%)
+						color white
+						> span
+							@media _to_screen_md
+								display none
+						&:hover
+							> .fa
+								// background fade-out($base_color, 20%)
+								background _base
+								// color white
+								transition 0.3s
+						> .fa
+							display inline-block
+							width 30px
+							height 30px
+							line-height 30px
+							margin-right 2px
+							background fade-out(#000, 70%)
+							border-radius 50%
+							text-align center
+					&.active > a
+						background _base
+						color white
+						padding-top 15px
+						margin-top -5px
+						&:hover > .fa
+							background fade-out(#000, 70%)
+
+	.search-tabs-nobox
+		> .tabbable
+			> .tab-content > .tab-pane
+				padding 25px 0
+				box-shadow none
+
+	.search-tabs-lift-top
+		margin-top -50px
+
+

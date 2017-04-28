@@ -1,0 +1,59 @@
+thumb_list()
+	.thumb-list
+		list-style none
+		margin 0
+		padding 0
+		> li
+			img
+				float left
+				width 50px
+				margin-right 10px
+				// border-radius 3px
+			.thumb-list-item-caption
+				display table
+				.icon-list-rating
+					font-size _fs - 5
+					color lighten(_base, 20%)
+					margin-bottom -3px
+					&.icon-list-non-rated
+						color lighten(_fc, 20%) !important
+				.thumb-list-item-title
+					font-size _fs - 1
+					margin-bottom 3px
+					margin-top 2px
+					a
+						color darken(_fc, 10%)
+						&:hover
+							text-decoration underline
+				.thumb-list-item-desciption
+					font-size _fs - 3
+					margin 0
+					color lighten(_fc, 25%)
+					line-height 1.4em
+				.thumb-list-item-meta
+					margin-bottom 2px
+					line-height 1em
+					font-size _fs - 5
+					color lighten(_fc, 20%)
+					font-style italic
+				.thumb-list-item-price
+					font-size _fs + 2
+					color lighten(_fc, 10%)
+					margin-bottom 0
+				.thumb-list-item-author
+					font-size _fs - 3
+					color lighten(_fc, 20%)
+					font-style italic
+			margin-bottom 7px
+			padding-bottom 7px
+			border-bottom 1px dashed darken(white, 10%)
+			overflow hidden
+			&:last-child
+				margin-bottom 0
+				padding-bottom 0
+				border none
+		&.thumb-list-right
+			> li img
+				float right
+				margin-right 0
+				margin-left 10px

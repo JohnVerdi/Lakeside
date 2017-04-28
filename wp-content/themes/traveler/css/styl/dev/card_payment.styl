@@ -1,0 +1,40 @@
+card_payment()
+	.cc-form
+		.form-group
+			float left
+			&.form-group-cc-number,
+			&.form-group-cc-name
+				width 60%
+				margin-right 5%
+			&.form-group-cc-date,
+			&.form-group-cc-cvc
+				width 25%
+			&.form-group-cc-number
+				.cc-card-icon
+					display block
+					width 41px
+					height 26px
+					// background red
+					position absolute
+					right 4px
+					top 34px
+					background-repeat no-repeat
+					background-size 100% 100%
+					transition 0.3s
+					// opacity 1
+					transform translate3d(0, -10px, 0)
+				input.identified + .cc-card-icon
+					transform translate3d(0, 0, 0)
+					opacity 1
+					transition 0.3s
+				input
+					&.visa + .cc-card-icon
+						background-image url(../img/payment/visa-curved-32px.png)
+					&.mastercard + .cc-card-icon
+						background-image url(../img/payment/mastercard-curved-32px.png)
+					&.amex  + .cc-card-icon
+						background-image url(../img/payment/american-express-curved-32px.png)
+					&.discover + .cc-card-icon
+						background-image url(../img/payment/discover-curved-32px.png)
+					&.maestro + .cc-card-icon
+						background-image url(../img/payment/maestro-curved-32px.png)

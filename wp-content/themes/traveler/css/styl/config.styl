@@ -1,0 +1,123 @@
+// !main $base_color = #ED8323
+
+$icon_font = 'FontAwesome'
+_fa = 'FontAwesome'
+_faArrNext = '\f105'
+_faArrPrev = '\f104'
+
+
+$icon_prev = '\f053'
+$icon_next = '\f054'
+$icon_twitter = '\f099'
+$nav_size = 30px
+
+// get it from global config
+$base_color = #ED8323
+
+$base_color_invert = invert($base_color)
+_base = $base_color
+_baseI = $base_color_invert
+_b = _base
+
+
+// brands colors
+_c_paypal = #0079C1
+_c_twitter = #55ACEE
+_c_facebook = #46629E
+_c_google_plus = #DD4B39
+
+// bootstrap colors
+_c_success = #5cb85c
+_c_danger = #d9534f
+_c_info = #5bc0de
+_c_warning = #f0ad4e
+
+$line_height = 1.6em
+
+
+$info_color = #2f96b4
+$success_color = #51a351
+$warning_color = #f89406
+$danger_color = #bd362f
+
+
+$base_color_diff = 20%
+$base_light = lighten($base_color, $base_color_diff)
+$base_dark = darken($base_color, $base_color_diff)
+
+$font_size = 16px
+_fs = $font_size
+
+$font_color = lighten(#000, 55%)
+_fc = $font_color
+
+$body_font = 'Open Sans',Tahoma, Arial, helvetica, sans-serif
+// $header_font = 'Oxygen', arial, helvetica, sans-serif
+$header_font = 'Roboto', arial, helvetica, sans-serif
+_hf = $header_font
+
+$hero_font = Tahoma, helvetica, sans-serif
+
+$h5_size = $font_size*1.3
+$h4_size = $h5_size*1.3
+$h3_size = $h4_size*1.3
+$h2_size = $h3_size*1.3
+$h1_size = $h2_size*1.3
+
+$base_space = 30px
+base_sp = $base_space
+_bs = $base_space
+$border_color = darken(#fff, 15%)
+
+
+// global classes
+desc = '.desciption'
+meta = '.meta'
+title = '.title'
+content = '.content'
+thumb = '.thumb'
+inner = '.inner'
+content = '.content'
+time = '.time'
+headers = 'h1, h2, h3, h4, h5, h6'
+btn = '.btn'
+
+// global classes ref
+span_class = '[class^="col-"]'
+icon_class = '[class^="fa fa-"]'
+
+
+
+// responsive queries
+_screen_xs = 480
+_screen_sm = 768
+_screen_md = 992
+_screen_lg = 1200
+
+
+set_width(val, max = true)
+	if max == true
+		type = 'max'
+	else
+		type = 'min'
+
+	return '('+ type +'-width:' + val + 'px)'
+
+set_width_mm(min, max)
+	return '(min-width:' +  min + 'px) and (max-width:' + max + 'px)'
+
+
+_v_screen_xs = set_width(_screen_xs)
+_v_screen_sm = set_width_mm(_screen_xs, _screen_sm)
+_v_screen_md = set_width_mm(_screen_sm, _screen_md)
+_v_screen_lg = set_width_mm(_screen_md, _screen_lg)
+
+_h_screen_xs = set_width(_screen_sm)
+_h_screen_sm = set_width_mm(_screen_sm, _screen_md)
+_h_screen_md = set_width_mm(_screen_md, _screen_lg)
+_h_screen_lg = set_width(_screen_lg, false)
+
+_from_screen_md = set_width(_screen_md, false)
+_to_screen_md = set_width(_screen_md)
+
+// _to_screen_lg = set_width(_screen_lg)
