@@ -5,8 +5,8 @@ function streamline_add_calendar_module($unit_id){
 	$template = ResortPro()->locate_template("availability-calendar.php");
 	if ( empty( $template ) ) {
       $template = trailingslashit( ResortPro()->dir ) . 'includes/templates/availability-calendar.php';
-    }	
-	include( $template);	
+    }
+	include( $template);
 }
 
 add_action( 'streamline-insert-booknow', 'streamline_add_booknow_module',11, 7);
@@ -15,8 +15,8 @@ function streamline_add_booknow_module($location_name, $unit_id, $max_adults, $m
 	$template = ResortPro()->locate_template("booknow-modal-ang.php");
 	if ( empty( $template ) ) {
       $template = trailingslashit( ResortPro()->dir ) . 'includes/templates/booknow-modal-ang.php';
-    }	
-	include( $template);	
+    }
+	include( $template);
 }
 
 add_action( 'streamline-insert-inquiry', 'streamline_add_inquiry_module',10, 13);
@@ -25,8 +25,17 @@ function streamline_add_inquiry_module($location_name, $unit_id, $max_adults, $m
 	$template = ResortPro()->locate_template("property-inquiry.php");
 	if ( empty( $template ) ) {
       $template = trailingslashit( ResortPro()->dir ) . 'includes/templates/property-inquiry.php';
-    }	
-	include( $template);	
+    }
+	include( $template);
+}
+
+add_action( 'streamline-insert-paybygroup', 'streamline_add_paybygroup_module', 12, 4);
+function streamline_add_paybygroup_module($thumbnail, $start_date, $end_date, $unit_id){
+	$template = ResortPro()->locate_template("paybygroup.php");
+	if ( empty( $template ) ) {
+      $template = trailingslashit( ResortPro()->dir ) . 'includes/templates/paybygroup.php';
+    }
+	include( $template);
 }
 
 if(StreamlineCore_Settings::get_options( 'enable_share_with_friends' ) == '1'){
@@ -37,6 +46,6 @@ function streamline_add_share_module($location_name, $unit_id, $start_date, $end
 	$template = ResortPro()->locate_template("share-with-friends.php");
 	if ( empty( $template ) ) {
       $template = trailingslashit( ResortPro()->dir ) . 'includes/templates/share-with-friends.php';
-    }	
-	include( $template);	
+    }
+	include( $template);
 }

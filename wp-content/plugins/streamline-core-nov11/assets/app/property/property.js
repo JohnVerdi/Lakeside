@@ -397,8 +397,10 @@
     function ($scope, $rootScope, $sce, $http, $window, $filter, Alert, rpapi, rpuri, $cookies) {
       $rootScope.properties = {};
       $rootScope.propList = {};
-      $rootScope.rates = [];
+      $rootScope.rates_details = [];
       $rootScope.amenities = [];
+      $rootScope.rates2 = [];
+      $rootScope.calendar = [];
       $rootScope.groups = [];
       $scope.loading = true;
       $scope.foundUnits = true;
@@ -425,7 +427,9 @@
       $scope.daysDiff = 0;
       $scope.method ='';
       $scope.wishlist = [];
-      
+      $scope.foundCalendarBooking = false;
+      $scope.maxCalendarDate = null;
+
       var map;
       var markerList = {};
       var arrMarkers = [];
@@ -549,7 +553,7 @@
       }
 
       $scope.getUnitPrice = function(unit){
-        
+
       }
 
       $scope.calculateMarkup = function(strPrice){
@@ -558,12 +562,12 @@
         if(typeof strPrice == 'string'){
           price = parseFloat(strPrice.replace('$','').replace(',',''));
         }
-        
+
         if($rootScope.rateMarkup > 0){
-          var pct = 1 + (parseFloat($rootScope.rateMarkup) / 100);                  
-          price = price * pct;                
+          var pct = 1 + (parseFloat($rootScope.rateMarkup) / 100);
+          price = price * pct;
         }
-        
+
         return price;
       }
 
@@ -586,11 +590,11 @@
       };
 
       $scope.requestPropertyList = function (method, params, size, page) {
-        
+
         var wishlist = $cookies.getObject('streamline-favorites');
 
         if(wishlist){
-          $scope.wishlist = wishlist;          
+          $scope.wishlist = wishlist;
         }
 
         size = !size ? $rootScope.searchSettings.propertyPagination : size;
@@ -618,7 +622,8 @@
         params.sort_by = $rootScope.searchSettings.defaultFilter;
 
         $scope.checkSorting();
-      
+
+
         if($rootScope.searchSettings.locationAreas != '')
           params.location_areas_id_filter = $rootScope.searchSettings.locationAreas;
 
@@ -682,14 +687,14 @@
             }
           }
 
-          if ((!$scope.isEmptyString($scope.search.num_bedrooms) && $scope.search.num_bedrooms >= 0)) {            
+          if (!$scope.isEmptyString($scope.search.num_bedrooms) && !isNaN($scope.search.num_bedrooms)) {
             if($scope.plusLogic === 1){
-              params.min_bedrooms_number = parseInt($scope.search.num_bedrooms);              
+              params.min_bedrooms_number = parseInt($scope.search.num_bedrooms);
             }else{
-              params.bedrooms_number = parseInt($scope.search.num_bedrooms);              
+              params.bedrooms_number = parseInt($scope.search.num_bedrooms);
             }
           }
-          
+
           if (!$scope.isEmptyString($scope.search.area_id) && $scope.search.area_id > 0) {
             params.location_area_id = $scope.search.area_id;
           }
@@ -714,6 +719,10 @@
             params.neighborhood_area_id = $scope.search.neighborhood_id;
           }
 
+          if (!$scope.isEmptyString($scope.search.location_id) && $scope.search.location_id > 0) {
+            params.location_id = $scope.search.location_id;
+          }
+
           if (!$scope.isEmptyString($scope.search.view_name) && $scope.search.view_name != '') {
             params.view_name = $scope.search.view_name;
           }
@@ -730,11 +739,11 @@
             params.amenities_filter = $scope.search.amenities;
           }
         }
-      
+
         if (!$rootScope.properties.length) {
           $scope.loading = true;
         }
-        
+
         if(method != 'GetPropertyListWordPress')
           method = $rootScope.searchSettings.searchMethod;
 
@@ -743,10 +752,10 @@
 
         $scope.method = method;
         var autozoom = ($scope.autoZoom == 1) ? true : false;
-        
+
         rpapi.getWithParams(method, params).success(function (obj) {
-          var tempProperties;          
-          
+          var tempProperties;
+
           // if($scope.total_pages == 0)
           //   $scope.total_pages = obj.data.available_properties.pagination.total_pages;
 
@@ -1053,8 +1062,11 @@
         });
       };
 
-      $scope.getPropertyReviews = function () {
-        rpapi.getWithParams('GetPropertyFeedbacks', {'unit_id': $scope.propertyId, 'order_by': 'newest_first'}).success(function (obj) {
+      $scope.getPropertyReviews = function (unit_id) {
+        if(!unit_id){
+          unit_id = $scope.propertyId;
+        }
+        rpapi.getWithParams('GetPropertyFeedbacks', {'unit_id': unit_id, 'order_by': 'newest_first'}).success(function (obj) {
           if (obj.data.feedbacks.guest_name) {
             var reviewsArray = [];
             reviewsArray.push(obj.data.feedbacks);
@@ -1112,7 +1124,7 @@
                 'occupants': booking.occupants,
                 'occupants_small' : booking.occupants_small,
                 'pets' : booking.pets,
-                'coupon_code' : 'SIBERS17'
+                'coupon_code' : $scope.couponCode
               }).success(function (obj) {
                 if (obj.data != undefined) {
                   var total_fees = 0;
@@ -1136,11 +1148,11 @@
                   $scope.total_fees = total_fees;
                   $scope.total_taxes = total_taxes;
                   $scope.rent = obj.data.price;
-                  
+
                   $scope.subTotal = $scope.calculateMarkup((obj.data.price + obj.data.coupon_discount).toString());
-                  var dif = $scope.subTotal - obj.data.coupon_discount - obj.data.price;                            
+                  var dif = $scope.subTotal - obj.data.coupon_discount - obj.data.price;
                   $scope.taxes = obj.data.taxes - dif;
-                
+
                   $scope.coupon_discount = obj.data.coupon_discount;
                   $scope.reservation_days = obj.data.reservation_days;
                   $scope.security_deposits = obj.data.security_deposits;
@@ -1171,6 +1183,9 @@
                       $scope.totalTaxesAndFees += (+tax.value);
                   });
 
+                  $scope.totalRequiredExtras = (+$scope.totalRequiredExtras).toFixed(2);
+                  $scope.totalTaxesAndFees = (+$scope.totalTaxesAndFees).toFixed(2);
+
                   hide_waitMe('#resortpro-book-unit form');
                 }
               });
@@ -1184,21 +1199,24 @@
         run_waitMe('.listings_wrapper_box', 'bounce', 'Updating Results');
         properties = $rootScope.propList;
         size = $rootScope.searchSettings.propertyPagination;
-        $scope.limit = size;
+
+        if(!$scope.limit){
+          $scope.limit = size;
+        }
 
         $scope.loading = true;
         params = {
           page_number : 1,
           page_results_number : size
         };
-        
+
         if(search.sort_by){
           params.sort_by = search.sort_by;
         }else{
           params.sort_by = $scope.sortBy;
         }
 
-        params.use_room_type_logic = parseInt($rootScope.roomTypeLogic);        
+        params.use_room_type_logic = parseInt($rootScope.roomTypeLogic);
         params.extra_charges = 1;
 
         if ($rootScope.searchSettings.propertyDeleteUnits)
@@ -1239,31 +1257,111 @@
           if (!$scope.isEmptyString(search.pets) && search.pets > 0)
             params.pets = parseInt(search.pets);
 
+          if (!$scope.isEmptyString(search.min_pets) && search.min_pets > 0)
+            params.min_pets = parseInt(search.min_pets);
+
+          if (!$scope.isEmptyString(search.amenities_filter) && search.amenities_filter > 0)
+            params.amenities_filter = search.amenities_filter;
+
           if (!$scope.isEmptyString(search.area) && search.area > 0)
             params.location_area_id = parseInt(search.area);
 
           if (!$scope.isEmptyString(search.lodging_type) && search.lodging_type > 0)
             params.lodging_type_id = parseInt(search.lodging_type);
 
-          if (!$scope.isEmptyString(search.resort_area_id) && search.resort_area_id)
-            params.resort_area_id = parseInt(search.resort_area_id);
-                    
-          if ((!$scope.isEmptyString(search.num_bedrooms) && search.num_bedrooms >= 0)) {            
+          if ((!$scope.isEmptyString(search.num_bedrooms) && !isNaN(search.num_bedrooms))) {
             if($scope.plusLogic === 1){
-              params.min_bedrooms_number = parseInt(search.num_bedrooms);              
+              params.min_bedrooms_number = parseInt(search.num_bedrooms);
             }else{
-              params.bedrooms_number = parseInt(search.num_bedrooms);              
+              params.bedrooms_number = parseInt(search.num_bedrooms);
             }
           }
 
           if (!$scope.isEmptyString(search.location_resort) && search.location_resort > 0)
             params.resort_area_id = parseInt(search.location_resort);
 
-          if (!$scope.isEmptyString(search.location) && search.location)
+          if ((!$scope.isEmptyString(search.location) && search.location))
             params.location_id = parseInt(search.location);
 
-          if(!$scope.isEmptyString(search.neighborhood_id) && search.neighborhood_id > 0)
+          if (!$scope.isEmptyString(search.neighborhood_id) && search.neighborhood_id > 0)
             params.neighborhood_area_id = parseInt(search.neighborhood_id);
+
+          //begin shortcode filters
+          if (!$scope.isEmptyString(search.adults) && search.adults > 0)
+            params.adults = parseInt(search.adults);
+
+          if (!$scope.isEmptyString(search.min_occupants) && search.min_occupants > 0)
+            params.min_occupants = parseInt(search.min_occupants);
+
+          if (!$scope.isEmptyString(search.min_adults) && search.min_adults > 0)
+            params.min_occupants = parseInt(search.min_adults);
+
+          if (!$scope.isEmptyString(search.min_pets) && search.min_pets > 0)
+            params.min_occupants = parseInt(search.min_pets);
+
+          if (!$scope.isEmptyString(search.bedrooms_number) && search.bedrooms_number > 0)
+            params.adults = parseInt(search.bedrooms_number);
+
+          if (!$scope.isEmptyString(search.min_bedrooms_number) && search.min_bedrooms_number > 0)
+            params.adults = parseInt(search.min_bedrooms_number);
+
+          if (!$scope.isEmptyString(search.bathrooms_number) && search.bathrooms_number > 0)
+            params.adults = parseInt(search.bathrooms_number);
+
+          if (!$scope.isEmptyString(search.min_bathrooms_number) && search.min_bathrooms_number > 0)
+            params.adults = parseInt(search.min_bathrooms_number);
+
+          if (!$scope.isEmptyString(search.resort_area_id) && search.resort_area_id > 0)
+            params.resort_area_id = parseInt(search.resort_area_id);
+
+          if (!$scope.isEmptyString(search.location_area_id) && search.location_area_id > 0)
+            params.location_area_id = parseInt(search.location_area_id);
+
+          if ((!$scope.isEmptyString(search.location_id) && search.location_id > 0))
+            params.location_id = parseInt(search.location_id);
+
+          if ((!$scope.isEmptyString(search.lodging_type_id) && search.lodging_type_id > 0))
+            params.lodging_type_id = parseInt(search.lodging_type_id);
+
+          if (!$scope.isEmptyString(search.neighborhood_area_id) && search.neighborhood_area_id > 0)
+            params.neighborhood_area_id = parseInt(search.neighborhood_area_id);
+
+          if (!$scope.isEmptyString(search.neighborhood_area_id_filter))
+            params.neighborhood_area_id_filter = search.neighborhood_area_id_filter;
+
+          if (!$scope.isEmptyString(search.condo_type_group_id_filter))
+            params.condo_type_group_id_filter = search.condo_type_group_id_filter;
+
+          if (!$scope.isEmptyString(search.condo_type_id_filter))
+            params.condo_type_id_filter = search.condo_type_id_filter;
+
+          if (!$scope.isEmptyString(search.home_type_id_filter))
+            params.home_type_id_filter = search.home_type_id_filter;
+
+          if (!$scope.isEmptyString(search.neighborhood_area_id_filter))
+            params.neighborhood_area_id_filter = search.neighborhood_area_id_filter;
+
+          if (!$scope.isEmptyString(search.location_id_filter))
+            params.location_id_filter = search.location_id_filter;
+
+          if (!$scope.isEmptyString(search.location_areas_id_filter))
+            params.location_areas_id_filter = search.location_areas_id_filter;
+
+          if (!$scope.isEmptyString(search.resort_area_id_filter))
+            params.resort_area_id_filter = search.resort_area_id_filter;
+
+          if (!$scope.isEmptyString(search.location_area_name))
+            params.location_area_name = search.location_area_name;
+
+          if (!$scope.isEmptyString(search.location_name))
+            params.location_name = search.location_name;
+
+          if (!$scope.isEmptyString(search.location_type_name))
+            params.location_type_name = search.location_type_name;
+
+          if (!$scope.isEmptyString(search.condo_type_group_name))
+            params.condo_type_group_name = search.condo_type_group_name;
+          //end shortcode filters
 
           if (!$scope.isEmptyString(search.viewname))
             params.view_name = search.viewname;
@@ -1277,14 +1375,14 @@
           if(!$scope.isEmptyString(search.home_type) && search.home_type > 0)
             params.home_type_id = parseInt(search.home_type);
         }
-        
+
         $scope.amenities = [];
-        angular.forEach($scope.selectedAmenities, function (item) {       
+        angular.forEach($scope.selectedAmenities, function (item) {
           if (item != false) {
             $scope.amenities.push(item);
           }
         });
-              
+
         if ($scope.amenities.length > 0) {
           var amenities = $scope.amenities.join();
           params.amenities_filter = amenities;
@@ -1305,14 +1403,14 @@
 
         $scope.keepSearching = true;
         $scope.searchNumber++;
-        
+
         $scope.total_units = 0;
 
-        $scope.searchProperties(params,$scope.searchNumber,size,1, true);        
+        $scope.searchProperties(params,$scope.searchNumber,size,1, true);
       };
 
       $scope.searchProperties = function(params, searchNumber, size, page, clearUnits){
-        
+
         params.page_number = page;
         params.page_results_number = size;
 
@@ -1343,7 +1441,7 @@
             }
 
             if(obj.data.available_properties.pagination.total_units > 0){
-              
+
               if($scope.total_units == 0)
                 $scope.total_units = obj.data.available_properties.pagination.total_units;
 
@@ -1558,6 +1656,9 @@
 
       $scope.getRoomDetails = function (unit_id) {
         $scope.room_details = [];
+        if(!unit_id){
+          unit_id = $scope.propertyId;
+        }
         rpapi.getWithParams('GetPropertyRoomsDetailsRawData', {
           'unit_id': unit_id
         })
@@ -1575,18 +1676,53 @@
       };
 
       $scope.getRatesDetails = function (unit_id) {
-        rpapi.getWithParams('GetPropertyRatesRawData', {
+
+        if($rootScope.rates_details.length == 0){
+
+          var params = {
+            unit_id : unit_id
+          };
+
+          if($rootScope.yielding == '1')
+            params['use_yielding'] = 'yes';
+
+          rpapi.getWithParams('GetPropertyRatesRawData', params)
+          .success(function (obj) {
+            if(obj.data.rates.period_begin){
+              var results = [];
+              results.push(obj.data.rates);
+              $rootScope.rates_details = results;
+            }else{
+              $rootScope.rates_details = obj.data.rates;
+            }
+
+            jQuery('.availability-calendar').datepicker('refresh');
+            add_tooltip();
+          });
+        }
+      };
+
+      $scope.getCalendarData = function (unit_id) {
+
+        rpapi.getWithParams('GetPropertyAvailabilityCalendarRawData', {
           'unit_id': unit_id
         })
         .success(function (obj) {
-          if(obj.data.rates.period_begin){
+
+          if(obj.data.blocked_period.startdate){
             var results = [];
-            results.push(obj.data.rates);
-            $scope.rates_details = results;
+            results.push(obj.data.blocked_period);
+            $rootScope.calendar = results;
           }else{
-            $scope.rates_details = obj.data.rates;
+            $rootScope.calendar = obj.data.blocked_period;
           }
+
+          add_tooltip();
+          $scope.getRatesDetails(unit_id);
+          jQuery('.availability-calendar').datepicker('refresh');
         });
+
+
       };
 
       $scope.getPropertyRatesAndStay = function (unit_id) {
@@ -1617,7 +1753,7 @@
         var params = {
           'unit_id': unit_id,
           'startdate': today,
-          'enddate': next_year          
+          'enddate': next_year
         };
 
         if($rootScope.roomTypeLogic == '1')
@@ -1642,76 +1778,124 @@
         var booked = false;
         var strClass = 'available';
 
-        angular.forEach($rootScope.rates, function (rateObj, index) {
-          var arrDate = rateObj.date.split("-");
-          var dateFormat = arrDate[1]+'/'+arrDate[2]+'/'+arrDate[0];
-          var rDate = new Date(dateFormat);
-          var rate = $filter('currency')($scope.calculateMarkup(rateObj.rate), undefined, 2);
-          if (rDate.toDateString() == date.toDateString()) {
-            
-            title = 'Season: ' + rateObj.season + ', Rate: ' + rate + ', Min. Stay: ' + rateObj.minStay;
-            if (rateObj.booked == '1') {
-              if(rateObj.changeOver == 'I' && checkout){
+        angular.forEach($rootScope.rates_details, function(rateObj, index){
+          var periodBegin = new Date(rateObj.period_begin);
+          var periodEnd = new Date(rateObj.period_end);
+          if(date >= periodBegin && date <= periodEnd){
+
+            var daysMapping = {
+              'Sunday' : 0,
+              'Monday' : 1,
+              'Tuesday' : 2,
+              'Wednesday' : 3,
+              'Thursday' : 4,
+              'Friday' : 5,
+              'Saturday' : 6,
+            }
+
+            var arrInterval = rateObj.daily_first_interval.split('-');
+
+            title = rateObj.daily_first_interval_price;
+            if(arrInterval.length > 1){
+                var firstInt = daysMapping[arrInterval[0]];
+                var secondInt = daysMapping[arrInterval[1]];
+                if(secondInt > firstInt){
+                  if(date.getDay() >= firstInt && date.getDay() <= secondInt){
+                    title = rateObj.daily_first_interval_price;
+                  }else{
+                    title = rateObj.daily_second_interval_price;
+                  }
+                }else{
+                  if(date.getDay() < firstInt && date.getDay() > secondInt){
+                    title = rateObj.daily_second_interval_price;
+                  }else{
+                    title = rateObj.daily_first_interval_price;
+                  }
+                }
+            }else{
+              title = rateObj.daily_first_interval_price;
+            }
+          }
+        });
+
+        angular.forEach($rootScope.calendar, function(calObj, index){
+          var use_slash = false;
+          var startdate = new Date(calObj.startdate);
+          var enddate = new Date(calObj.enddate);
+          if($rootScope.slash == '1')
+            use_slash = true;
+
+          if(use_slash){
+
+            //slash logic
+            enddate.setTime(enddate.getTime() + 1 * 86400000);
+            if(!checkout){
+              if(date >= startdate && date <= enddate){
+                booked = true;
+                strClass = 'booked';
+                if(date.getTime() === startdate.getTime()){
+                  booked = true;
+                  strClass = 'slash1';
+                }
+                else if(date.getTime() === enddate.getTime()){
+                  booked = false;
+                  strClass = 'slash2';
+                }
+              }
+            }else{
+              if(date.getTime() === startdate.getTime()){
                 booked = false;
-               } else {
+                strClass = 'booked slash1';
+              }
+              if(date > startdate && date <= enddate){
+                booked = true;
+                strClass = 'booked';
+
+                if($scope.book.checkin){
+                  checkin = new Date($scope.book.checkin);
+                  if(date > checkin){
+                    $scope.maxCalendarDate = date;
+                  }
+                }
+              }
+            }
+          }else{
+            //normal logic
+            if(!checkout){
+              if(date >= startdate && date <= enddate){
+                booked = true;
+                strClass = 'booked';
+              }
+            }else{
+              if(date.getTime() === startdate.getTime()){
+                booked = false;
+                strClass = 'available';
+              }
+              if(date > startdate && date <= enddate){
                 booked = true;
                 strClass = 'booked';
               }
             }
           }
         });
+
+        // if(checkout && date >= $scope.maxCalendarDate){
+        //   booked = true;
+        //   strClass = 'booked';
+        // }
 
         return [!booked, strClass, title];
       }
 
       $scope.myShowDaysFunction = function (date) {
 
-        var title = '';
-        var booked = false;
-        var strClass = 'available';
-
-        angular.forEach($rootScope.rates, function (rateObj, index) {
-          var arrDate = rateObj.date.split("-");
-          var dateFormat = arrDate[1]+'/'+arrDate[2]+'/'+arrDate[0];
-          var rDate = new Date(dateFormat);
-          var rate = $filter('currency')(rateObj.rate, undefined, 0);
-          if (rDate.toDateString() == date.toDateString()) {
-            rate = $scope.calculateMarkup(rate);
-            title = 'Season: ' + rateObj.season + ', Rate: ' + rate + ', Min. Stay: ' + rateObj.minStay;
-            if (rateObj.booked == '1') {
-              booked = true;
-              strClass = 'booked';
-            }
-          }
-        });
-
-        return [!booked, strClass, title];
+        var res = $scope.renderCalendar(date, false);
+        return res;
       }
 
       $scope.myShowDaysFunctionCheckout = function (date) {
-        var title = '';
-        var booked = false;
-        var strClass = 'available';
-
-        angular.forEach($rootScope.rates, function (rateObj, index) {
-          var arrDate = rateObj.date.split("-");
-          var dateFormat = arrDate[1]+'/'+arrDate[2]+'/'+arrDate[0];
-          var rDate = new Date(dateFormat);
-
-          if (rDate.toDateString() == date.toDateString()) {
-            title = 'Season: ' + rateObj.season + ', Rate: ' + rateObj.rate + ', Min. Stay: ' + rateObj.minStay;
-            if (rateObj.booked == '1') {
-              if(rateObj.changeOver == 'I'){
-                booked = false;
-               } else {
-                booked = true;
-                strClass = 'booked';
-              }
-            }
-          }
-        });
-
-        return [!booked, strClass, title];
+        var res = $scope.renderCalendar(date, true);
+        return res;
       }
 
       $scope.dragEnd = function (search) {
@@ -1736,10 +1920,10 @@
       $scope.getTotalPrice = function(property, decimals){
         var price = 'N/A';
         if($rootScope.searchSettings.searchMethod == 'GetPropertyAvailabilityWithRatesWordPress'){
-          if($rootScope.searchSettings.priceDisplay == 'price' && property.price > 0){             
-            price = $filter('currency')(property.price,undefined,decimals);             
+          if($rootScope.searchSettings.priceDisplay == 'price' && property.price > 0){
+            price = $filter('currency')(property.price,undefined,decimals);
           }else{
-            price = $filter('currency')(property.total,undefined,decimals); 
+            price = $filter('currency')(property.total,undefined,decimals);
           }
         }
 
@@ -1756,21 +1940,36 @@
 
       $scope.getSimplePrice = function(price_data, decimals){
         var priceText = 'N/A';
-        
-        if($rootScope.searchSettings.useDailyPricing == 1 && price_data.daily && price_data.daily > 0){
-          priceText = $filter('currency')(price_data.daily,undefined,decimals);  
-        }else if($rootScope.searchSettings.useWeeklyPricing == 1 && price_data.weekly && price_data.weekly > 0){
-          priceText = $filter('currency')(price_data.weekly,undefined,decimals);  
-        }else if($rootScope.searchSettings.useMonthlyPricing == 1 && price_data.monthly && price_data.monthly > 0){
-          priceText = $filter('currency')(price_data.monthly,undefined,decimals);  
+
+        var diffDays = 0;
+        if($scope.search){
+          var oneDay = 24*60*60*1000;
+          var checkin = new Date($scope.search.start_date);
+          var checkout = new Date($scope.search.end_date);
+          diffDays = Math.round(Math.abs((checkin.getTime() - checkout.getTime())/(oneDay)));
         }
-      
+
+        if($rootScope.searchSettings.useDailyPricing == 1 && price_data.daily && price_data.daily > 0){
+          var dailyPrice = price_data.daily;
+          if(diffDays >= 7 && diffDays < 30 && price_data.weekly > 0){
+            dailyPrice = price_data.weekly / 7;
+          }
+          if(diffDays >= 30 && price_data.monthly > 0){
+            dailyPrice = price_data.monthly / 30;
+          }
+          priceText = $filter('currency')(dailyPrice,undefined,decimals);
+        }else if($rootScope.searchSettings.useWeeklyPricing == 1 && price_data.weekly && price_data.weekly > 0){
+          priceText = $filter('currency')(price_data.weekly,undefined,decimals);
+        }else if($rootScope.searchSettings.useMonthlyPricing == 1 && price_data.monthly && price_data.monthly > 0){
+          priceText = $filter('currency')(price_data.monthly,undefined,decimals);
+        }
+
         return priceText;
       }
 
       $scope.getPrependTex = function(price_data){
         var prependText = '';
-        
+
         if($rootScope.searchSettings.useDailyPricing == 1 && price_data.daily && price_data.daily > 0){
           prependText = $rootScope.searchSettings.dailyPrepend;
         }else if($rootScope.searchSettings.useWeeklyPricing == 1 && price_data.weekly && price_data.weekly > 0){
@@ -1797,22 +1996,22 @@
       }
 
       $scope.loadMarker = function (markerData) {
-        
+
         var myLatlng = new google.maps.LatLng(markerData.latitude, markerData.longitude);
 
         var price = '';
-        
+
         if($scope.method == 'GetPropertyAvailabilityWithRatesWordPress'){
           price = $filter('currency')(markerData.price,undefined,0);
         }else{
           var price = 'N/A';
           if($rootScope.searchSettings.useDailyPricing == 1 && markerData.price.daily && markerData.price.daily > 0){
-            price = $filter('currency')(markerData.price.daily,undefined,0);  
+            price = $filter('currency')(markerData.price.daily,undefined,0);
           }else if($rootScope.searchSettings.useWeeklyPricing == 1 && markerData.price.weekly && markerData.price.weekly > 0){
             price = $filter('currency')(markerData.price.weekly, undefined,0);
           }else if($rootScope.searchSettings.useMonthlyPricing == 1 && markerData.price.monthly && markerData.price.monthly > 0){
             price = $filter('currency')(markerData.price.monthly, undefined,0);
-          }        
+          }
         }
 
         var marker = new RichMarker({
@@ -1862,9 +2061,9 @@
         };
       };
 
-      $scope.highlightIcon = function (unit_id) {        
+      $scope.highlightIcon = function (unit_id) {
         angular.forEach(arrMarkers, function (item) {
-          if (item.id == unit_id) {            
+          if (item.id == unit_id) {
             item.setContent(item.getContent().replace('arrow_box', 'arrow_box_hover'));
           }
         });
@@ -1872,7 +2071,7 @@
 
       $scope.restoreIcon = function (unit_id) {
         angular.forEach(arrMarkers, function (item) {
-          if (item.id == unit_id) {            
+          if (item.id == unit_id) {
             item.setContent(item.getContent().replace('arrow_box_hover', 'arrow_box'));
           }
         });
@@ -1948,7 +2147,10 @@
               'pets' : $scope.modal_pets
             }).success(function (obj) {
               if (obj.data != undefined) {
+
                 $scope.showDays = false;
+
+
                 $scope.modal_total_reservation = obj.data.total;
                 $scope.modal_rent = obj.data.price;
                 $scope.modal_taxes = obj.data.taxes;
@@ -1958,6 +2160,7 @@
                 $scope.modal_first_day_price = obj.data.first_day_price;
                 $scope.modal_required_fees = obj.data.required_fees;
                 $scope.modal_taxes_details = obj.data.taxes_details;
+
 
                 if (obj.data.reservation_days.date != undefined) {
                   $scope.modal_days = false;
@@ -1974,8 +2177,8 @@
 
       $scope.setCheckoutDate = function (date) {
         if($scope.book.checkout){
-          $scope.book.checkout = date.format("mm/dd/yyyy");  
-        }        
+          $scope.book.checkout = date.format("mm/dd/yyyy");
+        }
       };
 
       $scope.resetInquiry = function (inquiry) {
@@ -2029,7 +2232,7 @@
 
         rpapi.getWithParams('GetPropertyListWordPress', params).success(function (obj) {
           $scope.loading = false;
-          
+
           if(obj.data.property.id){
             $scope.favoritesObj = [];
             $scope.favoritesObj.push(obj.data.property);
@@ -2037,36 +2240,36 @@
             $scope.favoritesObj = Object.keys(obj.data.property).map(function(key) {
               return obj.data.property[key];
             });
-          }        
-        });        
+          }
+        });
       }
 
       $scope.checkFavorites = function(property){
         var favorites = $cookies.getObject('streamline-favorites');
         var found = false;
-        if(favorites){          
-          angular.forEach(favorites, function(value, key) {           
+        if(favorites){
+          angular.forEach(favorites, function(value, key) {
             if(property.id == value){
               found = true;
             }
-          });        
+          });
         }
 
         return found;
       }
-      
+
       $scope.removeFromFavorites = function(property){
         var favorites = $cookies.getObject('streamline-favorites');
-                
+
         if(favorites){
-          
-          angular.forEach(favorites, function(value, key) {            
-            if(property.id == value){              
+
+          angular.forEach(favorites, function(value, key) {
+            if(property.id == value){
               favorites.splice(key, 1);
             }
           });
 
-          if(favorites.length == 0){            
+          if(favorites.length == 0){
             $cookies.remove('streamline-favorites', { path : '/'});
             $scope.wishlist = [];
           }else{
@@ -2074,32 +2277,32 @@
 
 
             $cookies.putObject('streamline-favorites', favorites, { path : '/'});
-          }        
+          }
         }
       }
 
       $scope.addToFavorites = function(property){
-                      
+
         var favorites = $cookies.getObject('streamline-favorites');
-        
+
         if(favorites){
-          
+
           var foundUnit = false;
           angular.forEach(favorites, function(value, key) {
             if(property.id == value){
               foundUnit = true;
-            }          
+            }
           });
-          
-          favorites.push(property.id);    
-                        
-        }else{        
+
+          favorites.push(property.id);
+
+        }else{
           favorites = [];
           favorites.push(property.id);
         }
-      
+
         $scope.wishlist = favorites;
-        $cookies.putObject('streamline-favorites', favorites, { path : '/'});      
+        $cookies.putObject('streamline-favorites', favorites, { path : '/'});
       }
 
       $scope.propertyInquiry = function (inquiry, popup) {

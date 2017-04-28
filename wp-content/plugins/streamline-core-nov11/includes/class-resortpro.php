@@ -213,6 +213,16 @@ class ResortPro extends SibersStrimlineAPI
         'before_title' => '',
         'after_title' => ''
       ) );
+
+      register_sidebar( array(
+        'id' => 'top_shortcode_widget', // used to be side_search_widget
+        'name' => __( 'StreamlineCore Top Shortcode Area', 'streamline-core' ),
+        'class' => 'e-widget',
+        'before_widget' => '<div id="%1$s" class="%2$s top_shortocode_widget">',
+        'after_widget' => '</div>',
+        'before_title' => '',
+        'after_title' => ''
+      ) );
     } // end widget_init
 
     /**
@@ -329,7 +339,9 @@ class ResortPro extends SibersStrimlineAPI
         $useAddOns = (!empty($options['checkout_use_addons'])) ? $options['checkout_use_addons'] : 0;
         $createLeads = (!empty($options['checkout_create_leads'])) ? $options['checkout_create_leads'] : 0;
         $blockedRequest = (!empty($options['booking_blocked_requests'])) ? $options['booking_blocked_requests'] : 0;
-        $roomTypeLogic = (!empty($options['use_room_type_logic']) && $options['use_room_type_logic'] == '1') ? 1 : 0;        
+        $roomTypeLogic = (!empty($options['use_room_type_logic']) && $options['use_room_type_logic'] == '1') ? 1 : 0;
+        $yielding = (!empty($options['use_yielding']) && $options['use_yielding'] == '1') ? 1 : 0;
+        $slash = (!empty($options['use_slash']) && $options['use_slash'] == '1') ? 1 : 0;
         $enforceOccupancy = (!empty($options['book_enforce_occupancy'])) ? $options['book_enforce_occupancy'] : 0;
         $searchMethod = (!empty($options['search_method'])) ? $options['search_method'] : 'GetPropertyAvailabilitySimple';
         $priceDisplay = (!empty($options['price_display'])) ? $options['price_display'] : 'total';
@@ -345,12 +357,12 @@ class ResortPro extends SibersStrimlineAPI
         $weeklyPrepend = (!empty($options['weekly_pricing_prepend'])) ? $options['weekly_pricing_prepend'] : '';
         $weeklyAppend = (!empty($options['weekly_pricing_append'])) ? $options['weekly_pricing_append'] : '';
         $monthlyPrepend = (!empty($options['monthly_pricing_prepend'])) ? $options['monthly_pricing_prepend'] : '';
-        $monthlyAppend = (!empty($options['monthly_pricing_append'])) ? $options['monthly_pricing_append'] : '';              
+        $monthlyAppend = (!empty($options['monthly_pricing_append'])) ? $options['monthly_pricing_append'] : '';
         $restrictionMsg = (!empty($options['message_restriction'])) ? $options['message_restriction'] : '';
 
         $additionalVariables = (!empty($options['additional_variables'])) ? $options['additional_variables'] : 0;
         $clientSideAmenities = (!empty($options['client_side_amenities'])) ? $options['client_side_amenities'] : 0;
-        
+
         $extraCharges = (!empty($options['extra_charges'])) ? $options['extra_charges'] : 0;
         $rateMarkup = (!empty($options['rate_markup'])) ? (int)$options['rate_markup'] : 0;
 
@@ -367,7 +379,7 @@ class ResortPro extends SibersStrimlineAPI
         }
         //$skip_amenities = (!empty(get_option( 'streamline_skip_amenities' ))) ? 1 : 0;
         $amenities = get_option( 'streamline_skip_amenities' );
-    
+
         $skip_amenities = (!empty($amenities) || $clientSideAmenities == 0) ? 1 : 0;
 
         $useHTML = $options['property_use_html'];
@@ -382,7 +394,9 @@ class ResortPro extends SibersStrimlineAPI
                     $rootScope.companyCode = "' . $options['id'] . '";
                     $rootScope.propertyUrl = "'.$propertyLink.'";
                     $rootScope.useHTML = '.$useHTML.';
-                    $rootScope.roomTypeLogic = ' . $roomTypeLogic . ';                    
+                    $rootScope.roomTypeLogic = ' . $roomTypeLogic . ';
+                    $rootScope.yielding = ' . $yielding . ';
+                    $rootScope.slash = ' . $slash . ';
                     $rootScope.enforceOccupancy = '.$enforceOccupancy.';
                     $rootScope.rateMarkup = '.$rateMarkup.';
 
@@ -405,7 +419,7 @@ class ResortPro extends SibersStrimlineAPI
                       propertyPagination : ' . $pagination . ',
                       propertyDeleteUnits : \'' . $options['property_delete_units'] . '\',
                       defaultFilter : \'' . $options['resortpro_default_filter'] . '\',
-                      skipAmenities : ' . $skip_amenities . ',                      
+                      skipAmenities : ' . $skip_amenities . ',
                       restrictionMsg : \''. $restrictionMsg . '\',
                       useDailyPricing : ' . $useDailyPricing . ',
                       useWeeklyPricing : ' . $useWeeklyPricing . ',
@@ -493,18 +507,18 @@ class ResortPro extends SibersStrimlineAPI
       // google maps api
       $options = StreamlineCore_Settings::get_options();
 
-      if(is_page('checkout')){
+      $pagename = get_query_var('pagename');
+      if($pagename == 'checkout' || $pagename == 'property-info'){
         $pbg_enabled = (isset($options['enable_paybygroup']) && $options['enable_paybygroup'] == 1) ? true : false;
-        $pbg_merchant = $options['paybygroup_merchant_id'];
+        $pbg_merchant = $options['id'];
         if($pbg_enabled && !empty($pbg_merchant))
-          wp_enqueue_script( 'pbg-js', 'https://cdn.paybygroup.com/snippet/v2/loader.js?merchant_id=' . $pbg_merchant );
+          wp_enqueue_script( 'pbg-js', "https://cdn.paybygroup.com/snippet/v2/loader.js?agent_id={$pbg_merchant}&platform=streamline");
       }
-      
 
       $google_endpoint = 'https://maps.googleapis.com/maps/api/js';
       if(!empty($options['google-maps-api']))
         $google_endpoint .= "?key={$options['google-maps-api']}";
-      
+
 //      wp_enqueue_script( 'googlemaps-js', $google_endpoint ); // GOOGLE MAPS
 
       wp_enqueue_script( 'richMarker', $this->vendor_url . 'richMarker/' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'richmarker.js' : 'richmarker.min.js' ), array( 'googlemaps-js' ) );
@@ -521,7 +535,7 @@ class ResortPro extends SibersStrimlineAPI
       // angularjs
       wp_enqueue_script( 'angularjs', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js', array( 'jquery' ) );
 
-      wp_enqueue_script( 'angularcookies', '//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.js', array('angularjs'));
+      wp_enqueue_script( 'angularcookies', '//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.min.js', array('angularjs'));
 
       // ng-map
       wp_enqueue_script( 'ng-map-js', $this->vendor_url . 'ng-map/' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'ng-map.js' : 'ng-map.min.js' ) );
@@ -535,7 +549,7 @@ class ResortPro extends SibersStrimlineAPI
   		  wp_enqueue_script( 'resortpro-dirPagination-js', $this->assets_url . 'app/directives/dirPagination.js', array( 'angularjs' ) );
   		  wp_enqueue_script( 'resortpro-filters-js', $this->assets_url . 'app/filters/filters.js', array( 'angularjs' ) );
   		  wp_enqueue_script( 'resortpro-property-js', $this->assets_url . 'app/property/property.js', array( 'angularjs' ) );
-  		  wp_enqueue_script( 'resortpro-checkout-js', $this->assets_url . 'app/checkout/checkout.js', array( 'angularjs' ) );        
+  		  wp_enqueue_script( 'resortpro-checkout-js', $this->assets_url . 'app/checkout/checkout.js', array( 'angularjs' ) );
   		  wp_enqueue_script( 'resortpro-app-js', $this->assets_url . 'app/app.js', array( 'angularjs' ) );
   	  } else {
   	  	wp_enqueue_script ( 'resortpro', $this->assets_url . 'dist/js/resortpro.min.js', array('angularjs') );
@@ -922,8 +936,8 @@ class ResortPro extends SibersStrimlineAPI
           $end = new \DateTime($raw_end_date);
           $end_date = $end->format('Y-m-d');
         } else {
-          $start_date = date('Y-m-d'); // now
-          $end_date = date('Y-m-d', time()+ (2 * SECONDS_PER_DAY ) ); // two days from now
+          $start_date = date('Y-m-d', strtotime($raw_start_date));
+          $end_date = date('Y-m-d', strtotime($raw_end_date));
         }
 
         $params = array(
@@ -965,11 +979,8 @@ class ResortPro extends SibersStrimlineAPI
      */
     public function resortpro_listing_detail()
     {
-
         $rpid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-
         if ($rpid) {
-
             /**
              * Fetch the record from ResortPro API
              * Handeled by Angular
@@ -977,22 +988,15 @@ class ResortPro extends SibersStrimlineAPI
             $property = StreamlineCore_Wrapper::get_property_info( (int)$_GET['id'] );
 
             return (array)$property['data'];
-
         }
-
     }
 
 
     public function favorites(){
       $options = StreamlineCore_Settings::get_options();
-
       $search_layout = $options['search_layout'];
-
       $use_favorites = ($options['use_favorites'] == '1') ? true : false;
-      
       $fav_units = ($_COOKIE['streamline-favorites']);
-
-      //$units = StreamlineCore_Wrapper::get_random_units(1000, $fav_units);
 
       $template = ResortPro::locate_template( 'listing-search-template.php' );
       if ( empty( $template ) ) {
@@ -1000,7 +1004,6 @@ class ResortPro extends SibersStrimlineAPI
         $template = trailingslashit( $this->dir ) . 'includes/templates/search/listing-search-template' . $search_layout . '.php';
       }
 
-      //return $template;
       ob_start();
       include(trailingslashit($this->dir) . 'includes/templates/favorites.php');
       $output = ob_get_clean();
@@ -1020,73 +1023,93 @@ class ResortPro extends SibersStrimlineAPI
 
     public function browse_results($params = array(), $return_units = false)
     {
-        $options = StreamlineCore_Settings::get_options();
-        if (isset($params['location_area_name']) && strpos($params['location_area_name'], ',') !== false) {
-            $params['location_area_name'] = explode(',', $params['location_area_name']);
+
+      $options = StreamlineCore_Settings::get_options();
+      if (isset($params['location_area_name']) && strpos($params['location_area_name'], ',') !== false) {
+        $params['location_area_name'] = explode(',', $params['location_area_name']);
+      }
+
+      if (isset($params['view_name']) && strpos($params['view_name'], ',') !== false) {
+        $params['view_name'] = explode(',', $params['view_name']);
+      }
+
+      if (isset($params['condo_type_group_id']) && strpos($params['condo_type_group_id'], ',') !== false) {
+        $params['condo_type_group_id'] = explode(',', $params['condo_type_group_id']);
+      }
+
+      if (isset($params['resort_area_id']) && strpos($params['resort_area_id'], ',') !== false) {
+        $params['resort_area_id_filter'] = $params['resort_area_id'];
+        unset($params['resort_area_id']);
+      }
+
+      $search_layout = $options['search_layout'];
+
+      $json_params = str_replace('"', '\'', json_encode($params));
+
+      $scope_params = "";
+      foreach($params as $key => $value){
+        if(empty($scope_params)){
+          $scope_params = "search.{$key}='{$value}'";
+        }else{
+          $scope_params .= ",search.{$key}='{$value}'";
         }
+      }
 
-        if (isset($params['view_name']) && strpos($params['view_name'], ',') !== false) {
-            $params['view_name'] = explode(',', $params['view_name']);
-        }
+      $method = "requestPropertyList('GetPropertyListWordPress', {$json_params});";
 
-        if (isset($params['condo_type_group_id']) && strpos($params['condo_type_group_id'], ',') !== false) {
-            $params['condo_type_group_id'] = explode(',', $params['condo_type_group_id']);
-        }
+      // look for template in theme
+      $template = ResortPro::locate_template( 'listing-search-template.php' );
+      if ( empty( $template ) ) {
+        // default template
+        $template = trailingslashit( $this->dir ) . 'includes/templates/search/listing-search-template' . $search_layout . '.php';
+      }
 
-        if (isset($params['resort_area_id']) && strpos($params['resort_area_id'], ',') !== false) {
-            $params['resort_area_id_filter'] = $params['resort_area_id'];
-            unset($params['resort_area_id']);
-        }
+      $property_link = get_bloginfo("url");
+      if (!empty($options['prepend_property_page'])) {
+        $property_link .= "/" . $options['prepend_property_page'];
+      }
 
-        $search_layout = $options['search_layout'];
+      $arr_available_fields = array(
+        "max_occupants",
+        "bedrooms_number",
+        "name",
+        "area",
+        "view",
+        "pets",
+        "rotation",
+        "random",
+        "price_low"
+      );
 
-        $json_params = str_replace('"', '\'', json_encode($params));
+      $max_occupants = (isset($options['inquiry_adults_max']) && $options['inquiry_adults_max'] > 0) ? $options['inquiry_adults_max'] : 1;
+      $max_occupants_small = (isset($options['inquiry_children_max']) && $options['inquiry_children_max'] > 0) ? $options['inquiry_children_max'] : 1;
+      $max_pets = (isset($options['inquiry_pets_max']) && $options['inquiry_pets_max'] > 0) ? $options['inquiry_pets_max'] : 1;
 
-        $method = "requestPropertyList('GetPropertyListWordPress', {$json_params});";
+      $sorted_by = isset($_GET['sort_by']) ? filter_var ( $_GET['sort_by'], FILTER_SANITIZE_STRING) : $options['resortpro_default_filter'];
 
-        // look for template in theme
-        $template = ResortPro::locate_template( 'listing-search-template.php' );
-        if ( empty( $template ) ) {
-          // default template
-          $template = trailingslashit( $this->dir ) . 'includes/templates/search/listing-search-template' . $search_layout . '.php';
-        }
+      if(!in_array($sorted_by, $arr_available_fields))
+        $sorted_by = 'default';
 
-        $property_link = get_bloginfo("url");
-        if (!empty($options['prepend_property_page'])) {
-            $property_link .= "/" . $options['prepend_property_page'];
-        }
+      ob_start();
+      include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-browse-template.php');
+      $output = ob_get_clean();
 
-        $arr_available_fields = array(
-          "max_occupants",
-          "bedrooms_number",
-          "name",
-          "area",
-          "view",
-          "pets",
-          "rotation",
-          "random",
-          "price_low"
-        );
-
-        $max_occupants = (isset($options['inquiry_adults_max']) && $options['inquiry_adults_max'] > 0) ? $options['inquiry_adults_max'] : 1;
-        $max_occupants_small = (isset($options['inquiry_children_max']) && $options['inquiry_children_max'] > 0) ? $options['inquiry_children_max'] : 1;
-        $max_pets = (isset($options['inquiry_pets_max']) && $options['inquiry_pets_max'] > 0) ? $options['inquiry_pets_max'] : 1;
-
-        $sorted_by = isset($_GET['sort_by']) ? filter_var ( $_GET['sort_by'], FILTER_SANITIZE_STRING) : $options['resortpro_default_filter'];
-
-        if(!in_array($sorted_by, $arr_available_fields))
-          $sorted_by = 'default';
-
-        ob_start();
-        include(trailingslashit($this->dir) . 'includes/templates/page-resortpro-browse-template.php');
-        $output = ob_get_clean();
-
-        return $output;
+      return $output;
     }
 
     public function search_filter($attr = array())
     {
         $options = StreamlineCore_Settings::get_options();
+
+        $scope_params = "";
+        foreach($attr as $key => $value){
+          if(empty($scope_params)){
+            $scope_params = "search.{$key}='{$value}'";
+          }else{
+            $scope_params .= ",search.{$key}='{$value}'";
+          }
+        }
+
         if ($options['property_description'] == 1) {
             $attr['use_description'] = 'yes';
         }
@@ -1110,7 +1133,7 @@ class ResortPro extends SibersStrimlineAPI
         if (empty($_REQUEST['resortpro_sw_loc']) && !empty($options['property_loc_id'])) {
             $attr['location_id'] = $options['property_loc_id'];
         } else {
-            $attr['location_id '] = ($_REQUEST['resortpro_sw_loc']) ? $_REQUEST['resortpro_sw_loc'] : false;
+            $attr['location_id'] = ($_REQUEST['resortpro_sw_loc']) ? $_REQUEST['resortpro_sw_loc'] : false;
         }
 
         $search_layout = $options['search_layout'];
@@ -1619,6 +1642,7 @@ class ResortPro extends SibersStrimlineAPI
             $options = StreamlineCore_Settings::get_options();
 
             $ssl_enabled = (isset($options['checkout_use_ssl']) && $options['checkout_use_ssl'] == 1) ? true : false;
+            $pbg_enabled = (isset($options['enable_paybygroup']) && $options['enable_paybygroup'] == 1) ? true : false;
 
             $checkout_url = ($ssl_enabled) ? str_replace('http://','https://', get_permalink(get_page_by_slug('checkout'))) : get_permalink(get_page_by_slug('checkout'));
 
@@ -1663,6 +1687,46 @@ class ResortPro extends SibersStrimlineAPI
             return $output;
 
         endif;
+    }
+
+    public function add_payment(){
+      $reservation_hash = filter_var ( $_REQUEST['hash'], FILTER_SANITIZE_STRING);
+      $options = StreamlineCore_Settings::get_options();
+
+      $reservation_price = StreamlineCore_Wrapper::get_reservation_price( 0, $reservation_hash );
+      $reservation_info = StreamlineCore_Wrapper::get_reservation_info( $reservation_hash, '' );
+
+      if(isset($reservation_price['data'])){
+        $reservation_price = $reservation_price['data'];
+      }
+
+      if(isset($reservation_info['data']['reservation'])){
+        $reservation_info = $reservation_info['data']['reservation'];
+      }
+
+      $total_fees = 0;
+      $total_taxes = 0;
+      foreach($reservation_price['required_fees'] as $req_fee){
+        $taxes_fees += $req_fee['value'];
+      }
+      foreach($reservation_price['taxes_details'] as $tax_detail){
+        $total_taxes += $tax_detail['value'];
+      }
+      foreach($reservation_price['optional_fees'] as $opt_fee){
+        $taxes_fees += $opt_fee['value'];
+      }
+
+      $template = ResortPro::locate_template( 'add_payment.php' );
+      if ( empty( $template ) ) {
+        $template = trailingslashit($this->dir) . 'includes/templates/add_payment.php';
+      }
+
+      ob_start();
+      include($template);
+      $output = ob_get_clean();
+
+      return $output;
+
     }
 
     public function custom_quote(){
@@ -1759,6 +1823,7 @@ class ResortPro extends SibersStrimlineAPI
 
           $str_checkin = filter_var ( $_REQUEST['sd'], FILTER_SANITIZE_STRING);
           $str_checkout = filter_var ( $_REQUEST['ed'], FILTER_SANITIZE_STRING);
+          $unit_id = filter_var ( $_REQUEST['unit'], FILTER_SANITIZE_STRING);
         }
 
         if( version_compare ( '5.3', PHP_VERSION, '<' ) ){
@@ -1809,10 +1874,8 @@ class ResortPro extends SibersStrimlineAPI
           }
         }
 
-
-        
         $ssl_enabled = (isset($options['checkout_use_ssl']) && $options['checkout_use_ssl'] == 1) ? true : false;
-        $pbg_enabled = (isset($options['enable_paybygroup']) && $options['enable_paybygroup'] == 1 && !empty($options['paybygroup_merchant_id'])) ? true : false;
+        $pbg_enabled = (isset($options['enable_paybygroup']) && $options['enable_paybygroup'] == 1) ? true : false;
 
         $checkout_url = ($ssl_enabled) ? str_replace('http://','https://', get_permalink(get_page_by_slug('checkout'))) : get_permalink(get_page_by_slug('checkout'));
 
@@ -1845,6 +1908,8 @@ class ResortPro extends SibersStrimlineAPI
         $content = str_replace("%pets%", $_REQUEST['pets'], $content);
         $content = str_replace("%price_common%", $_REQUEST['price_common'], $content);
         $content = str_replace("%price_balance%", $_REQUEST['price_balance'], $content);
+        $content = str_replace("%price_common%", number_format($_REQUEST['price_common'],2, '.', ','), $content);
+        $content = str_replace("%price_balance%", number_format($_REQUEST['price_balance'],2,'.',','), $content);
         $content = str_replace("%travelagent_name%", $_REQUEST['travelagent_name'], $content);
         $content = str_replace("%email%", $_REQUEST['email'], $content);
         $content = str_replace("%fname%", $_REQUEST['fname'], $content);
@@ -1971,7 +2036,7 @@ class ResortPro extends SibersStrimlineAPI
         $html = '';
         if(isset($content['data']['document_html_code']) && is_string($content['data']['document_html_code']))
           $html = $content['data']['document_html_code'];
-        
+
         return $html;
     }
 
@@ -2232,6 +2297,56 @@ class ResortPro extends SibersStrimlineAPI
       return '';
     }
 
+    public function geocoder($address, $latlng = null)
+    {
+      global $wpdb;
+      static $geocoding = null;
+
+            $table = "streamlinecore_geocoder";
+
+      if (!is_array($geocoding))
+      {
+              $wpdb->query("CREATE TABLE IF NOT EXISTS `$table` (`address` varchar(255) NOT NULL,`latlng` varchar(255) DEFAULT NULL,PRIMARY KEY (`address`)) ENGINE=MyISAM DEFAULT CHARSET=utf8");
+        $raw = $wpdb->get_results("select * from `$table` order by `address`", ARRAY_A);
+        $geocoding = array();
+        foreach ($raw as $row)
+          $geocoding[$row['address']] = $row['latlng'];
+      }
+      if (!array_key_exists($address,$geocoding) && !$latlng)
+      {
+              $_address = "'".addcslashes($address, "\n\"\'")."'";
+              $wpdb->query("INSERT IGNORE into `$table` (`address`) values ($_address)");
+        return null;
+      }
+      if ($latlng)
+      {
+              $_address = "'".addcslashes($address, "\n\"\'")."'";
+              return $wpdb->query("UPDATE `$table` SET `latlng`='$latlng' where `address` = $_address");
+      }
+      return $geocoding[$address];
+    }
+
+    public function ajax_cache_geocoding()
+    {
+      $address = isset($_POST['vars']['address']) ? stripslashes($_POST['vars']['address']) : "";
+      $latlng = isset($_POST['vars']['latlng']) ? stripslashes($_POST['vars']['latlng']) : "";
+
+      $response = array();
+      if (!$address)
+        $response['result'] = -1;
+      else
+      {
+        $latlng = trim($latlng,'()');
+        if (!preg_match("#^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$#i",$latlng))
+          $response['result'] = -2;
+        else
+        {
+          $response['result'] = self::geocoder($address, $latlng);
+        }
+      }
+      die(json_encode($response));
+    }
+
     public function googlemap($params=array())
     {
       wp_enqueue_script( 'google_maps_marker', $this->assets_url . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'src/js/google_maps.js' : 'dist/js/google_maps.min.js' ), array( 'jquery' ) );
@@ -2242,6 +2357,7 @@ class ResortPro extends SibersStrimlineAPI
       $map_id = ($params['map_id']) ? $params['map_id'] : 'resortpro_map';
       $map_icon = ($params['map_icon']) ? $params['map_icon'] : 'default';
       $map_cache = intval($params['map_cache']) ? intval($params['map_cache']) : 24;
+      $wp_ajax_url = get_bloginfo('wpurl')."/wp-admin/admin-ajax.php?";
 
       $transient = array();
 
@@ -2257,6 +2373,8 @@ class ResortPro extends SibersStrimlineAPI
 
       if ( false === ( $units = get_transient( $transient ) ) )
       {
+        $options = StreamlineCore_Settings::get_options();
+
         if (isset($params['location_area_name']) && strpos($params['location_area_name'], ',') !== false) {
           $params['location_area_name'] = explode(',', $params['location_area_name']);
         }
@@ -2273,6 +2391,16 @@ class ResortPro extends SibersStrimlineAPI
           $params['resort_area_id_filter'] = $params['resort_area_id'];
           unset($params['resort_area_id']);
         }
+
+        if(empty($params['page_results_number'])){
+          $params['page_results_number'] = 100;
+        }
+
+        $params['use_amenities'] = 'no';
+        $params['use_description'] = 'no';
+
+        $use_room_type_logic = (!empty($options['use_room_type_logic']) && $options['use_room_type_logic'] == '1') ? 'yes' : 'no';
+        $params['use_room_type_logic'] = $use_room_type_logic;
 
         $results = StreamlineCore_Wrapper::search($params);
 
@@ -2296,18 +2424,24 @@ class ResortPro extends SibersStrimlineAPI
 
           $json['latlng'] = array($unit['location_latitude'], $unit['location_longitude']);
           $json['key'] =  round($json['latlng'][0], 4).",".round($json['latlng'][1], 4);
-          $json['title'] = self::get_unit_name($unit);
-
-          $url = StreamlineCore_Wrapper::get_unit_permalink($unit['seo_page_name']);
-
-          $json['html'] = '<a href=\''.$url.'\'><strong>'.$unit['location_name'].'</strong><br /><img src=\''.$unit['default_thumbnail_path'].'\' style=\'width:100px;margin-right:4px;\' align=\'left\'/></a><br />';
-          $json['html'] .= __( 'Bedrooms:', 'streamline-core' ) . ' ' . $unit['bedrooms_number'] . '<br />';
-          $json['html'] .= __( 'Bathrooms:', 'streamline-core' ) . ' ' . $unit['bathrooms_number'] . '<br />';
-          $json['html'] .= __( 'Max. Adults:', 'streamline-core' ) . ' ' . $unit['max_adults'];
-          $json['html'] .= '<div style=\'clear:both;\'></div>';
-
-          $places[] = $json;
         }
+        $json['title'] = self::get_unit_name($unit);
+        $json['address'] = $unit['address'] . ', ' . $unit['city'] . ', ' . $unit['state_description'] . ' ' . $unit['zip'] . ', ' . $unit['country_name'];
+
+        $url = StreamlineCore_Wrapper::get_unit_permalink($unit['seo_page_name']);
+
+        $thumbnail = '';
+        if(!empty($unit['default_thumbnail_path'])){
+          $thumbnail = '<img src="'.$unit['default_thumbnail_path'].'" style="width:100px;margin-right:4px;" align="left"/>';
+        }
+
+        $json['html'] = '<a href=\''.$url.'\'><strong>'.$unit['location_name'].'</strong><br />'.$thumbnail.'</a><br />';
+        $json['html'] .= __( 'Bedrooms:', 'streamline-core' ) . ' ' . $unit['bedrooms_number'] . '<br />';
+        $json['html'] .= __( 'Bathrooms:', 'streamline-core' ) . ' ' . $unit['bathrooms_number'] . '<br />';
+        $json['html'] .= __( 'Max. Adults:', 'streamline-core' ) . ' ' . $unit['max_adults'];
+        $json['html'] .= '<div style=\'clear:both;\'></div>';
+
+        $places[] = $json;
       }
 
       foreach($places as $result_item){
@@ -2319,8 +2453,9 @@ class ResortPro extends SibersStrimlineAPI
       }
 
       wp_localize_script( 'google_maps_marker', 'streamline_gmap', array('map_id' => $map_id,
-                                                              'places' => $places_update,
-                                                              'icon'   => $map_icon ));
+                                                                          'places' => $places_update,
+                                                                          'icon'   => $map_icon,
+                                                                          'ajax_url' => $wp_ajax_url ));
 
       $output = "<div id=\"{$map_id}\" style=\"width:{$map_width};height:{$map_height};\"></div>";
 

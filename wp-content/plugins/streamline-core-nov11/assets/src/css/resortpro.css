@@ -87,6 +87,43 @@ span.rating span {
     height: 16px
 }
 
+.ui-datepicker .ui-state-disabled{
+  opacity: 1 !important;
+
+}
+
+.booked{
+  background-color: transparent;
+}
+
+.available a.ui-state-default, .slash1, .slash2{
+  background: #f6f6f6 none repeat scroll 0 0;
+  opacity: 1!important
+}
+
+.booked span.ui-state-default, .ui-datepicker-unselectable span.ui-state-default{
+  background-color: #ff3333;
+  color:#333333;
+}
+
+.slash1 span.ui-state-default{
+  background: transparent url(../../images/triangle1.png) repeat scroll 0 0 / 200% 100% !important;
+	display:block !important;
+  position: relative;
+}
+
+.slash1 a.ui-state-default{
+  background: transparent url(../../images/triangle1.png) repeat scroll 0 0 / 200% 100% !important;
+	display:block !important;
+  position: relative;
+}
+
+.slash2 a.ui-state-default{
+  background: transparent url(../../images/triangle1.png) repeat scroll 100% 0 / 200% 100% !important;
+	display:block !important;
+  position: relative;
+}
+
 span.rating span {
     background-position: 0 0
 }
@@ -135,8 +172,8 @@ span.rating span {
 }
 
 .rating-count{
-    display:inline-block; 
-    line-height: 31px; 
+    display:inline-block;
+    line-height: 31px;
     vertical-align: top
 }
 
@@ -271,7 +308,8 @@ span.rating span {
 }
 
 .breakdown-days-hidden,
-.breakdown-taxes-hidden {
+.breakdown-taxes-hidden,
+.breakdown-fees-hidden {
     display: none
 }
 
@@ -709,6 +747,10 @@ h3 {
 
 #btn-share{
     margin-top: 5px;
+}
+
+.add-payment-top h3{
+  margin-top:0;
 }
 
 @media (max-width: 767px) {

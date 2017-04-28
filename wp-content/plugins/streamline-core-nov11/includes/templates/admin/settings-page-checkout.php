@@ -22,7 +22,7 @@
           <input type="checkbox" name="<?php echo StreamlineCore_Settings::get_option_name() ?>[checkout_use_ssl]" class="form-control" value="1"<?php if ( isset( $option_arr['checkout_use_ssl'] ) && (int)$option_arr['checkout_use_ssl'] == 1 ) : ?> checked="checked"<?php endif; ?> />
         </div>
       </div>
-      
+
       <div class="form-group">
         <label for="checkout_create_leads" class="col-sm-2 control-label"><?php _e( 'Create Leads on Step 2', 'streamline-core' ) ?></label>
         <div class="col-sm-10">
@@ -70,12 +70,12 @@
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    <h4 class="panel-title"><?php _e( 'Card Types', 'streamline-core' ) ?></h4>
+    <h4 class="panel-title"><?php _e( 'Payment Types', 'streamline-core' ) ?></h4>
   </div>
   <div class="panel-body">
     <div class="form-horizontal">
       <div class="form-group">
-        <label for="property_use_html" class="col-sm-2 control-label"><?php _e( 'Allowed Card Types', 'streamline-core' ) ?></label>
+        <label for="property_use_html" class="col-sm-2 control-label"><?php _e( 'Allowed Payment Types', 'streamline-core' ) ?></label>
         <div class="col-sm-10">
           <div class="checkbox">
             <label>
@@ -101,6 +101,12 @@
               <?php _e( 'Discover', 'streamline-core' ) ?>
             </label>
           </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="<?php echo StreamlineCore_Settings::get_option_name() ?>[property_card_type_echeck]" class="form-control" value="1"<?php if ( isset( $option_arr['property_card_type_echeck'] ) && (int)$option_arr['property_card_type_echeck'] == 1 ) : ?> checked="checked"<?php endif; ?> />
+              <?php _e( 'E-check', 'streamline-core' ) ?>
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -124,8 +130,8 @@
         <div class="col-sm-10">
           <input type="text" name="<?php echo StreamlineCore_Settings::get_option_name() ?>[paybygroup_merchant_id]" class="form-control" value="<?php echo ( isset( $option_arr['paybygroup_merchant_id'] ) ? esc_attr( $option_arr['paybygroup_merchant_id'] ) : '' ) ?>" placeholder="<?php _e( 'Merchant Id supplied by PayByGroup needed to complete integration', 'streamline-core' ) ?>" />
         </div>
-      </div>  
-          
+      </div>
+
     </div>
   </div>
 </div>

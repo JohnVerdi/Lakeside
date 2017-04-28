@@ -17,7 +17,7 @@
 		this.add = function(type, message) {
 			var alert = {'type': type, 'message': message};
 
-			//push alerts to array to be displayed.  alerts will fade out.  
+			//push alerts to array to be displayed.  alerts will fade out.
 			//adjust the timeout to extend or shorten display time.
 			$rootScope.alerts.push(alert);
 			// $timeout(function() {
@@ -31,6 +31,9 @@
 
 		this.successType = 'success',
 		this.successMessage = 'Saved successfully.';
+
+		this.infoType = 'info',
+		this.successMessage = 'Sent successfully.';
 	});
 
 })();

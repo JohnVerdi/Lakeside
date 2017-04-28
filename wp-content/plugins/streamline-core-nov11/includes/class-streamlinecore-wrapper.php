@@ -132,7 +132,9 @@ class StreamlineCore_Wrapper{
 
   }
 
-  public static function get_company_policies() {    
+
+
+  public static function get_company_policies() {
     return self::_get_resource( 'company-policies', 'GetCompanyDocumentHtml', array('trigger_id' => 18));
   }
 
@@ -237,7 +239,8 @@ class StreamlineCore_Wrapper{
   // get bedroom types
   public static function get_bedroom_types($params) {
     $params['sort_by'] = 'property_name';
-    
+
+
     return self::_get_resource( 'bedroom-types-list', 'GetRoomTypesList', $params, 'roomtype', array( 'id', 'property_name' ) );
   }
 

@@ -41,6 +41,15 @@
         </div>
       </div>
       <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="<?php echo StreamlineCore_Settings::get_option_name() ?>[use_yielding]" value="1"<?php if ( isset( $option_arr['use_yielding'] ) && (int)$option_arr['use_yielding'] == 1 ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Use Yielding (must be enabled in backend)', 'streamline-core' ) ?>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
         <label for="id" class="col-sm-2 control-label"><?php _e( 'Google Maps Api Key', 'streamline-core' ) ?></label>
         <div class="col-sm-10">
           <input type="text" name="<?php echo StreamlineCore_Settings::get_option_name() ?>[google-maps-api]" class="form-control" placeholder="<?php _e( 'Google Maps Api Key', 'streamline-core' ) ?>" value="<?php echo ( isset( $option_arr['google-maps-api'] ) ? esc_attr( $option_arr['google-maps-api'] ) : '' ) ?>" />

@@ -21,6 +21,12 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="property_use_captions" class="col-sm-2 control-label"><?php _e( 'Use slash logic in calendars', 'streamline-core' ) ?></label>
+        <div class="col-sm-10">
+          <input type="checkbox" name="<?php echo StreamlineCore_Settings::get_option_name() ?>[use_slash]" class="form-control" value="1"<?php if ( isset( $option_arr['use_slash'] ) && (int)$option_arr['use_slash'] == 1 ) : ?> checked="checked"<?php endif; ?> />
+        </div>
+      </div>
+      <div class="form-group">
         <label for="enable_share_with_friends" class="col-sm-2 control-label"><?php _e( 'Enable Share with friends functionality', 'streamline-core' ) ?></label>
         <div class="col-sm-10">
           <input type="checkbox" name="<?php echo StreamlineCore_Settings::get_option_name() ?>[enable_share_with_friends]" class="form-control" value="1"<?php if ( isset( $option_arr['enable_share_with_friends'] ) && (int)$option_arr['enable_share_with_friends'] == 1 ) : ?> checked="checked"<?php endif; ?> />

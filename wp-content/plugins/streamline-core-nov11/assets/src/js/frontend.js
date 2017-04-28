@@ -17,8 +17,8 @@
     })
   };
 
-  $(document).ready(function () {    
-    
+  $(document).ready(function () {
+
     $('body').tooltip({
       selector: '.btn-fav, .petFriendly'
     });
@@ -101,7 +101,7 @@
     });
 
     $('.btn-taxes-breakdown').click(function () {
-      
+
       $('.breakdown-taxes-hidden').each(function () {
 
         if ($(this).data('visible') == false) {
@@ -114,6 +114,25 @@
           $(this).data('visible', false);
 
           $('.btn-taxes-breakdown span').html('View Breakdown');
+        }
+      })
+      return false;
+    });
+
+    $('.btn-fees-breakdown').click(function () {
+
+      $('.breakdown-fees-hidden').each(function () {
+
+        if ($(this).data('visible') == false) {
+          $(this).css('display', 'table-row');
+          $(this).data('visible', true);
+
+          $('.btn-fees-breakdown span').html('Hide Breakdown');
+        } else {
+          $(this).css('display', 'none');
+          $(this).data('visible', false);
+
+          $('.btn-fees-breakdown span').html('View Breakdown');
         }
       })
       return false;

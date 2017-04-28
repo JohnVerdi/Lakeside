@@ -204,8 +204,8 @@
 
         <div class="form-group" id="coupon-code-wrap">
             <p>Coupon code</p>
-            <input class="counpon counpon-line" ng-model="couponCode" type="text">
-            <button class="check-counpon counpon-line">Redeem</button>
+            <input  class="counpon counpon-line" ng-model="couponCode" type="text">
+            <button type="button" ng-click="getPreReservationPrice(book,1)" class="check-counpon counpon-line">Redeem</button>
         </div>
 
         <?php if(!(is_numeric($property['online_bookings']) && $property['online_bookings'] == 0)): ?>

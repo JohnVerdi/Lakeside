@@ -103,7 +103,7 @@ class StreamlineCore_Settings{
       'checkout_title'                    => '', // text
       'checkout_use_addons'               => 0, // checkbox
       'checkout_use_ssl'                  => 0, // checkbox
-      'endpoint'                          => 'https://www.resortpro.net/api/json', // text
+      'endpoint'                          => 'https://web.streamlinevrs.com/api/json', // text
       'filter_location_areas'             => array(), // multiple checkboxes
       'id'                                => '', // text
       'inquiry_adults_label'              => '', // text
@@ -130,6 +130,7 @@ class StreamlineCore_Settings{
       'property_card_type_discover'       => 0, // checkbox
       'property_card_type_master_card'    => 0, // checkbox
       'property_card_type_visa'           => 0, // checkbox
+      'property_card_type_echeck'         => 0, // checkbox
       'property_contact_text'             => '', // text
       'property_coupon_description'       => '', // textarea
       'property_delete_book_now_units'    => '', // text
@@ -220,6 +221,8 @@ class StreamlineCore_Settings{
       'unit_tab_virtualtour'              => 0, // checkbox
       'use_room_type_logic'               => 0, // checkbox
       'use_favorites'                     => 0, // checkbox
+      'use_yielding'                      => 0, // checkbox
+      'use_slash'                         => 0, // checkbox
       'enable_share_with_friends'         => 0, // checkbox
       'lm_booking_check'                  => 0, // checkbox
       'lm_booking_days'                   => 1, // dropdown

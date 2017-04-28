@@ -137,7 +137,7 @@
                                     <td><?php _e( 'Subtotal', 'streamline-core' ) ?></td>
                                     <td class="text-right" ng-bind="modal_rent + modal_coupon_discount | currency:undefined:2"></td>
                                 </tr>
-                                <tr ng-if="coupon_discount > 0">
+                                <tr ng-if="modal_coupon_discount > 0">
                                     <td><?php _e( 'Discount', 'streamline-core' ) ?></td>
                                     <td class="text-right" ng-bind="modal_coupon_discount | currency:undefined:2"></td>
                                 </tr>

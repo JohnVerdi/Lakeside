@@ -54,22 +54,20 @@
             </div>
             <div class="star-rating" ng-if="property.rating_average > 0">
                 <div class="rating-stars" star-rating rating-value="property.rating_average" data-max="5"></div>
-                <span class="rating-count" ng-bind="property.rating_count | pluralizeRating"></span>
-
-                <?php if($use_favorites): ?>
-                <a ng-if="!checkFavorites(property)" class="btn-fav" ng-click="addToFavorites(property)" data-toggle="tooltip" data-placement="right" title="Add to favorites">
-                    <i class="fa fa-heart-o"></i>
-                </a>
-                
-                <a ng-if="checkFavorites(property)" class="btn-fav" ng-click="removeFromFavorites(property)" data-toggle="tooltip" data-placement="right" title="Remove from favorites">
-                    <i class="fa fa-heart"></i>
-                </a>
-                <?php endif; ?>
-
+                <span class="rating-count" ng-bind="property.rating_count | pluralizeRating"></span>            
             </div>
             <div class="star-rating" ng-if="property.rating_average == 0">
                 <span><?php _e( 'No rating available', 'streamline-core' ) ?></span>
             </div>
+            <?php if($use_favorites): ?>
+            <a ng-if="!checkFavorites(property)" class="btn-fav" ng-click="addToFavorites(property)" data-toggle="tooltip" data-placement="right" title="Add to favorites">
+                <i class="fa fa-heart-o"></i>
+            </a>
+            
+            <a ng-if="checkFavorites(property)" class="btn-fav" ng-click="removeFromFavorites(property)" data-toggle="tooltip" data-placement="right" title="Remove from favorites">
+                <i class="fa fa-heart"></i>
+            </a>
+            <?php endif; ?>
             <p>
                 <?php _e( 'Beds:', 'streamline-core' ) ?> <strong ng-bind="property.bedrooms_number"></strong>&nbsp;&nbsp;
                 <?php _e( 'Baths:', 'streamline-core' ) ?> <strong ng-bind="property.bathrooms_number"></strong>&nbsp;&nbsp;

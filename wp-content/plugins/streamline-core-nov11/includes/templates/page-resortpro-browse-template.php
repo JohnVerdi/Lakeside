@@ -8,31 +8,37 @@
  * @package    ResortPro
  * @since      v1.0
  */
-$options = StreamlineCore_Settings::get_options();
 ?>
-<div id="primary" class="content-area" ng-controller="PropertyController as pCtrl" ng-cloak>
-    <div>
-        <main id="main" class="site-main" role="main"
-              ng-init="<?php echo $method ?>">
+<div id="primary" class="content-area" ng-controller="PropertyController as pCtrl">
+    <div ng-init="<?php echo $scope_params; ?>">
+        <main id="main" class="site-main" role="main" ng-init="<?php echo $method ?>">
 
             <div class="row">
-                <div class="loading" ng-show="loading">
-                    <i class="fa fa-circle-o-notch fa-spin"></i> <?php _e( 'Loading...', 'streamline-core' ) ?>
-                </div>
 
-                <div ng-if="results.length == 0" ng-cloak>
-                    <div class="alert alert-danger">
-                        <p><?php _e( 'Unable to find any listings.', 'streamline-core' ) ?></p>
-                    </div>
+                <?php if (is_active_sidebar('top_shortcode_widget')): ?>
+                  <div class="col-md-12">
+                    <?php dynamic_sidebar('top_shortcode_widget'); ?>
+                  </div>
+                <?php endif; ?>
+
+                <div class="col-md-12">
+                  <div class="loading" ng-show="loading">
+                      <i class="fa fa-circle-o-notch fa-spin"></i> <?php _e( 'Loading...', 'streamline-core' ) ?>
+                  </div>
+
+                  <div ng-if="results.length == 0" ng-cloak>
+                      <div class="alert alert-danger">
+                          <p><?php _e( 'Unable to find any listings.', 'streamline-core' ) ?></p>
+                      </div>
+                  </div>
                 </div>
 
                 <div class="col-md-12">
 
-                    <div class="row" ng-init="sortBy='<?php echo $sorted_by; ?>'">
+                  <div class="row" ng-init="sortBy='<?php echo $sorted_by; ?>'">
 
-                        <?php if($options['property_show_sorting_options']): ?>
-
-                            <div class="col-md-12">
+                  <?php if($options['property_show_sorting_options']): ?>
+                    <div class="col-md-12">
                                 <div class="row row-sort">
 
                                     <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10" ng-init="sortBy='<?php echo $sorted_by; ?>'">
@@ -74,19 +80,17 @@ $options = StreamlineCore_Settings::get_options();
                                     </div>
                                 </div>
                             </div>
-                        <?php endif; ?>
+                  <?php endif; ?>
 
-                        <div class="listings_wrapper_box">
-                            <div class="listings_wrapper_box" ng-init="limit = 1000">
-                                <div ng-repeat="property in propertiesObj | orderBy: customSorting : sort | limitTo: limit as results">
-                                <?php include $template; ?>
-                                </div>
-                            <div class="clearfix"></div>
-                        </div>
-
+                  <div class="listings_wrapper_box">
+                    <div class="listings_wrapper_box" ng-init="limit = 1000">
+                      <div ng-repeat="property in propertiesObj | orderBy: customSorting : sort | limitTo: limit as results">
+                        <?php include $template; ?>
+                      </div>
+                      <div class="clearfix"></div>
                     </div>
-                </div>
-                <div class="clearfix"></div>
+                  </div>
+              </div>
             </div>
         </main>
         <div class="modal fade" id="myModal2" tabindex="-2" role="dialog" aria-labelledby="myModalLabel2">
@@ -111,7 +115,7 @@ $options = StreamlineCore_Settings::get_options();
                                                    ng-required="true"
                                                    ng-model="inquiry.first_name"/>
                                             <div ng-show="resortpro_inquiry.$submitted || resortpro_inquiry.inquiry_first_name.$touched">
-                                                <span class="error" ng-show="resortpro_inquiry.inquiry_first_name.$error.required" ng-bind="<?php _e( 'First name is required.', 'streamline-core' ) ?>"></span>
+                                                <span class="error" ng-show="resortpro_inquiry.inquiry_first_name.$error.required" ng-bind="'<?php _e( 'First name is required.', 'streamline-core' ) ?>'"></span>
 
                                             </div>
                                         </div>
@@ -123,7 +127,7 @@ $options = StreamlineCore_Settings::get_options();
                                                    ng-required="true"
                                                    ng-model="inquiry.last_name"/>
                                             <div ng-show="resortpro_inquiry.$submitted || resortpro_inquiry.inquiry_last_name.$touched">
-                                                <span class="error" ng-show="resortpro_inquiry.inquiry_last_name.$error.required" ng-bind="<?php _e( 'Last name is required.', 'streamline-core' ) ?>"></span>
+                                                <span class="error" ng-show="resortpro_inquiry.inquiry_last_name.$error.required" ng-bind="'<?php _e( 'Last name is required.', 'streamline-core' ) ?>'"></span>
 
                                             </div>
                                         </div>
@@ -140,8 +144,8 @@ $options = StreamlineCore_Settings::get_options();
                                                    ng-required="true"
                                                    ng-model="inquiry.email"/>
                                             <div ng-show="resortpro_inquiry.$submitted || resortpro_inquiry.inquiry_email.$touched">
-                                                <span class="error" ng-show="resortpro_inquiry.inquiry_email.$error.required && resortpro_inquiry.inquiry_phone.$error.required" ng-bind="<?php _e( 'Email or phone is required.', 'streamline-core' ) ?>"></span>
-                                                <span class="error" ng-show="resortpro_inquiry.inquiry_email.$error.email" ng-bind="<?php _e( 'This is not a valid email.', 'streamline-core' ) ?>"></span>
+                                                <span class="error" ng-show="resortpro_inquiry.inquiry_email.$error.required && resortpro_inquiry.inquiry_phone.$error.required" ng-bind="'<?php _e( 'Email or phone is required.', 'streamline-core' ) ?>'"></span>
+                                                <span class="error" ng-show="resortpro_inquiry.inquiry_email.$error.email" ng-bind="'<?php _e( 'This is not a valid email.', 'streamline-core' ) ?>'"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -152,7 +156,7 @@ $options = StreamlineCore_Settings::get_options();
                                                    ng-required="true"
                                                    ng-model="inquiry.phone"/>
                                             <div ng-show="resortpro_inquiry.$submitted || resortpro_inquiry.inquiry_phone.$touched">
-                                                <span class="error" ng-show="resortpro_inquiry.inquiry_email.$error.required && resortpro_inquiry.inquiry_phone.$error.required" ng-bind="<?php _e( 'Phone or email is required.', 'streamline-core' ) ?>"></span>
+                                                <span class="error" ng-show="resortpro_inquiry.inquiry_email.$error.required && resortpro_inquiry.inquiry_phone.$error.required" ng-bind="'<?php _e( 'Phone or email is required.', 'streamline-core' ) ?>'"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -169,7 +173,7 @@ $options = StreamlineCore_Settings::get_options();
                                                    ng-required="true"
                                                    ng-model="inquiry.startDate"/>
                                             <div ng-show="resortpro_inquiry.$submitted || resortpro_inquiry.inquiry_startdate.$touched">
-                                                <span class="error" ng-show="resortpro_inquiry.inquiry_startdate.$error.required" ng-bind="<?php _e( 'Checkin is required.', 'streamline-core' ) ?>"></span>
+                                                <span class="error" ng-show="resortpro_inquiry.inquiry_startdate.$error.required" ng-bind="'<?php _e( 'Checkin is required.', 'streamline-core' ) ?>'"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-xs-6 col-sm-6">
@@ -181,7 +185,7 @@ $options = StreamlineCore_Settings::get_options();
                                                    ng-model="inquiry.endDate"/>
 
                                             <div ng-show="resortpro_inquiry.$submitted || resortpro_inquiry.inquiry_enddate.$touched">
-                                                <span class="error" ng-show="resortpro_inquiry.inquiry_enddate.$error.required" ng-bind="<?php _e( 'Checkout is required.', 'streamline-core' ) ?>"></span>
+                                                <span class="error" ng-show="resortpro_inquiry.inquiry_enddate.$error.required" ng-bind="'<?php _e( 'Checkout is required.', 'streamline-core' ) ?>'"></span>
                                             </div>
                                         </div>
                                     </div>

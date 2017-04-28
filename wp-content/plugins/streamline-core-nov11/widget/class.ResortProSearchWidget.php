@@ -514,202 +514,243 @@ class ResortProSearchWidget extends WP_Widget
             $replacements['guests_pets_field'] = ResortPro::dropdown("resortpro_sw_pets", ResortPro::range(0, $max_value), $this->is_var_set('pets', 'intval'), $zero_option);
         }
         if (strpos($template, "%number_bedrooms_field%") !== false) {
-            
-            $label = $instance['number_bedrooms-label'];
-            if(!empty($label))
-                $zero_option = array("", $label);
+          $options = array();
+          $label = $instance['number_bedrooms-label'];
+          if(!empty($label))
+              $zero_option = array("", $label);
 
-            $bedrooms = StreamlineCore_Wrapper::get_bedrooms();
-        
-            if(!empty($label))
-                $options = array("" => $label);
-            
-            foreach ($bedrooms as $bedroom){                
-                if(strpos($bedroom->name, 'N/A') === false){
-                    $options[(int)$bedroom->value] = (string)$bedroom->name;    
-                }                
+          $bedrooms = StreamlineCore_Wrapper::get_bedrooms();
+
+          if(!empty($label)){
+            $options = array("" => $label);
+          }
+
+          if(!empty($bedrooms)){
+            foreach ($bedrooms as $bedroom){
+              if(strpos($bedroom->name, 'N/A') !== false){
+                  $options[(int)$bedroom->value] = 'Studio';
+              }else{
+                  $options[(int)$bedroom->value] = (string)$bedroom->name;
+              }
             }
-            
-            $replacements['number_bedrooms_field'] = ResortPro::dropdown("resortpro_sw_bedrooms_number", $options, $this->is_var_set('value', 'intval' ) );
+          }
+
+          $replacements['number_bedrooms_field'] = ResortPro::dropdown("resortpro_sw_bedrooms_number", $options, $this->is_var_set('value', 'intval' ) );
         }
         if (strpos($template, "%unit_field%") !== false) {
-            $replacements['unit_field'] = '<input type="text" id="resortpro_sw_lodging_unit" placeholder="'.$instance['unit-label'].'"  name="resortpro_sw_lodging_unit" class="resortpro_sw-date form-control" value="' . $this->is_var_set('resortpro_sw_lodging_unit', 'htmlspecialchars' ) . '">';
-            if ($label = $this->_label($instance['unit-label']))
-                $replacements['unit_field'] = "<label class='resortpro-input'><span>$label</span>{$replacements['unit_field']}</label>";
+          $replacements['unit_field'] = '<input type="text" id="resortpro_sw_lodging_unit" placeholder="'.$instance['unit-label'].'"  name="resortpro_sw_lodging_unit" class="resortpro_sw-date form-control" value="' . $this->is_var_set('resortpro_sw_lodging_unit', 'htmlspecialchars' ) . '">';
+          if ($label = $this->_label($instance['unit-label']))
+            $replacements['unit_field'] = "<label class='resortpro-input'><span>$label</span>{$replacements['unit_field']}</label>";
         }
         if (strpos($template, "%code_field%") !== false) {
-            $replacements['code_field'] = '<input type="text" id="resortpro_sw_lodging_code" placeholder="'.$instance['code-label'].'" name="resortpro_sw_lodging_code" class="resortpro_sw-date form-control" value="' . $this->is_var_set('resortpro_sw_lodging_code', 'htmlspecialchars' ) . '">';
-            if ($label = $this->_label($instance['code-label']))
-                $replacements['code_field'] = "<label class='resortpro-input'><span>$label</span>{$replacements['code_field']}</label>";
+          $replacements['code_field'] = '<input type="text" id="resortpro_sw_lodging_code" placeholder="'.$instance['code-label'].'" name="resortpro_sw_lodging_code" class="resortpro_sw-date form-control" value="' . $this->is_var_set('resortpro_sw_lodging_code', 'htmlspecialchars' ) . '">';
+          if ($label = $this->_label($instance['code-label']))
+            $replacements['code_field'] = "<label class='resortpro-input'><span>$label</span>{$replacements['code_field']}</label>";
         }
         if (strpos($template, "%sorting_order_field%") !== false) {
-            $replacements['sorting_order_field'] = "<input type='hidden' name='resortpro_sw_filter' value='{$instance['sorting_order-by']}' />";
+          $replacements['sorting_order_field'] = "<input type='hidden' name='resortpro_sw_filter' value='{$instance['sorting_order-by']}' />";
         }
         if (strpos($template, "%lodging_type_field%") !== false) {
-            $options = array(0 => __( 'Lodging Types', 'streamline-core' ), 3 => __( 'Homes', 'streamline-core' ), "1" => __( 'Resorts', 'streamline-core' ));
-            $replacements['lodging_type_field'] = ResortPro::dropdown("resortpro_sw_lodging_type_id", $options, $_REQUEST['lodging_type_id'], null);
+          $options = array(0 => __( 'Lodging Types', 'streamline-core' ), 3 => __( 'Homes', 'streamline-core' ), "1" => __( 'Resorts', 'streamline-core' ));
+          $replacements['lodging_type_field'] = ResortPro::dropdown("resortpro_sw_lodging_type_id", $options, $_REQUEST['lodging_type_id'], null);
         }
         if (strpos($template, "%bedroom_type_field%") !== false) {
 
-            $arr_filter_location_areas = StreamlineCore_Settings::get_options( 'filter_location_areas' );
-            
-            $arr_areas = array();
+          $arr_filter_location_areas = StreamlineCore_Settings::get_options( 'filter_location_areas' );
+
+          $arr_areas = array();
+          $options = array();
+          if(!empty($arr_filter_location_areas)){
             foreach($arr_filter_location_areas as $id => $value){
-                $arr_areas[] = $id;
+              $arr_areas[] = $id;
             }
+          }
 
-            $params = array();
-            if(count($arr_areas) > 0)
-                $params['location_area_id_filter'] = implode( ',', $arr_areas);
+          $params = array();
+          if(!empty($arr_areas)){
+            $params['location_area_id_filter'] = implode( ',', $arr_areas);
+          }
 
-            $beds = StreamlineCore_Wrapper::get_bedroom_types($params);
+          $beds = StreamlineCore_Wrapper::get_bedroom_types($params);
 
-            
-            $arr_skip_units = explode( ',', StreamlineCore_Settings::get_options( 'property_delete_units' ) );
+          $arr_skip_units = explode( ',', StreamlineCore_Settings::get_options( 'property_delete_units' ) );
 
-            
+          if(!empty($beds)){
             foreach ($beds as $bed){
-                if (!in_array($bed->id, $arr_skip_units))
-                    $options[(int)$bed->id] = (string)$bed->property_name;
+              if (!in_array($bed->id, $arr_skip_units)){
+                $options[(int)$bed->id] = (string)$bed->property_name;
+              }
             }
+          }
 
-            $label = $instance['bedroom_type-label'];
-            if(!empty($label))
-                $zero_option = array("", $label);
+          $label = $instance['bedroom_type-label'];
+          if(!empty($label))
+            $zero_option = array("", $label);
 
-            $replacements['bedroom_type_field'] = ResortPro::dropdown("resortpro_sw_bed", $options, $this->is_var_set('resortpro_sw_bed', 'intval'), $zero_option);
+          $replacements['bedroom_type_field'] = ResortPro::dropdown("resortpro_sw_bed", $options, $this->is_var_set('resortpro_sw_bed', 'intval'), $zero_option);
         }
         if (strpos($template, "%area_field%") !== false) {
-            $areas = StreamlineCore_Wrapper::get_location_areas();
-            $label = $instance['area-label'];
+          $areas = StreamlineCore_Wrapper::get_location_areas();
+          $label = $instance['area-label'];
+          $options = array();
 
-            if(!empty($label))
-                $options = array("" => $label);
+          if(!empty($label)){
+            $options = array("" => $label);
+          }
 
-            foreach ($areas as $area)
-                $options[(int)$area->id] = (string)$area->name;
+          if(!empty($areas)){
+            foreach ($areas as $area){
+              $options[(int)$area->id] = (string)$area->name;
+            }
+          }
 
-            $replacements['area_field'] = ResortPro::dropdown("resortpro_sw_area", $options, $this->is_var_set('area_id', 'intval' ) );
+          $replacements['area_field'] = ResortPro::dropdown("resortpro_sw_area", $options, $this->is_var_set('area_id', 'intval' ) );
         }
         if (strpos($template, "%neighborhood_field%") !== false) {
-            $neighborhoods = StreamlineCore_Wrapper::get_neighborhoods();
+          $neighborhoods = StreamlineCore_Wrapper::get_neighborhoods();
+          $options = array();
+          $label = $instance['neighborhood-label'];
 
-            $label = $instance['neighborhood-label'];
+          if(!empty($label)){
+            $options = array("" => $label);
+          }
 
-            if(!empty($label))
-                $options = array("" => $label);
+          if(!empty($neighborhoods)){
+            foreach ($neighborhoods as $neighborhood){
+              $options[(int)$neighborhood->id] = (string)$neighborhood->name;
+            }
+          }
 
-            //$options = array(0 => "All Neighborhoods");
-            foreach ($neighborhoods as $neighborhood)
-                $options[(int)$neighborhood->id] = (string)$neighborhood->name;
-            $replacements['neighborhood_field'] = ResortPro::dropdown("resortpro_sw_neighborhood_id", $options, $this->is_var_set('neighborhood_area_id', 'intval' ) );
+          $replacements['neighborhood_field'] = ResortPro::dropdown("resortpro_sw_neighborhood_id", $options, $this->is_var_set('neighborhood_area_id', 'intval' ) );
         }
         if (strpos($template, "%view_name_field%") !== false) {
-            $viewnames = StreamlineCore_Wrapper::get_view_names();
-            //$options = array(0 => "Search Views");
+          $viewnames = StreamlineCore_Wrapper::get_view_names();
+          $options = array();
 
-            $label = $instance['view_name-label'];
+          $label = $instance['view_name-label'];
 
-            if(!empty($label))
-                $options = array("" => $label);
+          if(!empty($label)){
+            $options = array("" => $label);
+          }
 
-            foreach ($viewnames as $viewname)
-                $options[(string)$viewname->name] = (string)$viewname->name;
+          if(!empty($viewnames)){
+            foreach ($viewnames as $viewname){
+              $options[(string)$viewname->name] = (string)$viewname->name;
+            }
+          }
 
-            $replacements['view_name_field'] = ResortPro::dropdown("resortpro_sw_view_name", $options, $this->is_var_set('view_name', 'htmlspecialchars' ) );
+          $replacements['view_name_field'] = ResortPro::dropdown("resortpro_sw_view_name", $options, $this->is_var_set('view_name', 'htmlspecialchars' ) );
         }
 
         if (strpos($template, "%group_type_field%") !== false) {
-            $groups = StreamlineCore_Wrapper::get_group_types();
-            //$options = array(0 => "Search Group Types");
+          $groups = StreamlineCore_Wrapper::get_group_types();
+          $options = array();
 
-            $label = $instance['group_type-label'];
+          $label = $instance['group_type-label'];
 
-            if(!empty($label))
-                $options = array("" => $label);
+          if(!empty($label)){
+            $options = array("" => $label);
+          }
 
-            foreach ($groups as $group)
-                $options[(int)$group->id] = (string)$group->name;
-            if (function_exists("resortpro_filter_group_types"))
-                $options = resortpro_filter_group_types($options);
-            $replacements['group_type_field'] = ResortPro::dropdown("resortpro_sw_grp", $options, $this->is_var_set('group_id', 'intval' ) );
+          if(!empty($groups)){
+            foreach ($groups as $group){
+              $options[(int)$group->id] = (string)$group->name;
+            }
+          }
+
+          if (function_exists("resortpro_filter_group_types"))
+              $options = resortpro_filter_group_types($options);
+          $replacements['group_type_field'] = ResortPro::dropdown("resortpro_sw_grp", $options, $this->is_var_set('group_id', 'intval' ) );
         }
 
         if (strpos($template, "%home_type_field%") !== false) {
-            $types = StreamlineCore_Wrapper::get_home_types();
-            //$options = array(0 => "All Home Types");
+          $types = StreamlineCore_Wrapper::get_home_types();
+          $options = array();
 
-            $label = $instance['home_type-label'];
+          $label = $instance['home_type-label'];
 
-            if(!empty($label))
-                $options = array("" => $label);
+          if(!empty($label)){
+            $options = array("" => $label);
+          }
 
-            foreach ($types as $type)
-                $options[(int)$type->id] = (string)$type->name;
-            $replacements['home_type_field'] = ResortPro::dropdown("resortpro_sw_home_type_id", $options, $this->is_var_set('property_type_id', 'intval' ) );
+          if(!empty($types)){
+            foreach ($types as $type){
+              $options[(int)$type->id] = (string)$type->name;
+            }
+          }
+
+          $replacements['home_type_field'] = ResortPro::dropdown("resortpro_sw_home_type_id", $options, $this->is_var_set('property_type_id', 'intval' ) );
         }
 
         if (strpos($template, "%location_field%") !== false) {
             $locations = StreamlineCore_Wrapper::get_locations();
-            //$options = array(0 => "Search All");
+            $options = array();
 
 
             $label = $instance['location-label'];
 
-            if(!empty($label))
-                $options = array("" => $label);
+            if(!empty($label)){
+              $options = array("" => $label);
+            }
 
-            foreach ($locations as $location)
+            if(!empty($locations)){
+              foreach ($locations as $location){
                 $options[(int)$location->id] = (string)$location->name;
+              }
+            }
+
             $replacements['location_field'] = ResortPro::dropdown("resortpro_sw_loc", $options, $this->is_var_set('location_id', 'intval' ) );
         }
         if (strpos($template, "%location_resort_field%") !== false) {
-            $locationresorts = StreamlineCore_Wrapper::get_location_resorts();
-            //$options = array(0 => "All Locations");
+          $locationresorts = StreamlineCore_Wrapper::get_location_resorts();
+          $options = array();
 
-            $label = $instance['location_resort-label'];
+          $label = $instance['location_resort-label'];
 
-            if(!empty($label))
-                $options = array("" => $label);
+          if(!empty($label)){
+            $options = array("" => $label);
+          }
 
-            foreach ($locationresorts as $locationresort)
-                $options[(int)$locationresort->id] = (string)$locationresort->name;
-            $replacements['location_resort_field'] = ResortPro::dropdown("resortpro_sw_ra_id", $options, $this->is_var_set('resort_area_id', 'intval' ) );
+          if(!empty($locationresorts)){
+            foreach ($locationresorts as $locationresort){
+              $options[(int)$locationresort->id] = (string)$locationresort->name;
+            }
+          }
+
+          $replacements['location_resort_field'] = ResortPro::dropdown("resortpro_sw_ra_id", $options, $this->is_var_set('resort_area_id', 'intval' ) );
         }
 
-        if (strpos($template,"%amenities_field%")!==false)
-        {
+        if (strpos($template,"%amenities_field%")!==false){
+          $amenities = StreamlineCore_Wrapper::get_amenity_filters();
 
-            $amenities = StreamlineCore_Wrapper::get_amenity_filters();
+          $html = '';
+          $a_groups = array();
+          foreach ($amenities as $amenity) {
 
-            $html = '';
-            $a_groups = array();
-            foreach ($amenities as $amenity) {
-                
-                if (isset($amenity['group_name']) && !in_array($amenity['group_name'], $a_groups)) {
-                    $a_groups[] = $amenity['group_name'];
-                }
-            }
+              if (isset($amenity['group_name']) && !in_array($amenity['group_name'], $a_groups)) {
+                  $a_groups[] = $amenity['group_name'];
+              }
+          }
 
-            foreach ($a_groups as $group) {
-                $html .= ' <div class="col-md-12 amenity_group" style="margin-bottom:24px">
-                        <label>'.$group.'</label><br />';
+          foreach ($a_groups as $group) {
+              $html .= ' <div class="col-md-12 amenity_group" style="margin-bottom:24px">
+                      <label>'.$group.'</label><br />';
 
-                foreach ($amenities as $amenity) {
-                    if ($group == $amenity['group_name']) {
-                        $html .= '<input type="checkbox" name="resortpro_sw_amenities[]" value="'.$amenity['id'].'"  /> ' . $amenity['name'] . '<br />';
-                    }
-                }
-                $html .= '</div>';
-            }
+              foreach ($amenities as $amenity) {
+                  if ($group == $amenity['group_name']) {
+                      $html .= '<input type="checkbox" name="resortpro_sw_amenities[]" value="'.$amenity['id'].'"  /> ' . $amenity['name'] . '<br />';
+                  }
+              }
+              $html .= '</div>';
+          }
 
-            $replacements['amenities_field'] = $html;
+          $replacements['amenities_field'] = $html;
         }
 
         $replacements['submit_button'] = '';
         $replacements['submit_button_label'] = '';
         $replacements['submit_button_field'] = "<button class=\"{$instance['submit_button-class']}\" type=\"submit\">{$instance['submit_button-text']}</button>";
-if( function_exists('kickout') ) kickout( 'instance', $instance );
+        if( function_exists('kickout') ) kickout( 'instance', $instance );
         $replacements['viewall_button_field'] = "<a class=\"{$instance['viewall_button-class']}\" href=\"{$instance['viewall_button-url']}\">{$instance['viewall_button-text']}</a>";
 
         foreach ($replacements as $key => $value)
@@ -719,7 +760,7 @@ if( function_exists('kickout') ) kickout( 'instance', $instance );
 
     private function _label($label, $default = '')
     {
-        return (substr($label, 0, 1) == '!') ? substr($label, 1) : $default;
+      return (substr($label, 0, 1) == '!') ? substr($label, 1) : $default;
     }
 
     private function is_var_set( $var = '', $sanitize_callback = '' ){
@@ -730,9 +771,8 @@ if( function_exists('kickout') ) kickout( 'instance', $instance );
     			return call_user_func ( $sanitize_callback, $_REQUEST[ $var ] );
 
     		return $_REQUEST[ $var ];
-
     	}
 
-    	return ''; // $_REQUEST[ $var ] is not set
+    	return '';
     }
 }

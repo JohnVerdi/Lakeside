@@ -1,6 +1,3 @@
-<pre>
-<!--    --><?php //print_r($property) ;exit;?>
-</pre>
 <div class="container" >
     <ol class="breadcrumb">
         <li><a href="/"><?php _e( 'Home', 'streamline-core' ) ?></a></li>

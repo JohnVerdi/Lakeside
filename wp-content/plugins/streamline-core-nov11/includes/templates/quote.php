@@ -11,7 +11,7 @@
 
 ?>
 <div id="customQuote">
-	<div class="container-fluid">
+	<div class="customQuote-top">
 		<div class="well sticky" data-top-spacing="0" data-bottom-spacing="0">
 			<div class="row">
 				<div class="col-md-12">
@@ -28,7 +28,10 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<strong><?php _e('Guests', 'streamline-core'); ?>:</strong> <?php echo "{$reservations_quote['data']['occupants']}" ?>
+					<strong><?php _e('Adults', 'streamline-core'); ?>:</strong> <?php echo "{$reservations_quote['data']['occupants']}" ?>
+					<?php if($reservations_quote['data']['occupants_small'] > 0): ?>
+						| <strong><?php _e('Children', 'streamline-core'); ?>:</strong> <?php echo "{$reservations_quote['data']['occupants_small']}" ?>
+					<?php endif; ?>
 				</div>
 				<div class="col-md-8">
 					<strong><?php _e('Total Nights', 'streamline-core'); ?>:</strong> <?php echo "{$reservations_quote['data']['days_number']}" ?>
@@ -204,15 +207,15 @@
 
 
     <div class="row unitListing">
-        <div class="col-md-12">
+
             <div class="col-md-12">
                 <h2>
                 <?php echo $reservation['location_name']; ?>
                 <?php if (!empty($reservation['max_occupants'])) { ?>
                 <em> | </em> <span><?php _e('Sleeps', 'streamline-core'); ?> <?php echo $reservation['max_occupants']; ?></span><?php } ?>
                 </h2>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="unitThumbnail"
                      style="background-image:url('<?php echo $reservation['default_thumbnail_path']; ?>');"><a
                         href="javascript:void(0);" id="activateLightbox_<?php echo $reservation['id']; ?>"></a></div>
@@ -237,7 +240,9 @@
                     echo "</p>\n";
                 }
 
-                echo "<p>{$reservation['short_description']}</p>";
+								if(!empty($reservation['short_description'])){
+                	echo "<p>{$reservation['short_description']}</p>";
+								}
                 if ( count( $reservation['unit_amenities']['amenity'] ) > 0) {
                     $arr_primary_amenities = array(
                         __( 'Private Jacuzzi', 'streamline-core'),
@@ -301,16 +306,16 @@
 
                         <ul class="ccards">
                             <?php if ( (int)$options['property_card_type_visa'] === 1 ) : ?>
-                            	<li class="visa"><?php _e('Visa', 'streamline-core'); ?></li>
+                                <li class="visa"><?php _e('Visa', 'streamline-core'); ?></li>
                             <?php endif;?>
                             <?php if ( (int)$options['property_card_type_master_card'] === 1 ) : ?>
-                           		<li class="mastercard"><?php _e('MasterCard', 'streamline-core'); ?></li>
+                                <li class="mastercard"><?php _e('MasterCard', 'streamline-core'); ?></li>
                             <?php endif;?>
                             <?php if ( (int)$options['property_card_type_amex'] === 1 ) : ?>
-                            	<li class="amex"><?php _e('American Express', 'streamline-core'); ?></li>
+                                <li class="amex"><?php _e('American Express', 'streamline-core'); ?></li>
                             <?php endif;?>
                             <?php if ( (int)$options['property_card_type_discover'] === 1 ) : ?>
-                            	<li class="discover"><?php _e('Discover', 'streamline-core'); ?></li>
+                                <li class="discover"><?php _e('Discover', 'streamline-core'); ?></li>
                             <?php endif;?>
                         </ul>
 
@@ -325,7 +330,8 @@
                     <input type="hidden" value="<?php echo $reservations_quote['data']['pets']; ?>" name="pets">
                 </form>
             </div>
-        </div>
+                </div>
+            </div>
     </div>
 
 <?php

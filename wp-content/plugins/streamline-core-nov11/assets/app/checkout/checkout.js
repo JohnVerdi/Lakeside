@@ -38,6 +38,8 @@
       $scope.protectionError = false;
       $scope.confirmationId = 0;
       $scope.referrer_url = '';
+      $scope.pbgEnabled = false;
+      $scope.optionalItems = '';
 
       // load year drop down
       var year = new Date().getFullYear();
@@ -93,10 +95,10 @@
       $scope.calculateMarkup = function(strPrice){
         var price = parseInt(strPrice.replace('$','').replace(',',''));
         if($rootScope.rateMarkup > 0){
-          var pct = 1 + (parseInt($rootScope.rateMarkup) / 100);                  
-          price = price * pct;                
+          var pct = 1 + (parseInt($rootScope.rateMarkup) / 100);
+          price = price * pct;
         }
-        
+
         return price;
       }
 
@@ -204,9 +206,14 @@
       $scope.addToReservation = function () {
         jQuery(".addOn:checked").each(function (index) {
           if (jQuery(this).prop('checked')) {
-            //params['optional_fee_' + jQuery(this).val()] = 'yes';
-
             jQuery('#optional-fee-' + jQuery(this).val()).prop('checked', true);
+
+            var qty = parseInt(jQuery('#qty-optional-fee-' + jQuery(this).val()).val());
+            if(!isNaN(qty)){
+              jQuery('#label-qty-' + jQuery(this).val()).html(' x ' + jQuery('#qty-optional-fee-' + jQuery(this).val()).val());
+            }else{
+              jQuery('#label-qty-' + jQuery(this).val()).html('');
+            }
           }
         });
 
@@ -257,10 +264,12 @@
           jQuery('#step3').collapse('hide');
       };
 
-      $scope.goToStep2 = function(){
+      $scope.goToStep2 = function(isPbg){
+
+        $scope.pbgEnabled = isPbg;
 
         if($scope.formStep1.$valid){
-          if($rootScope.checkoutSettings && $rootScope.checkoutSettings.createLeads == 1 && !$scope.confirmationId > 0){
+          if(!$scope.hash && $rootScope.checkoutSettings && $rootScope.checkoutSettings.createLeads == 1 && !$scope.confirmationId > 0){
             //create lead
             var params = {
               not_blocked_request: 'yes',
@@ -281,7 +290,7 @@
 
             if($scope.referrer_url != '')
               params['referrer_url'] = $scope.referrer_url;
-            
+
             if($rootScope.roomTypeLogic == 1){
               params['use_room_type_logic'] = 1;
               params['condo_type_id'] = $scope.checkout.condo_type_id;
@@ -326,6 +335,10 @@
 
           $scope.protectionError = false;
           $scope.goToStepThree();
+
+          if($scope.pbgEnabled){
+            PBG.onReady();
+          }
         }else{
 
           $scope.protectionError = true;
@@ -339,9 +352,56 @@
       }
 
       $scope.validateStep3 = function(checkout){
-
         if($scope.formStep3.$valid){
           $scope.processCheckout(checkout);
+        }
+      };
+
+      $scope.validatePaymentForm = function(checkout){
+
+        if($scope.formStep3.$valid){
+          if(parseFloat($scope.checkout.price_balance) < parseFloat($scope.checkout.payment_amount)){
+            alert("Please enter payment amount lower than the price balance");
+            return false;
+          }
+          run_waitMe('#step3', 'bounce', 'Processing your request');
+          var params = {
+            first_name: checkout.fname,
+            last_name: checkout.lname,
+            email: checkout.email,
+            address: checkout.address,
+            address2: checkout.address2,
+            city: checkout.city,
+            zip: checkout.postal_code,
+            state_name: checkout.state,
+            country_name: checkout.country,
+            confirmation_id : checkout.confirmation_id,
+            payment_amount: checkout.payment_amount
+          };
+
+          if(checkout.card_type < 5){
+            params['payment_type_id'] = 1;
+            params['credit_card_type_id'] = checkout.card_type;
+            params['credit_card_number'] = checkout.card_number;
+            params['credit_card_expiration_month'] = checkout.expire_month;
+            params['credit_card_expiration_year'] = checkout.expire_year;
+            params['credit_card_cid'] = checkout.card_cvv;
+          }else{
+            params['payment_type_id'] = 33; //echeck
+            params['bank_account_number'] = checkout.bank_account_number;
+            params['bank_routing_number'] = checkout.bank_routing_number;
+            params['bank_account_holder_name'] = checkout.bank_account_holder_name;
+          }
+
+          rpapi.getWithParams('AddReservationPayment', params).success(function (obj) {
+            hide_waitMe('#step3');
+
+            if (obj.data.message) {
+              Alert.add(Alert.infoType, obj.data.message);
+            } else{
+              Alert.add(Alert.errorType, 'Unknown error ocurred.');
+            }
+          });
         }
       };
 
@@ -354,7 +414,7 @@
 
           rpapi.getWithParams('GetReservationPrice', params).success(function (obj) {
             var res_price = obj.data;
-          
+
             if(res_price.optional_fees.id){
               resultData = [];
               resultData.push(res_price.optional_fees);
@@ -406,9 +466,9 @@
             });
 
             $scope.subTotal = $scope.calculateMarkup((obj.data.price + obj.data.coupon_discount).toString());
-            var dif = $scope.subTotal - obj.data.coupon_discount - obj.data.price;                            
+            var dif = $scope.subTotal - obj.data.coupon_discount - obj.data.price;
             $scope.taxesAndFees = total_taxes - dif;
-        
+
             if (res_price.reservation_id) {
               rpapi.getWithParams('GetReservationInfo', params).success(function (obj) {
                 var res_info = obj.data.reservation;
@@ -418,7 +478,7 @@
                 var params = {
                   startdate : res_info.startdate,
                   enddate : res_info.enddate,
-                  occupants : res_info.occupants,                  
+                  occupants : res_info.occupants,
                   use_room_type_logic : parseInt($rootScope.roomTypeLogic),
                   page_number : 1,
                   page_results_number : 1000
@@ -476,15 +536,14 @@
                   $scope.pets = res_info.pets;
 
                 $scope.reservationDetails = res_price;
+                $scope.reservationDetails.location_name = res_price.unit_name;
                 $scope.checkout.address = res_info.address1;
                 $scope.stepOneDisabled = false;
-                $scope.stepTwoDisabled = false;
 
                 $scope.getTermsAndConditions();
                 $scope.getPropertyInfo();
                 $scope.getCountries();
                 $scope.getStates();
-
               });
             }
           });
@@ -550,12 +609,23 @@
           params['coupon_code'] = $scope.checkout.promo_code;
 
         var arr_fees = [];
+        $scope.optionalItems == '';
         jQuery(".optional_fee:checked").each(function (index) {
           if (jQuery(this).prop('checked')) {
-            params['optional_fee_' + jQuery(this).val()] = 'yes';
+
+            var qty = parseInt(jQuery('#qty-optional-fee-' + jQuery(this).val()).val());
+
+            if(!isNaN(qty)){
+              params['optional_fee_' + jQuery(this).val()] = qty;
+            }else{
+              params['optional_fee_' + jQuery(this).val()] = 'yes';
+            }
+
             arr_fees.push(jQuery(this).val());
           }
         });
+
+        $scope.optionalItems = arr_fees.join(',');
 
         if ($scope.hash !== '') {
           params['hash'] = $scope.hash;
@@ -607,7 +677,7 @@
               total_taxes += fee.value;
             });
           }
-          
+
           $scope.subTotal = $scope.calculateMarkup((obj.data.price + obj.data.coupon_discount).toString());
 
           var dif = $scope.subTotal - obj.data.coupon_discount - obj.data.price;
@@ -633,16 +703,19 @@
               }
 
               obj.data.expected_charges = obj2.data.available_properties.property.expected_charges;
-              angular.forEach(obj.data.expected_charges, function(charge, i){                
-                
+              angular.forEach(obj.data.expected_charges, function(charge, i){
+
                 var strDate = charge.charge_date.split('/');
 
                 $scope.paymentLimit = strDate[2] + '-' + strDate[0] + '-' + strDate[1];
               });
             }
           });
-                
+
           $scope.reservationDetails = obj.data;
+
+          if($scope.reservationDetails.unit_name == 'Home')
+            $scope.reservationDetails.unit_name = obj.data.location_name;
 
           angular.forEach(obj.data.optional_fees, function (value, key) {
             if (value.damage_waiver == 1) {
@@ -729,13 +802,21 @@
           city: checkout.city,
           zip: checkout.postal_code,
           state_name: checkout.state,
-          country_name: checkout.country,
-          credit_card_number: checkout.card_number,
-          credit_card_expiration_month: checkout.expire_month,
-          credit_card_expiration_year: checkout.expire_year,
-          credit_card_type_id: checkout.card_type,
-          credit_card_cid: checkout.card_cvv
+          country_name: checkout.country
         };
+
+        if(checkout.card_type < 5){
+          params['credit_card_type_id'] = checkout.card_type;
+          params['credit_card_number'] = checkout.card_number;
+          params['credit_card_expiration_month'] = checkout.expire_month;
+          params['credit_card_expiration_year'] = checkout.expire_year;
+          params['credit_card_cid'] = checkout.card_cvv;
+        }else{
+          params['payment_type_id'] = 33; //echeck
+          params['bank_account_number'] = checkout.bank_account_number;
+          params['bank_routing_number'] = checkout.bank_routing_number;
+          params['bank_account_holder_name'] = checkout.bank_account_holder_name;
+        }
 
         if($rootScope.roomTypeLogic == 1){
           params['use_room_type_logic'] = 1;
@@ -752,7 +833,7 @@
           if($rootScope.bookingSettings.blockedRequest == 1)
             params['status_id'] = 10;
         }
-    
+
         if($scope.checkout && $scope.checkout.promo_code != '')
           params['coupon_code'] = $scope.checkout.promo_code;
 
@@ -764,16 +845,32 @@
 
         if($scope.referrer_url != '')
           params['referrer_url'] = $scope.referrer_url;
-    
+
         if($scope.confirmationId > 0)
           params['confirmation_id'] = $scope.confirmationId
 
+        var amenity_addons = [];
         jQuery(".optional_fee:checked").each(function (index) {
           if (jQuery(this).prop('checked')) {
-            params['optional_fee_' + jQuery(this).val()] = 'yes';
+
+            var qty = parseInt(jQuery('#qty-optional-fee-' + jQuery(this).val()).val());
+            if(!isNaN(qty)){
+              //params['optional_fee_' + jQuery(this).val()] = qty;
+              var amenity_addon = {
+                amenity_id : jQuery(this).val(),
+                amenity_quantity : qty
+              };
+              amenity_addons.push(amenity_addon);
+            }else{
+              params['optional_fee_' + jQuery(this).val()] = 'yes';
+            }
           }
         });
-      
+
+        if(amenity_addons.length > 0){
+          params['amenity_addon'] = amenity_addons;
+        }
+
         rpapi.getWithParams('MakeReservation', params).success(function (obj) {
           hide_waitMe('#step3');
 
@@ -781,6 +878,7 @@
             Alert.add(Alert.errorType, obj.status.description);
           } else {
             var res = obj.data.reservation;
+
             jQuery('#confirmation_id').val(res.confirmation_id);
             jQuery('#location_name').val(res.location_name);
             jQuery('#condo_type_name').val(res.condo_type_name);
@@ -793,11 +891,17 @@
             jQuery('#price_common').val(res.price_common);
             jQuery('#price_balance').val(res.price_balance);
             jQuery('#travelagent_name').val(res.travelagent_name);
-            jQuery('#email').val(res.email);
-            jQuery('#fname').val(res.fname);
-            jQuery('#lname').val(res.lname);
-            jQuery('#unit_id').val(res.unit_id);
-            jQuery('#form_thankyou').submit();
+            jQuery('#unit_name').val(res.unit_name);
+
+            rpapi.getWithParams('GetReservationInfo', {'confirmation_id': res.confirmation_id}).success(function (obj) {
+              var res_info = obj.data.reservation;
+
+              jQuery('#email').val(res_info.email);
+              jQuery('#fname').val(res_info.first_name);
+              jQuery('#lname').val(res_info.last_name);
+              jQuery('#unit_id').val(res_info.unit_id);
+              jQuery('#form_thankyou').submit();
+            });
           }
         });
       };

@@ -129,6 +129,7 @@ class ResortProFeaturedPropertyWidget extends WP_Widget
             $template = $this->default_template();
 
         foreach ($unit as $key=>$value){
+            $value = (is_array($value)) ? "" : $value;
             $template = str_replace("%$key%",$value,$template);
         }
 
