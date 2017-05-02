@@ -33,6 +33,12 @@
             {[total_reservation | currency:undefined:0]} <br>
             <span class="text" style="font-size: 0.6em"><?php _e( 'Including taxes and fees', 'streamline-core' ) ?></span>
         </h3>
+        <div class="discount-wrap">
+            <span ng-cloak ng-if="discount>0" class="text discount">
+            <?php _e( 'Your discount: ', 'streamline-core' ) ?>
+                <span>{[discount + '$']}</span>
+        </span>
+        </div>
 
         <div class="row">
             <div class="col-md-6">

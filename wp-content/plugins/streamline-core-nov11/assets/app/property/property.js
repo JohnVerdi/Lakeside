@@ -1129,6 +1129,7 @@
                 if (obj.data != undefined) {
                   var total_fees = 0;
                   var total_taxes = 0;
+                  $scope.discount = +obj.data.coupon_discount;
                   if(obj.data.required_fees.id){
                     total_fees = obj.data.required_fees.value;
                   }else{
@@ -1185,6 +1186,10 @@
 
                   $scope.totalRequiredExtras = (+$scope.totalRequiredExtras).toFixed(2);
                   $scope.totalTaxesAndFees = (+$scope.totalTaxesAndFees).toFixed(2);
+
+                  if( $scope.discount > 0 ){
+                    $scope.total_reservation -= $scope.discount;
+                  }
 
                   hide_waitMe('#resortpro-book-unit form');
                 }
