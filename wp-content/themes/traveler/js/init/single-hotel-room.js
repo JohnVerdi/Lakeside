@@ -258,23 +258,30 @@ jQuery(document).ready(function($) {
                     });
                 },
                 eventClick: function(event, element, view){
-                    var checkIn = $('#field-hotelroom-checkin'),
-                        checkOut = $('#field-hotelroom-checkout'),
-                        price = $('.price .text-lg'),
-                        date = new Date(event.date),
-                        checkInStatus = false;
+                    var date = new Date(event.date),
+                        $scope = angular.element($('#single-room')).scope();
 
-                    checkIn.datepicker( "setDate", date ); // set new input check in date
-                    if(checkInStatus){
-                        checkOutdatepicker( "setDate", date ); // set new input checkOut in date
-                        checkInStatus = false;
+                    if (event.status !== 'booked'){
+                        if(!self.flag){
+                            $scope.$apply(function () {
+                                $scope.book.checkin = getFormattedDate(date);
+                            });
+                        }else{
+                            $scope.$apply(function () {
+                                $scope.book.checkout = getFormattedDate(date);
+                            });
+                        }
+                        self.flag = !self.flag;
                     }
 
-                    checkInStatus = true;
-                    price.text(event.price);
-                    /*$('#calendar_price', self.form_container).val(event.price);
-                     $('#calendar_number', self.form_container).val(event.number);
-                     $('#calendar_status option[value='+event.date+']', self.form_container).prop('selected');*/
+                    function getFormattedDate(date) {
+                        var year = date.getFullYear();
+                        var month = (1 + date.getMonth()).toString();
+                        month = month.length > 1 ? month : '0' + month;
+                        var day = date.getDate().toString();
+                        day = day.length > 1 ? day : '0' + day;
+                        return month + '/' + day + '/' + year;
+                    }
                 },
                 eventRender: function(event, element, view){
                     var html = "";
