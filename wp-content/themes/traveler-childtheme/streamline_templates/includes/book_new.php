@@ -29,15 +29,20 @@
                 class="text"> <?php _e( 'Per Night', 'streamline-core' ) ?></span>
         </h3>
 
-        <h3 class="price" ng-show="res == 1 && total_reservation > 0" ng-cloak >
+        <h3 class="error" ng-cloak ng-if="checkInMoreThenCheckOut"><?php _e( 'Check in date can not be later then check out', 'streamline-core' ) ?></h3>
+
+        <h3 class="price" ng-if="res == 1 && total_reservation > 0 && !checkInMoreThenCheckOut" ng-cloak >
             {[total_reservation | currency:undefined:0]} <br>
             <span class="text" style="font-size: 0.6em"><?php _e( 'Including taxes and fees', 'streamline-core' ) ?></span>
         </h3>
         <div class="discount-wrap">
             <span ng-cloak ng-if="discount>0" class="text discount">
-            <?php _e( 'Your discount: ', 'streamline-core' ) ?>
+                <?php _e( 'Your discount: ', 'streamline-core' ) ?>
                 <span>{[discount + '$']}</span>
-        </span>
+            </span>
+            <span class="text discount-failed discount" ng-cloak ng-if="couponCode && couponFailed && total_reservation">
+                <?php _e( 'Coupon is not valid.', 'streamline-core' ) ?>
+            </span>
         </div>
 
         <div class="row">
@@ -47,6 +52,7 @@
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     <input type="text"
                        ng-model="book.checkin"
+                       ng-change="checkInMoreThenCheckOut = false"
                        id="book_start_date"
                        name="book_start_date"
                        class="form-control"
@@ -64,6 +70,7 @@
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     <input type="text"
                            ng-model="book.checkout"
+                           ng-change="checkInMoreThenCheckOut = false"
                            id="book_end_date"
                            name="book_end_date"
                            class="form-control"
@@ -210,7 +217,7 @@
 
         <div class="form-group" id="coupon-code-wrap">
             <p>Coupon code</p>
-            <input  class="counpon counpon-line" ng-model="couponCode" type="text">
+            <input class="counpon counpon-line" ng-model="couponCode" type="text" ng-change="couponFailed = false">
             <button type="button" ng-click="getPreReservationPrice(book,1)" class="check-counpon counpon-line">Redeem</button>
         </div>
 

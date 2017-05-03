@@ -1079,6 +1079,14 @@
 
       $scope.getPreReservationPrice = function (booking, res) {
         if (booking.checkin && booking.checkout) {
+
+          var checkinTimeStamp = new Date(booking.checkin),
+              checkOutTimeStamp = new Date(booking.checkout);
+          if( checkinTimeStamp > checkOutTimeStamp ){
+            $scope.checkInMoreThenCheckOut = true;
+            return ;
+          }
+
           run_waitMe('#resortpro-book-unit form', 'bounce', 'Updating Price...');
           Alert.clear();
 
@@ -1189,6 +1197,8 @@
 
                   if( $scope.discount > 0 ){
                     $scope.total_reservation -= $scope.discount;
+                  }else{
+                      $scope.couponFailed = true;
                   }
 
                   hide_waitMe('#resortpro-book-unit form');
@@ -1883,11 +1893,6 @@
             }
           }
         });
-
-        // if(checkout && date >= $scope.maxCalendarDate){
-        //   booked = true;
-        //   strClass = 'booked';
-        // }
 
         return [!booked, strClass, title];
       }
