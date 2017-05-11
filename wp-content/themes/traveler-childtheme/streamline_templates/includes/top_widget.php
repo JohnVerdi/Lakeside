@@ -1,4 +1,4 @@
-<div class="booking-item-details no-border-top">
+<div class="booking-item-details">
     <div class="row">
         <div class="col-xs-12 col-md-12">
             <h2 class="title"><?php echo $property['name'];?></h2>

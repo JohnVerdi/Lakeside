@@ -221,14 +221,15 @@
             <button type="button" ng-click="getPreReservationPrice(book,1)" class="check-counpon counpon-line">Redeem</button>
         </div>
 
-        <?php if(!(is_numeric($property['online_bookings']) && $property['online_bookings'] == 0)): ?>
-            <div class="form-group">
-                <button ng-disabled="isDisabled" id="resortpro_unit_submit_blue" href="this.submit()"
-                        class="btn btn-lg btn-block btn-success">
-                    <i class="glyphicon glyphicon-check"></i>
-                    <?php _e( 'Book Now', 'streamline-core' ) ?>
-                </button>
-            </div>
-        <?php endif; ?>
+        <div class="form-group">
+            <button
+                    ng-click="submitCheckout()"
+                    ng-disabled="isDisabled"
+                    type="button"
+                    class="btn btn-lg btn-block btn-success resortpro_unit_submit_blue">
+                <i class="glyphicon glyphicon-check"></i>
+                <?php _e( 'Book Now', 'streamline-core' ) ?>
+            </button>
+        </div>
     </form>
 </div>

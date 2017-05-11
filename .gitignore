@@ -6,8 +6,5 @@ wp-content/backups/
 wp-content/cache/
 wp-content/upgrade/
 wp-content/uploads/
-/.htaccess
-/sitemap.xml
-/sitemap.xml.gz
 .idea/
 /wp-content/object-cache.php

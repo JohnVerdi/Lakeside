@@ -393,8 +393,8 @@
     }
   });
 
-  app.controller('PropertyController', ['$scope', '$rootScope', '$sce', '$http', '$window', '$filter', 'Alert', 'rpapi', 'rpuri', '$cookies',
-    function ($scope, $rootScope, $sce, $http, $window, $filter, Alert, rpapi, rpuri, $cookies) {
+  app.controller('PropertyController', ['$scope', '$rootScope', '$sce', '$http', '$window', '$filter', 'Alert', 'rpapi', 'rpuri', '$cookies', '$compile',
+    function ($scope, $rootScope, $sce, $http, $window, $filter, Alert, rpapi, rpuri, $cookies, $compile) {
       $rootScope.properties = {};
       $rootScope.propList = {};
       $rootScope.rates_details = [];
@@ -429,6 +429,10 @@
       $scope.wishlist = [];
       $scope.foundCalendarBooking = false;
       $scope.maxCalendarDate = null;
+      $scope.incPage = 'main';
+      $scope.listIncludePages = {
+        checkoutTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/checkout.php"
+      };
 
       var map;
       var markerList = {};
@@ -436,6 +440,20 @@
       var infowindow;
       var marker;
       var bounds;
+
+      $scope.submitCheckout = function () {
+        try{
+          $scope.incPage = 'checkout';
+          $http.get($scope.listIncludePages.checkoutTemplateDestination).then(function (response) {
+            if (response.statusText === 'OK'){
+              var compiledeHTML = $compile(response.data)($scope);
+              jQuery("#checkout-template").append(compiledeHTML);
+            }
+          });
+        }catch(e){
+            console.log('ERROR: Cant include checkout template!');
+        }
+      };
 
       $scope.isArray = angular.isArray;
 

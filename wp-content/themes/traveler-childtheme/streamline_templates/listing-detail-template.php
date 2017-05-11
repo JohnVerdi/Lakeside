@@ -29,10 +29,9 @@
             <div class="container ">
                 <div class="row">
                     <div class="custom-row-single-room wpb_column column_container col-md-8">
-                        <div class="vc_column-inner wpb_wrapper">
 
+                        <div class="vc_column-inner wpb_wrapper" ng-if="incPage == 'main'">
                             <?php include_once 'includes/top_widget.php';?>
-
                             <div class="vc_empty_space" style="height: 30px"><span class="vc_empty_space_inner"></span></div>
                             <div class="wpb_tabs wpb_content_element" data-interval="0">
                                 <div class="wpb_wrapper wpb_tour_tabs_wrapper ui-tabs vc_clearfix ui-widget ui-widget-content ui-corner-all">
@@ -86,6 +85,10 @@
                             </div>
 
                             <?php include_once 'includes/calendar.php';?> <!-- CALENDAR-->
+                        </div>
+
+                        <div class="vc_column-inner wpb_wrapper" ng-if="incPage==='checkout'" id="checkout-template">
+<!--                            --><?php //include_once 'includes/checkout.php';?>
                         </div>
                     </div>
                     <?php include_once 'includes/book_new.php';?> <!--Right widget book_now-->
