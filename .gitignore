@@ -8,3 +8,4 @@ wp-content/upgrade/
 wp-content/uploads/
 .idea/
 /wp-content/object-cache.php
+!/development/wp-config.php
