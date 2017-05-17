@@ -429,9 +429,9 @@
       $scope.wishlist = [];
       $scope.foundCalendarBooking = false;
       $scope.maxCalendarDate = null;
-      $scope.incPage = 'main';
       $scope.listIncludePages = {
-        checkoutTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/checkout.php"
+        checkoutTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/checkout.php",
+        termAndConditionsTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/term-conditions.php"
       };
 
       var map;
@@ -443,16 +443,44 @@
 
       $scope.submitCheckout = function () {
         try{
-          $scope.incPage = 'checkout';
           $http.get($scope.listIncludePages.checkoutTemplateDestination).then(function (response) {
-            if (response.statusText === 'OK'){
+            if (response.statusText === 'OK') {
               var compiledeHTML = $compile(response.data)($scope);
-              jQuery("#checkout-template").append(compiledeHTML);
+
+              jQuery("#dynamic-template")
+                  .hide(0)
+                  .empty()
+                  .append(compiledeHTML)
+                  .fadeIn(600);
             }
           });
         }catch(e){
             console.log('ERROR: Cant include checkout template!');
         }
+      };
+
+      $scope.termAndCondHandler = function (hide) {
+
+        if (hide) {
+            jQuery("#term_cond_wrapper").fadeOut(400);
+            return ;
+        }
+
+          try{
+              $http.get($scope.listIncludePages.termAndConditionsTemplateDestination).then(function (response) {
+                  if (response.statusText === 'OK') {
+                      var compiledeHTML = $compile(response.data)($scope);
+
+                      jQuery("#term_cond_wrapper")
+                          .hide(0)
+                          .empty()
+                          .append(compiledeHTML)
+                          .fadeIn(600);
+                  }
+              });
+          } catch (e) {
+              console.log('ERROR: Can not include checkout template!');
+          }
       };
 
       $scope.isArray = angular.isArray;
@@ -1096,7 +1124,7 @@
       };
 
       $scope.getPreReservationPrice = function (booking, res) {
-        if (booking.checkin && booking.checkout) {
+        if (booking.checkin && booking.checkout && $scope.termAndCondCheck) {
 
           var checkinTimeStamp = new Date(booking.checkin),
               checkOutTimeStamp = new Date(booking.checkout);

@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="custom-row-single-room wpb_column column_container col-md-8">
 
-                        <div class="vc_column-inner wpb_wrapper" ng-if="incPage == 'main'">
+                        <div class="vc_column-inner wpb_wrapper" id="dynamic-template">
                             <?php include_once 'includes/top_widget.php';?>
                             <div class="vc_empty_space" style="height: 30px"><span class="vc_empty_space_inner"></span></div>
                             <div class="wpb_tabs wpb_content_element" data-interval="0">
@@ -86,10 +86,6 @@
 
                             <?php include_once 'includes/calendar.php';?> <!-- CALENDAR-->
                         </div>
-
-                        <div class="vc_column-inner wpb_wrapper" ng-if="incPage==='checkout'" id="checkout-template">
-<!--                            --><?php //include_once 'includes/checkout.php';?>
-                        </div>
                     </div>
                     <?php include_once 'includes/book_new.php';?> <!--Right widget book_now-->
                 </div>
@@ -100,3 +96,4 @@
 </div>
 <span class="hidden st_single_hotel_room" data-fancy_arr="1"></span>
 
+<div id="term_cond_wrapper"></div>

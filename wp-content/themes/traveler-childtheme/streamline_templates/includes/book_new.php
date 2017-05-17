@@ -221,6 +221,16 @@
             <button type="button" ng-click="getPreReservationPrice(book,1)" class="check-counpon counpon-line">Redeem</button>
         </div>
 
+        <div class="alert alert-danger">{[errorMessage]}</div>
+
+        <div class="form-group term-cond-wrap">
+            <label class="term-cond-check-label">
+                <input ng-model="termAndCondCheck" type="checkbox" class="term-cond-check">
+                <span><?php _e( 'I agree to the ', 'streamline-core' ); ?></span>
+            </label>
+            <span ng-click="termAndCondHandler()" class="term-cond"><?php _e( 'Terms and Conditions', 'streamline-core' ); ?></span>
+        </div>
+
         <div class="form-group">
             <button
                     ng-click="submitCheckout()"
