@@ -304,3 +304,21 @@ h3.price {
     margin: 0 7px;
     outline: none;
 }
+
+#extras_top .optional-fee-container {
+    text-align: center;
+}
+
+#extras_top .optional-fee-container label {
+    cursor: pointer;
+    margin: 0;
+}
+
+#extras_top .optional-fee-container input {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.max-optional-fees {
+    min-width: 40px;
+}

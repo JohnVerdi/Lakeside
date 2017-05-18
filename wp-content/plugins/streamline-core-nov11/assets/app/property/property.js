@@ -1124,7 +1124,12 @@
       };
 
       $scope.getPreReservationPrice = function (booking, res) {
-        if (booking.checkin && booking.checkout && $scope.termAndCondCheck) {
+        if (booking.checkin && booking.checkout) {
+
+          if (!$scope.termAndCondCheck) {
+            $scope.errorMessage = 'You must accept Terms and Conditions';
+            return false;
+          }
 
           var checkinTimeStamp = new Date(booking.checkin),
               checkOutTimeStamp = new Date(booking.checkout);
@@ -2407,7 +2412,19 @@
         return false;
       }
 
-    $scope.getBookNowTitle = function () {
+    $scope.maxOptionalFees = (
+        function () {
+            var max = 26, i = 1, result = [];
+            for ( ; i < max; i++ ){
+                result.push(i);
+            }
+            return result;
+        }
+    )();
+
+        console.log('$scope.maxoptionalFees$scope.maxoptionalFees$scope.maxoptionalFees$scope.maxoptionalFees',$scope.maxoptionalFees);
+
+        $scope.getBookNowTitle = function () {
         return '$' + $scope.bookNowPrice + '/night';
       }
     }

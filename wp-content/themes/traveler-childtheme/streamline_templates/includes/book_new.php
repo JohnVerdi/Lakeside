@@ -120,9 +120,9 @@
             <?php endif; ?>
         </div>
 
-        <div class="form-group">
+        <div class="form-group extras-wrap" ng-cloak ng-show="optional_fees.length">
             <h4 data-toggle="collapse"
-                href="#extras_top"
+                data-target="#extras_top"
                 aria-expanded="true"
                 aria-controls="extras_top"
                 ng-click="isTopExtrasArrowActive = !isTopExtrasArrowActive">
@@ -130,19 +130,23 @@
                 <i class="fa fa-angle-up fa-angle-button" aria-hidden="true" ng-show="isTopExtrasArrowActive" ng-cloak></i>
                 <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isTopExtrasArrowActive" ng-cloak></i>
             </h4>
-            <div id="extras_top" class="collapse">
+            <div id="extras_top" class="collapse in">
                 <table>
                     <tr ng-repeat="optional_fee in optional_fees">
-                        <td><label for="{[$index+1]}">{[optional_fee.name]}:</label></td>
-                        <td><input id="{[$index+1]}" ng-model="optional_fee.value" type="number"/></td>
+                        <td>{[optional_fee.name]} - {[ optional_fee.value ]}$</td>
+                        <td class="optional-fee-container">
+                            <select ng-model="optionalFees" class="max-optional-fees" ng-options="item for item in maxOptionalFees">
+                                <option value="">0</option>
+                            </select>
+                        </td>
                     </tr>
                 </table>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group price-breakdown-wrap" ng-cloak ng-show="reservation_days.length">
             <h4 data-toggle="collapse"
-                href="#price_breakdown"
+                data-target="#price_breakdown"
                 aria-expanded="true"
                 aria-controls="price_breakdown"
                 ng-click="isPriceBreakArrowActive = !isPriceBreakArrowActive">
@@ -150,7 +154,7 @@
                 <i class="fa fa-angle-up fa-angle-button" aria-hidden="true" ng-show="isPriceBreakArrowActive" ng-cloak></i>
                 <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isPriceBreakArrowActive" ng-cloak></i>
             </h4>
-            <div id="price_breakdown" class="collapse">
+            <div id="price_breakdown" class="collapse in">
                 <table>
                     <tr ng-repeat="reservation_day in reservation_days">
                         <td>{[reservation_day.date]}</td>
@@ -206,7 +210,7 @@
             </div>
         </div>
 
-        <div class="form-group" id="total-price-code-wrap">
+        <div class="form-group" id="total-price-code-wrap" ng-show="total_reservation.length" ng-cloak>
             <table>
                 <tr>
                     <td>Total</td>
@@ -221,11 +225,11 @@
             <button type="button" ng-click="getPreReservationPrice(book,1)" class="check-counpon counpon-line">Redeem</button>
         </div>
 
-        <div class="alert alert-danger">{[errorMessage]}</div>
+        <div class="alert alert-danger" ng-cloak ng-show="errorMessage" ng-bind="errorMessage"></div>
 
         <div class="form-group term-cond-wrap">
             <label class="term-cond-check-label">
-                <input ng-model="termAndCondCheck" type="checkbox" class="term-cond-check">
+                <input ng-model="termAndCondCheck" ng-change="errorMessage=false" type="checkbox" class="term-cond-check">
                 <span><?php _e( 'I agree to the ', 'streamline-core' ); ?></span>
             </label>
             <span ng-click="termAndCondHandler()" class="term-cond"><?php _e( 'Terms and Conditions', 'streamline-core' ); ?></span>
