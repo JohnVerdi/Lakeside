@@ -257,21 +257,46 @@ jQuery(document).ready(function($) {
                         }
                     });
                 },
-                eventClick: function(event, element, view){
+                eventClick: function(event, element, view) {
                     var date = new Date(event.date),
-                        $scope = angular.element($('#single-room')).scope();
+                        $scope = angular.element($('#single-room')).scope(),
+                        checkInInput = $('#book_start_date'),
+                        checkOutInput = $('#book_end_date'),
+                        inxRangeBlueBtns = [];
 
-                    if (event.status !== 'booked'){
-                        if(!self.flag){
+                    if (event.status !== 'booked' && event.status !== 'past') {
+                        $(this).find('button').addClass('blue');
+                        var buttons = $('.btn-available');
+
+                        if( !checkInInput.val() ) {
                             $scope.$apply(function () {
                                 $scope.book.checkin = getFormattedDate(date);
                             });
-                        }else{
+                        } else if ( checkInInput.val() && !checkOutInput.val()) {
                             $scope.$apply(function () {
                                 $scope.book.checkout = getFormattedDate(date);
                             });
+
+                            $.each( buttons, function (index, button) {
+                                if ( $(button).hasClass('blue') ) {
+                                    inxRangeBlueBtns.push(index);
+                                }
+                            });
+
+                            $.each( buttons, function () {
+                                for ( inxRangeBlueBtns[0]; inxRangeBlueBtns[0] < inxRangeBlueBtns[1]; inxRangeBlueBtns[0]++ ) {
+                                    buttons.eq(inxRangeBlueBtns[0]).addClass('blue'); // TODO отдебажить и обработать ошибки
+                                }
+                            });
+                        } else {
+                            inxRangeBlueBtns = [];
+                            checkInInput.val('');
+                            checkOutInput.val('');
+
+                            $.each( buttons, function () {
+                                buttons.removeClass('blue');
+                            });
                         }
-                        self.flag = !self.flag;
                     }
 
                     function getFormattedDate(date) {

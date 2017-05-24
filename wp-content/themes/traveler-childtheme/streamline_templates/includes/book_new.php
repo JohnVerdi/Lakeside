@@ -10,7 +10,7 @@
      getPreReservationPrice(book,<?php echo $res ?>)"
 >
     <div class="book-now-title-wrap">
-        <h3 class="text-center book-now-title" ng-cloak >{[getBookNowTitle()]}</h3>
+        <h3 class="text-center book-now-title" ng-cloak >${[ bookNowPrice ]}/night</h3>
     </div>
 
     <div class="inquiry right-side top">
@@ -25,25 +25,6 @@
         <?php if(!empty($hash)): ?>
             <input type="hidden" name="hash" value="<?php echo $hash; ?>" />
         <?php endif; ?>
-        <h3 class="price" ng-show="res == 0" ng-cloak >{[first_day_price | currency:undefined:0]}<span
-                class="text"> <?php _e( 'Per Night', 'streamline-core' ) ?></span>
-        </h3>
-
-        <h3 class="error" ng-cloak ng-if="checkInMoreThenCheckOut"><?php _e( 'Check in date can not be later then check out', 'streamline-core' ) ?></h3>
-
-        <h3 class="price" ng-if="res == 1 && total_reservation > 0 && !checkInMoreThenCheckOut" ng-cloak >
-            {[total_reservation | currency:undefined:0]} <br>
-            <span class="text" style="font-size: 0.6em"><?php _e( 'Including taxes and fees', 'streamline-core' ) ?></span>
-        </h3>
-        <div class="discount-wrap">
-            <span ng-cloak ng-if="discount>0" class="text discount">
-                <?php _e( 'Your discount: ', 'streamline-core' ) ?>
-                <span>{[discount + '$']}</span>
-            </span>
-            <span class="text discount-failed discount" ng-cloak ng-if="couponCode && couponFailed && total_reservation">
-                <?php _e( 'Coupon is not valid.', 'streamline-core' ) ?>
-            </span>
-        </div>
 
         <div class="row">
             <div class="col-md-6">
@@ -59,6 +40,7 @@
                        show-days="renderCalendar(date, false)"
                        update-price="getPreReservationPrice(book,1)"
                        update-checkout="setCheckoutDate(date)"
+                       readonly
                        bookcheckin
                        data-min-stay="<?php echo $min_stay ?>"
                        data-checkin-days="<?php echo $checkin_days ?>"/>
@@ -77,6 +59,7 @@
                            show-days="renderCalendar(date, true)"
                            update-price="getPreReservationPrice(book,1)"
                            bookcheckout
+                           readonly
                     />
                 </div>
             </div>
@@ -133,7 +116,7 @@
             <div id="extras_top" class="collapse in">
                 <table>
                     <tr ng-repeat="optional_fee in optional_fees">
-                        <td>{[optional_fee.name]} - {[ optional_fee.value ]}$</td>
+                        <td>{[optional_fee.name]} -<span class="fr">{[ optional_fee.value ]}$</span></td>
                         <td class="optional-fee-container">
                             <select ng-model="optionalFees" class="max-optional-fees" ng-options="item for item in maxOptionalFees">
                                 <option value="">0</option>
@@ -154,7 +137,7 @@
                 <i class="fa fa-angle-up fa-angle-button" aria-hidden="true" ng-show="isPriceBreakArrowActive" ng-cloak></i>
                 <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isPriceBreakArrowActive" ng-cloak></i>
             </h4>
-            <div id="price_breakdown" class="collapse in">
+            <div id="price_breakdown" class="collapse">
                 <table>
                     <tr ng-repeat="reservation_day in reservation_days">
                         <td>{[reservation_day.date]}</td>
@@ -210,11 +193,19 @@
             </div>
         </div>
 
-        <div class="form-group" id="total-price-code-wrap" ng-show="total_reservation.length" ng-cloak>
+        <div class="form-group" id="total-price-code-wrap" ng-if="total_reservation" ng-cloak>
             <table>
                 <tr>
-                    <td>Total</td>
-                    <td ng-cloak>{[total_reservation | currency:undefined:0]}</td>
+                    <td>Total:</td>
+                    <td>${[total_reservation]}</td>
+                </tr>
+                <tr ng-if="due_today">
+                    <td>Due Today:</td>
+                    <td>${[due_today]}</td>
+                </tr>
+                <tr ng-if="coupon_discount" class="alert alert-success">
+                    <td>{[couponCode]}</td>
+                    <td>${[coupon_discount]}</td>
                 </tr>
             </table>
         </div>
@@ -225,7 +216,11 @@
             <button type="button" ng-click="getPreReservationPrice(book,1)" class="check-counpon counpon-line">Redeem</button>
         </div>
 
+        <div class="alert alert-danger" ng-cloak ng-if="couponCode && couponFailed && total_reservation">
+            <?php _e( 'Coupon is not valid.', 'streamline-core' ) ?>
+        </div>
         <div class="alert alert-danger" ng-cloak ng-show="errorMessage" ng-bind="errorMessage"></div>
+        <div class="alert alert-success" ng-cloak ng-show="successMessage" ng-bind="successMessage"></div>
 
         <div class="form-group term-cond-wrap">
             <label class="term-cond-check-label">

@@ -442,6 +442,12 @@
       var bounds;
 
       $scope.submitCheckout = function () {
+
+        if (!$scope.termAndCondCheck) {
+            $scope.errorMessage = 'You must accept Terms and Conditions';
+            return false;
+        }
+
         try{
           $http.get($scope.listIncludePages.checkoutTemplateDestination).then(function (response) {
             if (response.statusText === 'OK') {
@@ -1126,17 +1132,14 @@
       $scope.getPreReservationPrice = function (booking, res) {
         if (booking.checkin && booking.checkout) {
 
-          if (!$scope.termAndCondCheck) {
-            $scope.errorMessage = 'You must accept Terms and Conditions';
-            return false;
-          }
-
           var checkinTimeStamp = new Date(booking.checkin),
               checkOutTimeStamp = new Date(booking.checkout);
+
           if( checkinTimeStamp > checkOutTimeStamp ){
-            $scope.checkInMoreThenCheckOut = true;
+            $scope.errorMessage = 'Check out date can not be early then check in.';
             return ;
           }
+          $scope.errorMessage = '';
 
           run_waitMe('#resortpro-book-unit form', 'bounce', 'Updating Price...');
           Alert.clear();
@@ -1188,7 +1191,13 @@
                 if (obj.data != undefined) {
                   var total_fees = 0;
                   var total_taxes = 0;
+
+                  if (+obj.data.coupon_discount > 0) {
+                      $scope.successMessage = 'Coupon applied';
+                  }
+
                   $scope.discount = +obj.data.coupon_discount;
+                  $scope.due_today = +obj.data.due_today;
                   if(obj.data.required_fees.id){
                     total_fees = obj.data.required_fees.value;
                   }else{
@@ -1215,6 +1224,7 @@
 
                   $scope.coupon_discount = obj.data.coupon_discount;
                   $scope.reservation_days = obj.data.reservation_days;
+                  $scope.bookNowPrice = obj.data.reservation_days[0].price;
                   $scope.security_deposits = obj.data.security_deposits;
                   $scope.first_day_price = obj.data.first_day_price;
                   $scope.required_fees = obj.data.required_fees;
@@ -2412,21 +2422,28 @@
         return false;
       }
 
-    $scope.maxOptionalFees = (
-        function () {
-            var max = 26, i = 1, result = [];
-            for ( ; i < max; i++ ){
-                result.push(i);
-            }
-            return result;
+      $scope.maxOptionalFees = (
+          function () {
+              var max = 26, i = 1, result = [];
+              for ( ; i < max; i++ ){
+                  result.push(i);
+              }
+              return result;
+          }
+      )();
+
+      $scope.$watch("book.checkin", function() {
+        if ($scope.book.checkout) {
+            $scope.getPreReservationPrice($scope.book, 1);
         }
-    )();
+      });
 
-        console.log('$scope.maxoptionalFees$scope.maxoptionalFees$scope.maxoptionalFees$scope.maxoptionalFees',$scope.maxoptionalFees);
+      $scope.$watch("book.checkout", function() {
+        if ($scope.book.checkin) {
+            $scope.getPreReservationPrice($scope.book, 1);
+        }
+      });
 
-        $scope.getBookNowTitle = function () {
-        return '$' + $scope.bookNowPrice + '/night';
-      }
     }
   ]);
 })();

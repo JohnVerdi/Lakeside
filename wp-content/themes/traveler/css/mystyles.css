@@ -322,3 +322,12 @@ h3.price {
 .max-optional-fees {
     min-width: 40px;
 }
+
+.fr {
+    float: right;
+}
+
+#main button.blue {
+    background-color: #4ab6e4;
+    border-color: #4ab6e4;
+}
