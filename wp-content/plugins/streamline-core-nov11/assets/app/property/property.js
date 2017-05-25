@@ -1130,144 +1130,146 @@
       };
 
       $scope.getPreReservationPrice = function (booking, res) {
-        if (booking.checkin && booking.checkout) {
-
-          var checkinTimeStamp = new Date(booking.checkin),
-              checkOutTimeStamp = new Date(booking.checkout);
-
-          if( checkinTimeStamp > checkOutTimeStamp ){
-            $scope.errorMessage = 'Check out date can not be early then check in.';
-            return ;
-          }
-          $scope.errorMessage = '';
-
-          run_waitMe('#resortpro-book-unit form', 'bounce', 'Updating Price...');
-          Alert.clear();
-
-          var totalOccupants = parseInt(booking.occupants) + parseInt(booking.occupants_small);
-
-          if(parseInt($scope.maxOccupants) > 0 && (parseInt(booking.occupants) + parseInt(booking.occupants_small)) > parseInt($scope.maxOccupants)){
-              Alert.add(Alert.errorType, 'You have selected a total of ' + totalOccupants + ' guests which exceeds the maximum occupancy of ' + $scope.maxOccupants + ' of this property. Please adjust your selection.');
-              hide_waitMe('#resortpro-book-unit form');
-              $scope.isDisabled = true;
-              return false;
-          }
-
-          rpapi.getWithParams('VerifyPropertyAvailability', {
-            'unit_id': booking.unit_id,
-            'startdate': booking.checkin,
-            'enddate': booking.checkout,
-            'occupants': booking.occupants,
-            'occupants_small' : booking.occupants_small,
-            'pets' : booking.pets,
-            'use_room_type_logic' : parseInt($rootScope.roomTypeLogic)
-          }).success(function (obj) {
-            if (obj.status) {
-              $scope.reservation_days = [];
-              $scope.total_reservation = 0;
-              $scope.first_day_price = 0;
-              $scope.rent = 0;
-              $scope.taxes = 0;
-
-              var errorMsg = obj.status.description;
-              if(obj.status.code == 'E0031' && $rootScope.searchSettings.restrictionMsg != ''){
-                errorMsg = $rootScope.searchSettings.restrictionMsg;
-              }
-
-              Alert.add(Alert.errorType, errorMsg);
-              hide_waitMe('#resortpro-book-unit form');
-            } else {
-
-              $scope.isDisabled = false;
-              rpapi.getWithParams('GetPreReservationPrice', {
-                'unit_id': booking.unit_id,
-                'startdate': booking.checkin,
-                'enddate': booking.checkout,
-                'occupants': booking.occupants,
-                'occupants_small' : booking.occupants_small,
-                'pets' : booking.pets,
-                'coupon_code' : $scope.couponCode
-              }).success(function (obj) {
-                if (obj.data != undefined) {
-                  var total_fees = 0;
-                  var total_taxes = 0;
-
-                  if (+obj.data.coupon_discount > 0) {
-                      $scope.successMessage = 'Coupon applied';
-                  }
-
-                  $scope.discount = +obj.data.coupon_discount;
-                  $scope.due_today = +obj.data.due_today;
-                  if(obj.data.required_fees.id){
-                    total_fees = obj.data.required_fees.value;
-                  }else{
-                    angular.forEach(obj.data.required_fees, function (fee, i) {
-                      total_fees += fee.value;
-                    });
-                  }
-                  if(obj.data.taxes_details.id){
-                    total_taxes = obj.data.taxes_details.value;
-                  }else{
-                    angular.forEach(obj.data.taxes_details, function (fee, i) {
-                      total_taxes += fee.value;
-                    });
-                  }
-
-                  $scope.total_reservation = obj.data.total;
-                  $scope.total_fees = total_fees;
-                  $scope.total_taxes = total_taxes;
-                  $scope.rent = obj.data.price;
-
-                  $scope.subTotal = $scope.calculateMarkup((obj.data.price + obj.data.coupon_discount).toString());
-                  var dif = $scope.subTotal - obj.data.coupon_discount - obj.data.price;
-                  $scope.taxes = obj.data.taxes - dif;
-
-                  $scope.coupon_discount = obj.data.coupon_discount;
-                  $scope.reservation_days = obj.data.reservation_days;
-                  $scope.bookNowPrice = obj.data.reservation_days[0].price;
-                  $scope.security_deposits = obj.data.security_deposits;
-                  $scope.first_day_price = obj.data.first_day_price;
-                  $scope.required_fees = obj.data.required_fees;
-                  $scope.taxes_details = obj.data.taxes_details;
-                  $scope.due_today = obj.data.due_today;
-                  $scope.res = res;
-
-                  if (obj.data.reservation_days.date != undefined) {
-                    $scope.days = false;
-                  } else {
-                    $scope.days = true;
-                  }
-
-                  $scope.required_fees = obj.data.required_fees;
-                  $scope.optional_fees = obj.data.optional_fees;
-                  $scope.reservation_day = obj.data.reservation_day;
-                  $scope.taxes_details = obj.data.taxes_details;
-                  $scope.totalRequiredExtras = 0;
-                  $scope.totalTaxesAndFees = 0;
-
-                  angular.forEach($scope.required_fees, function(fee){
-                      $scope.totalRequiredExtras += (+fee.value);
-                  });
-
-                  angular.forEach($scope.taxes_details, function(tax){
-                      $scope.totalTaxesAndFees += (+tax.value);
-                  });
-
-                  $scope.totalRequiredExtras = (+$scope.totalRequiredExtras).toFixed(2);
-                  $scope.totalTaxesAndFees = (+$scope.totalTaxesAndFees).toFixed(2);
-
-                  if( $scope.discount > 0 ){
-                    $scope.total_reservation -= $scope.discount;
-                  }else{
-                      $scope.couponFailed = true;
-                  }
-
-                  hide_waitMe('#resortpro-book-unit form');
-                }
-              });
-            }
-          });
+        if (!booking.checkin && !booking.checkout) {
+          $scope.errorMessage = 'Please set check in and check out dates.';
+          return ;
         }
+
+        var checkinTimeStamp = new Date(booking.checkin),
+            checkOutTimeStamp = new Date(booking.checkout);
+
+        if( checkinTimeStamp > checkOutTimeStamp ){
+          $scope.errorMessage = 'Check out date can not be early then check in.';
+          return ;
+        }
+        $scope.errorMessage = '';
+
+        run_waitMe('#resortpro-book-unit form', 'bounce', 'Updating Price...');
+        Alert.clear();
+
+        var totalOccupants = parseInt(booking.occupants) + parseInt(booking.occupants_small);
+
+        if(parseInt($scope.maxOccupants) > 0 && (parseInt(booking.occupants) + parseInt(booking.occupants_small)) > parseInt($scope.maxOccupants)){
+            Alert.add(Alert.errorType, 'You have selected a total of ' + totalOccupants + ' guests which exceeds the maximum occupancy of ' + $scope.maxOccupants + ' of this property. Please adjust your selection.');
+            hide_waitMe('#resortpro-book-unit form');
+            $scope.isDisabled = true;
+            return false;
+        }
+
+        rpapi.getWithParams('VerifyPropertyAvailability', {
+          'unit_id': booking.unit_id,
+          'startdate': booking.checkin,
+          'enddate': booking.checkout,
+          'occupants': booking.occupants,
+          'occupants_small' : booking.occupants_small,
+          'pets' : booking.pets,
+          'use_room_type_logic' : parseInt($rootScope.roomTypeLogic)
+        }).success(function (obj) {
+          if (obj.status) {
+            $scope.reservation_days = [];
+            $scope.total_reservation = 0;
+            $scope.first_day_price = 0;
+            $scope.rent = 0;
+            $scope.taxes = 0;
+
+            var errorMsg = obj.status.description;
+            if(obj.status.code == 'E0031' && $rootScope.searchSettings.restrictionMsg != ''){
+              errorMsg = $rootScope.searchSettings.restrictionMsg;
+            }
+
+            Alert.add(Alert.errorType, errorMsg);
+            hide_waitMe('#resortpro-book-unit form');
+          } else {
+
+            $scope.isDisabled = false;
+            rpapi.getWithParams('GetPreReservationPrice', {
+              'unit_id': booking.unit_id,
+              'startdate': booking.checkin,
+              'enddate': booking.checkout,
+              'occupants': booking.occupants,
+              'occupants_small' : booking.occupants_small,
+              'pets' : booking.pets,
+              'coupon_code' : $scope.couponCode
+            }).success(function (obj) {
+              if (obj.data != undefined) {
+                var total_fees = 0;
+                var total_taxes = 0;
+
+                if (+obj.data.coupon_discount > 0) {
+                    $scope.successMessage = 'Coupon applied';
+                }
+
+                $scope.discount = +obj.data.coupon_discount;
+                $scope.due_today = +obj.data.due_today;
+                if(obj.data.required_fees.id){
+                  total_fees = obj.data.required_fees.value;
+                }else{
+                  angular.forEach(obj.data.required_fees, function (fee, i) {
+                    total_fees += fee.value;
+                  });
+                }
+                if(obj.data.taxes_details.id){
+                  total_taxes = obj.data.taxes_details.value;
+                }else{
+                  angular.forEach(obj.data.taxes_details, function (fee, i) {
+                    total_taxes += fee.value;
+                  });
+                }
+
+                $scope.total_reservation = obj.data.total;
+                $scope.total_fees = total_fees;
+                $scope.total_taxes = total_taxes;
+                $scope.rent = obj.data.price;
+
+                $scope.subTotal = $scope.calculateMarkup((obj.data.price + obj.data.coupon_discount).toString());
+                var dif = $scope.subTotal - obj.data.coupon_discount - obj.data.price;
+                $scope.taxes = obj.data.taxes - dif;
+
+                $scope.coupon_discount = obj.data.coupon_discount;
+                $scope.reservation_days = obj.data.reservation_days;
+                $scope.bookNowPrice = obj.data.reservation_days[0].price;
+                $scope.security_deposits = obj.data.security_deposits;
+                $scope.first_day_price = obj.data.first_day_price;
+                $scope.required_fees = obj.data.required_fees;
+                $scope.taxes_details = obj.data.taxes_details;
+                $scope.due_today = obj.data.due_today;
+                $scope.res = res;
+
+                if (obj.data.reservation_days.date != undefined) {
+                  $scope.days = false;
+                } else {
+                  $scope.days = true;
+                }
+
+                $scope.required_fees = obj.data.required_fees;
+                $scope.optional_fees = obj.data.optional_fees;
+                $scope.reservation_day = obj.data.reservation_day;
+                $scope.taxes_details = obj.data.taxes_details;
+                $scope.totalRequiredExtras = 0;
+                $scope.totalTaxesAndFees = 0;
+
+                angular.forEach($scope.required_fees, function(fee){
+                    $scope.totalRequiredExtras += (+fee.value);
+                });
+
+                angular.forEach($scope.taxes_details, function(tax){
+                    $scope.totalTaxesAndFees += (+tax.value);
+                });
+
+                $scope.totalRequiredExtras = (+$scope.totalRequiredExtras).toFixed(2);
+                $scope.totalTaxesAndFees = (+$scope.totalTaxesAndFees).toFixed(2);
+
+                if( $scope.discount > 0 ){
+                  $scope.total_reservation -= $scope.discount;
+                }else{
+                    $scope.couponFailed = true;
+                }
+
+                hide_waitMe('#resortpro-book-unit form');
+              }
+            });
+          }
+        });
       };
 
       $scope.availabilitySearch = function (search) {

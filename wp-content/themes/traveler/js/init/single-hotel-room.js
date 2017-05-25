@@ -253,7 +253,7 @@ jQuery(document).ready(function($) {
                         },
                         error:function(e)
                         {
-                            console.log('error: ', e.message);
+                            console.log('Calendar error occured!');
                         }
                     });
                 },
@@ -309,6 +309,7 @@ jQuery(document).ready(function($) {
                     }
                 },
                 eventRender: function(event, element, view){
+                    console.log(event);
                     var html = "";
                     var title = "";
                     var html_class = "btn-disabled";
@@ -318,11 +319,19 @@ jQuery(document).ready(function($) {
                     if(event.status == 'booked'){
                         html_class = "btn-available bnt-booked";
                     }
+
+                    if(event.status == 'first'){
+                        html_class = "btn-available bnt-first";
+                        is_disabled = "";
+                        title = st_checkout_text.origin_price + ": "+event.price;
+                    }
+
                     if(event.status == 'still'){
                         html_class = "btn-available bnt-still";
                         is_disabled = "";
                         title = st_checkout_text.origin_price + ": "+event.price;
                     }
+
                     if(event.status == 'past'){ }
                     if(event.status == 'disabled'){ }
 
@@ -331,6 +340,7 @@ jQuery(document).ready(function($) {
                         is_disabled = "";
                         title = st_checkout_text.origin_price + ": "+event.price;
                     }
+
                     if(event.status == 'available_allow_fist'){
                         html_class = "btn-calendar btn-available_allow_fist available_allow_fist single-room";
                         is_disabled = "";

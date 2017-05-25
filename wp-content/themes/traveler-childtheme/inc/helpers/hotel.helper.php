@@ -1275,13 +1275,18 @@ if(!class_exists('HotelHelper')){
                 $period = new DatePeriod($start, $interval, $end);
 
                 $count = iterator_count($period);
+
                 foreach ($period as $key => $dt) {
                     $date = $dt->format("Y-m-d");
                     $day = $dt->format('d');
 
-                    $status = 'booked';
+
                     if ( $count-1 ==  $key){
                         $status = 'still';
+                    } elseif ( $key == 0){
+                        $status = 'first';
+                    } else {
+                        $status = 'booked';
                     }
 
                     $result[$date] = array(

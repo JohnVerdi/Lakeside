@@ -331,3 +331,81 @@ h3.price {
     background-color: #4ab6e4;
     border-color: #4ab6e4;
 }
+
+ul.amenities .list-group-item {
+    width: 100%;
+    text-align: center;
+}
+
+.wpb_wrapper h3 {
+    margin: 20px 0 !important;
+}
+
+.bnt-booked {
+    opacity: .75 !important;
+    border: 1px solid #7a0000 !important;
+    background-color: rgba(125, 0, 0, 0.12) !important;
+}
+
+.bnt-first, .bnt-still {
+    opacity: .75 !important;
+    border: 1px solid #7a0000 !important;
+    background-color: transparent !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.bnt-first:before, .bnt-still:before {
+    border-bottom: 43px solid rgba(125, 0, 0, 0.12);
+    border-left: 96px solid transparent;
+    content: "";
+    height: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: -1;
+}
+
+.bnt-still:before {
+    border-bottom: 43px solid transparent;
+    border-left: 96px solid rgba(125, 0, 0, 0.12);
+}
+
+.bnt-still:hover {
+    background-color: #1E4673 !important;
+    border: 1px solid #1C455B !important;
+}
+
+.bnt-first:hover{
+    background-color: #48a5d0 !important;
+    border: 1px solid #48a5d0 !important;
+}
+
+.bnt-still:hover:before {
+    border-bottom: 43px solid #48a5d0!important;
+}
+
+.bnt-first:hover::before {
+    border-bottom: 43px solid #1E4673!important;
+}
+
+.redopacity .color{
+    border: 1px solid #7a0000 !important;
+    background-color: rgba(125, 0, 0, 0.12);
+}
+
+.calendar-bottom .color {
+    margin-bottom: -4px;
+}
+
+body {
+    overflow: visible !important;
+}
+
+.calendar-bottom .item.still .color::before {
+    border-color: transparent rgba(125, 0, 0, 0.25) #ccc transparent !important;
+}
+.calendar-bottom .item.still .color {
+    border-color: #7a0000 !important;
+}
