@@ -314,11 +314,11 @@ jQuery(document).ready(function($) {
                 todayHighlight: true,
                 startDate: 'today',
                 format: $('[data-date-format]').data('date-format'),
-                weekStart: 1,
+                weekStart: 1
             }).on('changeDate', function(e) {
 
                 var new_date = e.date;
-                new_date.setDate(new_date.getDate() + 1);
+                new_date.setDate(new_date.getDate() + 2);
 
                 $('.input-daterange input[name="end"]', form).datepicker("remove");
 
@@ -345,7 +345,19 @@ jQuery(document).ready(function($) {
         });
     }
 
+    // set checkin data for angular widget
+    $('#field-hotel-checkin').on('change', function () {
+        var resDate = new Date($(this).val());
 
+        Cookies.set('checkIn', resDate, { expires: 14 });
+    });
+
+    // set checkout data for angular widget
+    $('#field-hotel-checkout').on('change', function () {
+        var resDate = new Date($(this).val());
+
+        Cookies.set('checkOut', resDate, { expires: 14 });
+    });
 
     $('.pick-up-date').each(function() {
         var form = $(this).closest('form');

@@ -309,7 +309,6 @@ jQuery(document).ready(function($) {
                     }
                 },
                 eventRender: function(event, element, view){
-                    console.log(event);
                     var html = "";
                     var title = "";
                     var html_class = "btn-disabled";

@@ -2446,6 +2446,19 @@
         }
       });
 
+      angular.element(document).ready(function () {
+          $scope.cookiesData = {
+              checkIn: $cookies.get('checkIn'),
+              checkOut: $cookies.get('checkOut')
+          };
+
+          if ($scope.cookiesData.checkIn && $scope.cookiesData.checkOut) {
+              // console.log('checkIn', $scope.cookiesData.checkIn);
+              // console.log('checkOut', $scope.cookiesData.checkOut);
+              // TODO get cookies checkin&echeckout data and populate it to inputs.
+          }
+      });
+
     }
   ]);
 })();

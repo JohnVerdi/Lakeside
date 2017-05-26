@@ -353,7 +353,8 @@
             wp_enqueue_script('fancybox-media.js', get_template_directory_uri() . '/js/helpers/jquery.fancybox-media.js', array('jquery'), null, true);
             wp_enqueue_script('fancybox-thumbs.js', get_template_directory_uri() . '/js/helpers/jquery.fancybox-thumbs.js', array('jquery'), null, true);
             wp_enqueue_script('st-select.js', get_template_directory_uri() . '/js/init/st-select.js', array('jquery'), null, true);
-            wp_enqueue_script('custom.js', get_children_template_directory_uri(). '/js/custom.js', array('jquery', 'st-select.js'), null, true);
+            wp_enqueue_script('cookie.js', get_children_template_directory_uri(). '/js/cookie.js', array('jquery'), null, true);
+            wp_enqueue_script('custom.js', get_children_template_directory_uri(). '/js/custom.js', array('jquery', 'st-select.js', 'cookie.js'), null, true);
             wp_enqueue_script('custom2.js', get_template_directory_uri() . '/js/custom2.js', array('jquery'), null, true);
             wp_enqueue_script('google-location.js', get_template_directory_uri() . '/js/google-location.js', array('jquery'), null, true);
             wp_enqueue_script('user.js', get_template_directory_uri() . '/js/user.js', array('jquery'), null, true);

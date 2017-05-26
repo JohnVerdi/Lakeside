@@ -409,3 +409,7 @@ body {
 .calendar-bottom .item.still .color {
     border-color: #7a0000 !important;
 }
+
+.fotorama__wrap {
+    margin: 0 auto;
+}
