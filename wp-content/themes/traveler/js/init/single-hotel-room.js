@@ -285,7 +285,7 @@ jQuery(document).ready(function($) {
 
                             $.each( buttons, function () {
                                 for ( inxRangeBlueBtns[0]; inxRangeBlueBtns[0] < inxRangeBlueBtns[1]; inxRangeBlueBtns[0]++ ) {
-                                    buttons.eq(inxRangeBlueBtns[0]).addClass('blue'); // TODO отдебажить и обработать ошибки
+                                    buttons.eq( inxRangeBlueBtns[0] ).addClass('blue');
                                 }
                             });
                         } else {
@@ -367,6 +367,47 @@ jQuery(document).ready(function($) {
                 },
                 eventAfterRender: function( event, element, view ) {
                     $('[data-toggle="tooltip"]').tooltip({html:true});
+                    $scope = angular.element($('#single-room')).scope();
+
+                    if (! $scope.book.checkin || !$scope.book.checkin) {
+                        return
+                    }
+
+                    var checkInDate = new Date($scope.book.checkin);
+                    var checkOutDate = new Date($scope.book.checkout);
+                    var dateEvent = new Date(event.date);
+
+                    if (compareDates(checkInDate, dateEvent) || compareDates(checkOutDate, dateEvent)) {
+
+                        element.find('button').addClass('blue');
+
+                        // If defined check in and check out date, fill in the intermediate dates
+                        if ($('.btn-available.blue').length === 2) {
+                            var buttons = $('.btn-available'),
+                                inxRangeBlueBtns = [];
+
+                            $.each( buttons, function (index, button) {
+                                if ( $(button).hasClass('blue') ) {
+                                    inxRangeBlueBtns.push(index);
+                                }
+                            });
+
+                            $.each( buttons, function () {
+                                for ( inxRangeBlueBtns[0]; inxRangeBlueBtns[0] < inxRangeBlueBtns[1]; inxRangeBlueBtns[0]++ ) {
+                                    buttons.eq( inxRangeBlueBtns[0] ).addClass('blue');
+                                }
+                            });
+                        }
+                    }
+
+                    // return true if dates the same or false
+                    function compareDates(firstDate, secondDate) {
+                        return (
+                            (firstDate.getDate()  === secondDate.getDate()) &&
+                            (firstDate.getMonth() === secondDate.getMonth()) &&
+                            (firstDate.getYear()  === secondDate.getYear())
+                        )
+                    }
                 },
                 loading: function(isLoading, view){
                     if(isLoading){

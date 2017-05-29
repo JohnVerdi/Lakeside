@@ -345,18 +345,12 @@ jQuery(document).ready(function($) {
         });
     }
 
-    // set checkin data for angular widget
-    $('#field-hotel-checkin').on('change', function () {
-        var resDate = new Date($(this).val());
+    $('form.search[role="search"]').on('submit', function () {
+        var checkInDate = new Date( $('#field-hotel-checkin').val() );
+        var checkOutDate = new Date( $('#field-hotel-checkout').val() );
 
-        Cookies.set('checkIn', resDate, { expires: 14 });
-    });
-
-    // set checkout data for angular widget
-    $('#field-hotel-checkout').on('change', function () {
-        var resDate = new Date($(this).val());
-
-        Cookies.set('checkOut', resDate, { expires: 14 });
+        Cookies.set('checkIn', checkInDate, { expires: 14 });
+        Cookies.set('checkOut', checkOutDate, { expires: 14 });
     });
 
     $('.pick-up-date').each(function() {
@@ -1526,7 +1520,6 @@ jQuery(document).ready(function($) {
     $('form.main-search').submit(function(event) {
         var validate = true;
         $('input.required, select.required, textarea.required', this).each(function(index, el) {
-            console.log($(this).val());
             if ($(this).val() == '') {
                 $(this).addClass('error');
                 if (validate) validate = false;

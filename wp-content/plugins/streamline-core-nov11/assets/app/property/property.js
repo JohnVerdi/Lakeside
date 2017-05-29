@@ -393,8 +393,8 @@
     }
   });
 
-  app.controller('PropertyController', ['$scope', '$rootScope', '$sce', '$http', '$window', '$filter', 'Alert', 'rpapi', 'rpuri', '$cookies', '$compile',
-    function ($scope, $rootScope, $sce, $http, $window, $filter, Alert, rpapi, rpuri, $cookies, $compile) {
+  app.controller('PropertyController', ['$scope', '$rootScope', '$sce', '$http', '$window', '$filter', 'Alert', 'rpapi', 'rpuri', '$cookies', '$compile', '$log',
+    function ($scope, $rootScope, $sce, $http, $window, $filter, Alert, rpapi, rpuri, $cookies, $compile, $log) {
       $rootScope.properties = {};
       $rootScope.propList = {};
       $rootScope.rates_details = [];
@@ -2453,11 +2453,20 @@
           };
 
           if ($scope.cookiesData.checkIn && $scope.cookiesData.checkOut) {
-              // console.log('checkIn', $scope.cookiesData.checkIn);
-              // console.log('checkOut', $scope.cookiesData.checkOut);
-              // TODO get cookies checkin&echeckout data and populate it to inputs.
+              $scope.book.checkin = $scope.DateMDYConventer( new Date($scope.cookiesData.checkIn) );
+              $scope.book.checkout = $scope.DateMDYConventer( new Date($scope.cookiesData.checkOut) );
           }
       });
+
+      $scope.DateMDYConventer = function(date) {
+          var year = date.getFullYear();
+          var month = (1 + date.getMonth()).toString();
+          month = month.length > 1 ? month : '0' + month;
+          var day = date.getDate().toString();
+          day = day.length > 1 ? day : '0' + day;
+
+          return month + '/' + day + '/' + year;
+      }
 
     }
   ]);
