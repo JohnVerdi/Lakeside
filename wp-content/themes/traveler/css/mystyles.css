@@ -342,6 +342,16 @@ h3.price {
     border-bottom: 43px solid #1E4673!important;
 }
 
+#main button.bnt-still.blue {
+    background-color: #1E4673 !important;
+    border-color: #1E4673 !important;
+}
+
+#main button.bnt-still.blue:before {
+    border-bottom: 43px solid #4ab6e4!important;
+}
+
+
 ul.amenities .list-group-item {
     width: 100%;
     text-align: center;

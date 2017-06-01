@@ -1270,7 +1270,7 @@ if(!class_exists('HotelHelper')){
             foreach ( $blockedDays as $period ) {
                 $start = new DateTime($period['startdate']);
                 $end = new DateTime($period['enddate']);
-                $end->modify('+1 day');
+                $end->modify('+2 day');
                 $interval = DateInterval::createFromDateString('1 day');
                 $period = new DatePeriod($start, $interval, $end);
 
@@ -1281,7 +1281,7 @@ if(!class_exists('HotelHelper')){
                     $day = $dt->format('d');
 
 
-                    if ( $count-1 ==  $key){
+                    if ( $count - 1 ==  $key){
                         $status = 'still';
                     } elseif ( $key == 0){
                         $status = 'first';

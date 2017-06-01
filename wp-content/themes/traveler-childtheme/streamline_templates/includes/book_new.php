@@ -233,7 +233,7 @@
         <div class="form-group">
             <button
                     ng-click="submitCheckout()"
-                    ng-disabled="isDisabled"
+                    ng-disabled="isDisabled || errorMessage"
                     type="button"
                     class="btn btn-lg btn-block btn-success resortpro_unit_submit_blue">
                 <i class="glyphicon glyphicon-check"></i>

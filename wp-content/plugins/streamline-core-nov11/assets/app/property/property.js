@@ -1227,13 +1227,22 @@
 
                 $scope.coupon_discount = obj.data.coupon_discount;
                 $scope.reservation_days = obj.data.reservation_days;
-                $scope.bookNowPrice = obj.data.reservation_days[0].price;
+
                 $scope.security_deposits = obj.data.security_deposits;
                 $scope.first_day_price = obj.data.first_day_price;
                 $scope.required_fees = obj.data.required_fees;
                 $scope.taxes_details = obj.data.taxes_details;
                 $scope.due_today = obj.data.due_today;
                 $scope.res = res;
+
+                if (obj.data.reservation_days[0] && obj.data.reservation_days[0].price) {
+                    $scope.bookNowPrice = obj.data.reservation_days[0].price;
+                    $scope.errorMessage = '';
+                    $scope.isDisabled = true;
+                } else {
+                    $scope.errorMessage = 'Unable to reserve one day.';
+                    $scope.isDisabled = false;
+                }
 
                 if (obj.data.reservation_days.date != undefined) {
                   $scope.days = false;
@@ -2422,7 +2431,7 @@
         }, 500);
 
         return false;
-      }
+      };
 
       $scope.maxOptionalFees = (
           function () {
@@ -2437,14 +2446,31 @@
       $scope.$watch("book.checkin", function() {
         if ($scope.book.checkout) {
             $scope.getPreReservationPrice($scope.book, 1);
+            $scope.refreshCalendar($scope.book.checkin);
         }
       });
 
       $scope.$watch("book.checkout", function() {
         if ($scope.book.checkin) {
             $scope.getPreReservationPrice($scope.book, 1);
+            $scope.refreshCalendar($scope.book.checkout);
         }
       });
+
+      $scope.refreshCalendar = function (date) {
+        var $ = jQuery,
+            goTo = $.fullCalendar.moment(date).format('YYYY-MM-DD'),
+            dateTime = new Date(date),
+            monthYear = $('.calendar-content .fc-center h2').text(),
+            currentMonthDateTime = new Date(monthYear),
+            calendar = $('div.calendar-content');
+
+        if ( dateTime.getMonth() != currentMonthDateTime.getMonth() ) {
+          calendar.fullCalendar('gotoDate', goTo); // Update calendar if need another month
+        } else {
+          calendar.fullCalendar('rerenderEvents');
+        }
+      };
 
       angular.element(document).ready(function () {
           $scope.cookiesData = {
