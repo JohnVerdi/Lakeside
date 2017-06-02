@@ -439,7 +439,8 @@
         checkoutTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/checkout.php",
         termAndConditionsTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/term-conditions.php"
       };
-        $scope.aviabilityDaysStatus = true;
+      $scope.aviabilityDaysStatus = true;
+      $scope.errorMessages = {};
 
       var map;
       var markerList = {};
@@ -451,8 +452,10 @@
       $scope.submitCheckout = function () {
 
         if (!$scope.termAndCondCheck) {
-            $scope.errorMessage = 'You must accept Terms and Conditions';
+            $scope.errorMessages.termAndConditionsError = 'You must accept Terms and Conditions';
             return false;
+        } else {
+            delete $scope.errorMessages.termAndConditionsError
         }
 
         try{
@@ -1138,18 +1141,21 @@
 
       $scope.getPreReservationPrice = function (booking, res) {
         if (!booking.checkin && !booking.checkout) {
-          $scope.errorMessage = 'Please set check in and check out dates.';
+          $scope.errorMessages.checkInOutError = 'Please set check in and check out dates.';
           return ;
+        } else {
+          delete $scope.errorMessages.checkInOutError;
         }
 
         var checkinTimeStamp = new Date(booking.checkin),
             checkOutTimeStamp = new Date(booking.checkout);
 
         if( checkinTimeStamp > checkOutTimeStamp ){
-          $scope.errorMessage = 'Check out date can not be early then check in.';
+          $scope.errorMessages.checkinTimeStampError = 'Check out date can not be early then check in.';
           return ;
+        } else {
+          delete $scope.errorMessages.checkinTimeStampError;
         }
-        $scope.errorMessage = '';
 
         run_waitMe('#resortpro-book-unit form', 'bounce', 'Updating Price...');
         Alert.clear();
@@ -1245,11 +1251,9 @@
 
                 if (obj.data.reservation_days[0] && obj.data.reservation_days[0].price) {
                     $scope.bookNowPrice = obj.data.reservation_days[0].price;
-                    $scope.errorMessage = '';
-                    $scope.isDisabled = true;
+                    delete $scope.errorMessages.reservationError;
                 } else {
-                    $scope.errorMessage = 'Unable to reserve one day.';
-                    $scope.isDisabled = false;
+                    $scope.errorMessages.reservationError = 'Unable to reserve one day.';
                 }
 
                 if (obj.data.reservation_days.date != undefined) {

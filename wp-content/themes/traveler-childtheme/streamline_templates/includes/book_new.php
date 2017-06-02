@@ -15,9 +15,7 @@
 
     <div class="inquiry right-side top">
 
-    <div class="alert alert-{[alert.type]} animate" ng-repeat="alert in alerts">
-        <div ng-bind-html="alert.message | trustedHtml"></div>
-    </div>
+
 
     <form action="<?php echo $checkout_url ?>" method="post" name="resortpro_form_checkout" class="resortpro_form_checkout" novalidate>
         <input type="hidden" name="resortpro_book_unit" value="<?php echo $nonce; ?>"/>
@@ -218,7 +216,15 @@
         <div class="alert alert-danger" ng-cloak ng-if="couponCode && couponFailed && total_reservation">
             <?php _e( 'Coupon is not valid.', 'streamline-core' ) ?>
         </div>
-        <div class="alert alert-danger" ng-cloak ng-show="errorMessage" ng-bind="errorMessage"></div>
+
+        <div class="alert alert-{[alert.type]} animate" ng-repeat="alert in alerts">
+            <div ng-bind-html="alert.message | trustedHtml"></div>
+        </div>
+
+        <div class="alert alert-danger" ng-cloak ng-repeat="error in errorMessages">
+            <span>{[error]}</span>
+        </div>
+
         <div class="alert alert-success" ng-cloak ng-show="successMessage" ng-bind="successMessage"></div>
 
         <div class="form-group term-cond-wrap">
@@ -232,7 +238,7 @@
         <div class="form-group">
             <button
                     ng-click="submitCheckout()"
-                    ng-disabled="isDisabled || errorMessage"
+                    ng-disabled="isDisabled"
                     type="button"
                     class="btn btn-lg btn-block btn-success resortpro_unit_submit_blue">
                 <i class="glyphicon glyphicon-check"></i>
