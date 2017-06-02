@@ -161,6 +161,7 @@
           }
           element.datepicker({
             dateFormat: 'mm/dd/yy',
+            autoclose: true,
             minDate: "+"+days+"d",
             onSelect: function (date) {
               ngModelCtrl.$setViewValue(date);
@@ -177,12 +178,12 @@
               scope.updateCheckout({date: to});
               scope.updatePrice();
             },
-            onClose: function(){
-              if(jQuery('#book_start_date').val() != '' && jQuery('#book_end_date').val() == '')
-                jQuery('#book_end_date').datepicker( "show" );
-            },
             beforeShowDay: function (date) {
               return scope.showDays({date: date});
+            }
+          }).on('changeDate', function(ev){
+            if(jQuery('#book_start_date').val() != '' && jQuery('#book_end_date').val() == ''){
+              jQuery('#book_end_date').datepicker( "show" );
             }
           });
         });
@@ -205,6 +206,7 @@
           element.datepicker({
             dateFormat: 'mm/dd/yy',
             minDate: frm,
+            autoclose: true,
             onSelect: function (date) {
               scope.$apply(function () {
                 ngModelCtrl.$setViewValue(date);
@@ -213,6 +215,10 @@
             },
             beforeShowDay: function (date) {
               return scope.showDays({date: date});
+            }
+          }).on('changeDate', function(ev){
+            if(jQuery('#book_start_date').val() == '' && jQuery('#book_end_date').val() != ''){
+             jQuery('#book_start_date').datepicker( "show" );
             }
           });
         });
@@ -2443,19 +2449,34 @@
           }
       )();
 
-      $scope.$watch("book.checkin", function() {
-        if ($scope.book.checkout) {
-            $scope.getPreReservationPrice($scope.book, 1);
-            $scope.refreshCalendar($scope.book.checkin);
+      $scope.$watch("book.checkin", function(newVal, oldVal) {
+
+        if (newVal != oldVal) {
+
+        }
+
+        if ( $scope.isDateCorrect($scope.book.checkin) && $scope.isDateCorrect($scope.book.checkout) ) {
+          $scope.errorMessage = '';
+          $scope.getPreReservationPrice($scope.book, 1);
+          $scope.refreshCalendar($scope.book.checkin);
+        } else {
+          $scope.errorMessage = 'Wrong date supplied.'
         }
       });
 
       $scope.$watch("book.checkout", function() {
-        if ($scope.book.checkin) {
+        if ( $scope.isDateCorrect($scope.book.checkin) && $scope.isDateCorrect($scope.book.checkout) ) {
+            $scope.errorMessage = '';
             $scope.getPreReservationPrice($scope.book, 1);
             $scope.refreshCalendar($scope.book.checkout);
+        } else {
+            $scope.errorMessage = 'Wrong date supplied.'
         }
       });
+
+      $scope.isDateCorrect = function (date) {
+          return !!Date.parse(date);
+      };
 
       $scope.refreshCalendar = function (date) {
         var $ = jQuery,

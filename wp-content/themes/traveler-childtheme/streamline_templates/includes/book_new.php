@@ -40,10 +40,10 @@
                        show-days="renderCalendar(date, false)"
                        update-price="getPreReservationPrice(book,1)"
                        update-checkout="setCheckoutDate(date)"
-                       readonly
                        bookcheckin
                        data-min-stay="<?php echo $min_stay ?>"
-                       data-checkin-days="<?php echo $checkin_days ?>"/>
+                       data-checkin-days="<?php echo $checkin_days ?>"
+                    />
                 </div>
             </div>
             <div class="col-md-6">
@@ -59,7 +59,6 @@
                            show-days="renderCalendar(date, true)"
                            update-price="getPreReservationPrice(book,1)"
                            bookcheckout
-                           readonly
                     />
                 </div>
             </div>
