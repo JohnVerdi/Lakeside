@@ -217,10 +217,10 @@ h3.price {
     border-top: 1px solid #aaa !important;
 }
 
-.wpb_wrapper h3.border-bottom {
-    border-bottom: 1px solid #eee;
-    margin: 20px !important;
+.wpb_wrapper h5.border-bottom {
+    border-bottom: 2px solid #eee;
     padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .term-cond-wrap *, #term_and_cond_modal_container * {
