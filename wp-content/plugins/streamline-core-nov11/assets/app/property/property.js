@@ -439,6 +439,7 @@
         checkoutTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/checkout.php",
         termAndConditionsTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/term-conditions.php"
       };
+        $scope.aviabilityDaysStatus = true;
 
       var map;
       var markerList = {};
@@ -1177,6 +1178,7 @@
             $scope.first_day_price = 0;
             $scope.rent = 0;
             $scope.taxes = 0;
+            $scope.aviabilityDaysStatus = obj.status.code == 'E0031' ? false : true;
 
             var errorMsg = obj.status.description;
             if(obj.status.code == 'E0031' && $rootScope.searchSettings.restrictionMsg != ''){
@@ -2449,28 +2451,24 @@
           }
       )();
 
-      $scope.$watch("book.checkin", function(newVal, oldVal) {
-
-        if (newVal != oldVal) {
-
-        }
-
+      $scope.$watch("book.checkin", function() {
         if ( $scope.isDateCorrect($scope.book.checkin) && $scope.isDateCorrect($scope.book.checkout) ) {
-          $scope.errorMessage = '';
           $scope.getPreReservationPrice($scope.book, 1);
-          $scope.refreshCalendar($scope.book.checkin);
-        } else {
-          $scope.errorMessage = 'Wrong date supplied.'
+
+          if ( angular.element($window.event.target).hasClass('day') ) {
+            $scope.refreshCalendar($scope.book.checkin);
+          }
+
         }
       });
 
       $scope.$watch("book.checkout", function() {
         if ( $scope.isDateCorrect($scope.book.checkin) && $scope.isDateCorrect($scope.book.checkout) ) {
-            $scope.errorMessage = '';
-            $scope.getPreReservationPrice($scope.book, 1);
+          $scope.getPreReservationPrice($scope.book, 1);
+
+          if ( angular.element($window.event.target).hasClass('day') ) {
             $scope.refreshCalendar($scope.book.checkout);
-        } else {
-            $scope.errorMessage = 'Wrong date supplied.'
+          }
         }
       });
 

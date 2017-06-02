@@ -290,8 +290,10 @@ jQuery(document).ready(function($) {
                             });
                         } else {
                             inxRangeBlueBtns = [];
-                            checkInInput.val('');
-                            checkOutInput.val('');
+                            $scope.$apply(function () {
+                                $scope.book.checkout = '';
+                                $scope.book.checkin = '';
+                            });
 
                             $.each( buttons, function () {
                                 buttons.removeClass('blue');
@@ -370,6 +372,10 @@ jQuery(document).ready(function($) {
                     $scope = angular.element($('#single-room')).scope();
 
                     if (! $scope.book.checkin || !$scope.book.checkin) {
+                        return
+                    }
+
+                    if ($scope.aviabilityDaysStatus === false){
                         return
                     }
 
