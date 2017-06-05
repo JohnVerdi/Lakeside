@@ -548,7 +548,9 @@ class ResortPro extends SibersStrimlineAPI
   		  wp_enqueue_script( 'resortpro-api-js', $this->assets_url . 'app/services/rpapi.js', array( 'angularjs' ) );
   		  wp_enqueue_script( 'resortpro-dirPagination-js', $this->assets_url . 'app/directives/dirPagination.js', array( 'angularjs' ) );
   		  wp_enqueue_script( 'resortpro-filters-js', $this->assets_url . 'app/filters/filters.js', array( 'angularjs' ) );
-  		  wp_enqueue_script( 'resortpro-property-js', $this->assets_url . 'app/property/property.js', array( 'angularjs' ) );
+          wp_enqueue_script( 'resortpro-messages-js', $this->assets_url . 'app/directives/ng-messages.js', array( 'angularjs' ) );
+          wp_enqueue_script( 'resortpro-property-js', $this->assets_url . 'app/property/property.js', array( 'angularjs' ) );
+  		  wp_enqueue_script( 'resortpro-property-checkout-js', $this->assets_url . 'app/property/property_checkout.js', array( 'resortpro-property-js' ) );
   		  wp_enqueue_script( 'resortpro-checkout-js', $this->assets_url . 'app/checkout/checkout.js', array( 'angularjs' ) );
   		  wp_enqueue_script( 'resortpro-app-js', $this->assets_url . 'app/app.js', array( 'angularjs' ) );
   	  } else {

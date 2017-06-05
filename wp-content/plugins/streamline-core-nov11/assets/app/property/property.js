@@ -4,7 +4,7 @@
  *
  ***************************/
 (function () {
-  var app = angular.module('resortpro.property', ['resortpro.services', 'resortpro.filters', 'angularUtils.directives.dirPagination', 'ngCookies']);
+  var app = angular.module('resortpro.property', ['resortpro.services', 'resortpro.filters', 'angularUtils.directives.dirPagination', 'ngCookies', 'ngMessages']);
 
   app.directive('ngAlt', function () {
     return {
@@ -399,8 +399,8 @@
     }
   });
 
-  app.controller('PropertyController', ['$scope', '$rootScope', '$sce', '$http', '$window', '$filter', 'Alert', 'rpapi', 'rpuri', '$cookies', '$compile', '$log',
-    function ($scope, $rootScope, $sce, $http, $window, $filter, Alert, rpapi, rpuri, $cookies, $compile, $log) {
+  app.controller('PropertyController', ['$scope', '$rootScope', '$sce', '$http', '$window', '$filter', 'Alert', 'rpapi', 'rpuri', '$cookies', '$compile',
+    function ($scope, $rootScope, $sce, $http, $window, $filter, Alert, rpapi, rpuri, $cookies, $compile) {
       $rootScope.properties = {};
       $rootScope.propList = {};
       $rootScope.rates_details = [];
