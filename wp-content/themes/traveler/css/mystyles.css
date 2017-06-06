@@ -439,6 +439,7 @@ body {
     position: absolute;
     right: 15px;
     left: 15px;
+    z-index: 3;
 }
 
 .cust-alert ng-message {
@@ -457,4 +458,3 @@ body {
 #checkout-wrapper .form-group {
     margin-bottom: 25px;
 }
-

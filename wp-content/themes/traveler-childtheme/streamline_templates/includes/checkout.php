@@ -80,8 +80,14 @@
             <div class="form-group col-md-4">
                 <label>
                     <span>Adress:</span>
-                    <input type="text" class="form-control" placeholder="Adress name" required ng-model="user.adress">
+                    <input type="text" class="form-control" required ng-minlength="2" name="userAdress" placeholder="Adress name" ng-model="user.adress">
                 </label>
+                <div ng-if="checkForm.userAdress.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userAdress.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short adress.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
             <div class="form-group col-md-4">
                 <label>
@@ -92,11 +98,12 @@
             <div class="form-group col-md-4">
                 <label>
                     <span>Country:</span>
-                    <select class="form-control" type="text" class="form-control" ng-model="user.country">
-                        <option>United states</option>
-                        <option>United states</option>
-                        <option>Canada</option>
-                        <option>Canada</option>
+                    <select
+                        class="form-control"
+                        ng-model="user.country"
+                        ng-options="x for x in checkoutCountries"
+                        ng-init="user.country = checkoutCountries[0]"
+                    >
                     </select>
                 </label>
             </div>
@@ -104,58 +111,109 @@
             <div class="form-group col-md-6">
                 <label>
                     <span>City:</span>
-                    <input type="text" class="form-control" placeholder="City" ng-model="user.city">
+                    <input type="text" name="userCity" required ng-minlength="2" class="form-control" placeholder="City" ng-model="user.city">
                 </label>
+                <div ng-if="checkForm.userCity.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userCity.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short city.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
             <div class="form-group col-md-4">
                 <label>
                     <span>State:</span>
-                    <input type="text" class="form-control" placeholder="State" ng-model="user.state">
+                    <input type="text" name="userState" required ng-minlength="2" class="form-control" placeholder="State" ng-model="user.state">
                 </label>
+                <div ng-if="checkForm.userState.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userState.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short state.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
             <div class="form-group col-md-2">
                 <label>
                     <span>Postal code:</span>
-                    <input type="text" class="form-control" placeholder="Postal code" ng-model="user.postalCode">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Postal code"
+                           ng-model="user.postalCode"
+                           ng-pattern="/^[a-z]{2}\d{1,2}\s*\d[a-z]{2}$/"
+                           required
+                           name="userPostCode"
+                    >
                 </label>
+                <div ng-if="checkForm.userPostCode.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userPostCode.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="pattern">Wrong postal code.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
 
             <div class="form-group col-md-3">
                 <label>
                     <span>Cart Type:</span>
-                    <input type="text" class="form-control" placeholder="Cart Type" ng-model="user.cardType">
+                    <input type="text" class="form-control" ng-minlength="2" required name="userCartType" placeholder="Cart Type" ng-model="user.cardType">
                 </label>
+                <div ng-if="checkForm.userCartType.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userCartType.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short Cart Type.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
             <div class="form-group col-md-3">
                 <label>
                     <span>Card number:</span>
-                    <input type="text" class="form-control" placeholder="Card number" ng-model="user.cardNumber">
+                    <input type="text" name="userCartNumber" required ng-minlength="2" class="form-control" placeholder="Card number" ng-model="user.cardNumber">
                 </label>
+                <div ng-if="checkForm.userCartNumber.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userCartNumber.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short Cart Number.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
             <div class="form-group col-md-2">
                 <label>
                     <span>Exp Month:</span>
-                    <input type="number" class="form-control" placeholder="Exp Month" ng-model="user.expMonth">
+                    <input type="number" name="userExpMonth" required ng-minlength="2" class="form-control" placeholder="Exp Month" ng-model="user.expMonth">
                 </label>
+                <div ng-if="checkForm.userExpMonth.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userExpMonth.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short Exp Month.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
             <div class="form-group col-md-2">
                 <label>
                     <span>Exp year:</span>
-                    <input type="number" class="form-control" placeholder="Exp year" ng-model="user.expYear">
+                    <input type="number" name="userExpYear" required ng-minlength="2" class="form-control" placeholder="Exp year" ng-model="user.expYear">
                 </label>
+                <div ng-if="checkForm.userExpYear.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userExpYear.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short Exp year.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
             <div class="form-group col-md-2">
                 <label>
                     <span>CVV:</span>
-                    <input type="text" class="form-control" placeholder="CVV" ng-model="user.svv">
+                    <input type="text" name="userCVV" required ng-minlength="3" class="form-control" placeholder="CVV" ng-model="user.svv">
                 </label>
+                <div ng-if="checkForm.userCVV.$dirty" class="cust-alert alert-danger">
+                    <ng-messages for="checkForm.userCVV.$error">
+                        <ng-message when="required">Please fill in this field.</ng-message>
+                        <ng-message when="minlength">Too short Exp year.</ng-message>
+                    </ng-messages>
+                </div>
             </div>
 
-            <ul ng-repeat="u in user">
-                <li>{[u]}</li>
-            </ul>
-
-            <button ng-click="testClick()">Press</button>
+            <button class="btn btn-lg btn-block btn-success resortpro_unit_submit_blue" ng-click="testClick()">Checkout</button>
         </div>
     </form>
 </div>

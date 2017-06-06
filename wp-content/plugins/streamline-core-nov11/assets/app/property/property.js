@@ -1205,7 +1205,7 @@
               'pets' : booking.pets,
               'coupon_code' : $scope.couponCode
             }).success(function (obj) {
-              if (obj.data != undefined) {
+              if (obj.data !== undefined) {
                 var total_fees = 0;
                 var total_taxes = 0;
 
