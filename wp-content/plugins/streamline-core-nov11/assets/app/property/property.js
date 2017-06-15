@@ -468,6 +468,9 @@
                   .empty()
                   .append(compiledeHTML)
                   .fadeIn(600);
+
+              jQuery("#checkout-wrapper input[required], #checkout-wrapper select[required]")
+                  .after('<span class="required-input-after">*</span>')
             }
           });
         }catch(e){

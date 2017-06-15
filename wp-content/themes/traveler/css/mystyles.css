@@ -458,3 +458,15 @@ body {
 #checkout-wrapper .form-group {
     margin-bottom: 25px;
 }
+
+#checkout-wrapper label {
+    position: relative;
+}
+
+#checkout-wrapper .required-input-after {
+    position: absolute;
+    color: #a94442;
+    right: -11px;
+    top: 13px;
+    font-size: 20px;
+}
