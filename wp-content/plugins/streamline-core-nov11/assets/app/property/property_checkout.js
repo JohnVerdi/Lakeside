@@ -1,8 +1,19 @@
 (function() {
 'use strict';
 angular.module('resortpro.property')
-    .controller('PropertyCheckoutController', [ '$scope', 'rpapi', function ($scope, rpapi) {
-
+    .directive('compileTemplate', function($compile, $parse){
+        return {
+            link: function(scope, element, attr){
+                var parsed = $parse(attr.ngBindHtml);
+                function getStringValue() { return (parsed(scope) || '').toString(); }
+                scope.$watch(getStringValue, function() {
+                    $compile(element, null, -9999)(scope);  //The -9999 makes it skip directives so that we do not recompile ourselves
+                });
+            }
+        }
+    })
+    .controller('PropertyCheckoutController', [ '$scope', 'rpapi', '$sce', '$timeout', function ($scope, rpapi, $sce, $timeout) {
+        $scope.checkoutErrorMessages = [];
         $scope.stateDictionaryUSA = {
             "AK" : "Alaska",
             "AL" : "Alabama",
@@ -68,6 +79,8 @@ angular.module('resortpro.property')
             'Australia'
         ];
 
+        // TODO USA regex Postal (^\d{5}$)|(^\d{5}-\d{4}$)
+
         $scope.cardTypes = [
             {
                 id: 1,
@@ -113,20 +126,32 @@ angular.module('resortpro.property')
                         "state_name": $scope.user.state,
                         "zip": $scope.user.postalCode,
                         "email": $scope.user.email,
-                        "client_comments":"",
+                        "client_comments": $scope.user.comments,
                         "country_name": $scope.user.country,
                         "credit_card_type_id": $scope.user.cardType,
                         "credit_card_number": $scope.user.cardNumber,
                         "credit_card_cid": $scope.user.svv,
                         "credit_card_expiration_month": $scope.user.expMonth,
                         "credit_card_expiration_year": $scope.user.expYear,
-                        "credit_card_amount":"0"
+                        "credit_card_amount": $scope.total_reservation
                     }).success(function (obj) {
-                        console.log(obj);
+                        // console.log(obj);
+                        var errMessage = $sce.trustAsHtml(obj.status.description);
+
+                        $scope.checkoutErrorMessages.push({message : errMessage });
+                        $scope.clearCheckoutErrorMessage();
                     })
+                } else {
+                    $scope.checkoutErrorMessages.push({message : 'Server does not respond, try again later or contact the administrator.'});
+                    $scope.clearCheckoutErrorMessage();
                 }
             });
+        };
 
+        $scope.clearCheckoutErrorMessage = function () {
+            $timeout( function(){
+                $scope.checkoutErrorMessages.shift();
+            }, 15000 );
         };
 
     }]);

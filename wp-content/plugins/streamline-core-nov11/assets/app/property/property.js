@@ -470,7 +470,9 @@
                   .fadeIn(600);
 
               jQuery("#checkout-wrapper input[required], #checkout-wrapper select[required]")
-                  .after('<span class="required-input-after">*</span>')
+                  .after('<span class="required-input-after">*</span>');
+
+              $scope.disableBookNowWidget();
             }
           });
         }catch(e){
@@ -2518,7 +2520,17 @@
           day = day.length > 1 ? day : '0' + day;
 
           return month + '/' + day + '/' + year;
-      }
+      };
+
+      $scope.disableBookNowWidget = function () {
+          $scope.isCheckoutProcess = true;
+
+      };
+
+      $scope.enableBookNowWidget = function () {
+          $scope.isCheckoutProcess = false;
+
+      };
 
     }
   ]);

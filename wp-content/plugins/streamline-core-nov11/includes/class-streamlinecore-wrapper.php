@@ -132,8 +132,6 @@ class StreamlineCore_Wrapper{
 
   }
 
-
-
   public static function get_company_policies() {
     return self::_get_resource( 'company-policies', 'GetCompanyDocumentHtml', array('trigger_id' => 18));
   }

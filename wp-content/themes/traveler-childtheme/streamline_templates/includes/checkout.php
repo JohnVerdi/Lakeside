@@ -221,6 +221,21 @@
                 </div>
             </div>
 
+            <div class="col-md-12">
+                <h5 class="border-bottom">Comments/Requests</h5>
+            </div>
+
+            <div class="form-group col-md-12">
+                <label>
+                    <span>You can leave a comment:</span>
+                    <textarea name="userComments" class="form-control user-comments" ng-model="user.comments"></textarea>
+                </label>
+            </div>
+
+            <div class="alert alert-danger checkout-err" ng-if="checkoutErrorMessages.length > 0" ng-cloak ng-repeat="errorObj in checkoutErrorMessages">
+                <span ng-bind-html="errorObj.message" compile-template></span>
+            </div>
+
             <button ng-disabled="checkForm.$invalid" class="btn btn-lg btn-block btn-success resortpro_unit_submit_blue"
                     ng-click="testClick()">Checkout
             </button>

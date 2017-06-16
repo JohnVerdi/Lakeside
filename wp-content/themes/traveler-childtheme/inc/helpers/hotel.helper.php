@@ -1209,17 +1209,21 @@ if(!class_exists('HotelHelper')){
          */
         function _get_availability_hotel_room_custom()
         {
-            $all_days = StreamlineCore_Wrapper::GetPropertyRatesRawData( $_POST['post_id'] );
-            $blocked_days = StreamlineCore_Wrapper::GetPropertyAvailabilityCalendarRawData( $_POST['post_id'] );
-            $all_days = $this->parseAllDaysPeriod($all_days['data']['rates']);
-            $blocked_days = $this->parseBlockedDaysPeriod($blocked_days['data']['blocked_period']);
+           try {
+               $all_days = StreamlineCore_Wrapper::GetPropertyRatesRawData( $_POST['post_id'] );
+               $blocked_days = StreamlineCore_Wrapper::GetPropertyAvailabilityCalendarRawData( $_POST['post_id'] );
+               $all_days = $this->parseAllDaysPeriod($all_days['data']['rates']);
+               $blocked_days = $this->parseBlockedDaysPeriod($blocked_days['data']['blocked_period']);
 
-            $result = array();
-            $merged = array_replace_recursive( $all_days, $blocked_days );
-            foreach ($merged as $key => $val){
-                $result[] = $val;
-            }
-            wp_send_json($result);
+               $result = array();
+               $merged = array_replace_recursive( $all_days, $blocked_days );
+               foreach ($merged as $key => $val){
+                   $result[] = $val;
+               }
+               wp_send_json($result);
+           } catch ( Exception $e) {
+               print_r($e);
+           }
         }
 
         /**
@@ -1267,16 +1271,46 @@ if(!class_exists('HotelHelper')){
         {
             $result = array();
 
-            foreach ( $blockedDays as $period ) {
-                $start = new DateTime($period['startdate']);
-                $end = new DateTime($period['enddate']);
+            if (is_array($blockedDays[0])) {
+                foreach ( $blockedDays as $period ) {
+                    $start = new DateTime($period['startdate']);
+                    $end = new DateTime($period['enddate']);
+                    $end->modify('+2 day');
+                    $interval = DateInterval::createFromDateString('1 day');
+                    $period = new DatePeriod($start, $interval, $end);
+
+                    $count = iterator_count($period);
+
+                    foreach ($period as $key => $dt) {
+                        $date = $dt->format("Y-m-d");
+                        $day = $dt->format('d');
+
+                        if ( $count - 1 ==  $key){
+                            $status = 'still';
+                        } elseif ( $key == 0){
+                            $status = 'first';
+                        } else {
+                            $status = 'booked';
+                        }
+
+                        $result[$date] = array(
+                            'date' => $date,
+                            'day' => $day,
+                            'start' => $date,
+                            'status' => $status,
+                        );
+                    }
+                }
+            } elseif (is_array($blockedDays)) {
+                $start = new DateTime($blockedDays['startdate']);
+                $end = new DateTime($blockedDays['enddate']);
                 $end->modify('+2 day');
                 $interval = DateInterval::createFromDateString('1 day');
-                $period = new DatePeriod($start, $interval, $end);
+                $blockedDays = new DatePeriod($start, $interval, $end);
 
-                $count = iterator_count($period);
+                $count = iterator_count($blockedDays);
 
-                foreach ($period as $key => $dt) {
+                foreach ($blockedDays as $key => $dt) {
                     $date = $dt->format("Y-m-d");
                     $day = $dt->format('d');
 
