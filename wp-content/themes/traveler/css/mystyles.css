@@ -327,7 +327,7 @@ h3.price {
     float: right;
 }
 
-#main button.blue {
+#main button.blue:not(.btn-disabled) {
     background-color: #4ab6e4;
     border-color: #4ab6e4;
     color: #fff !important;
