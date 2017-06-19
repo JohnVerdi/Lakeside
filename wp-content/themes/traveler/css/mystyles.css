@@ -486,3 +486,7 @@ body {
     text-align: center;
     width: 100%;
 }
+
+#checkout-success td {
+    text-transform: capitalize;
+}

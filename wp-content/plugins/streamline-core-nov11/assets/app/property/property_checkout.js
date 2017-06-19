@@ -12,7 +12,8 @@ angular.module('resortpro.property')
             }
         }
     })
-    .controller('PropertyCheckoutController', [ '$scope', 'rpapi', '$sce', '$timeout', function ($scope, rpapi, $sce, $timeout) {
+    .controller('PropertyCheckoutController', [ '$scope', 'rpapi', '$sce', '$timeout', '$http', '$compile',
+        function ($scope, rpapi, $sce, $timeout, $http ,$compile) {
         $scope.checkoutErrorMessages = [];
         $scope.stateDictionaryUSA = {
             "AK" : "Alaska",
@@ -79,8 +80,6 @@ angular.module('resortpro.property')
             'Australia'
         ];
 
-        // TODO USA regex Postal (^\d{5}$)|(^\d{5}-\d{4}$)
-
         $scope.cardTypes = [
             {
                 id: 1,
@@ -135,11 +134,32 @@ angular.module('resortpro.property')
                         "credit_card_expiration_year": $scope.user.expYear,
                         "credit_card_amount": $scope.total_reservation
                     }).success(function (obj) {
-                        // console.log(obj);
-                        var errMessage = $sce.trustAsHtml(obj.status.description);
+                        console.log(obj);
+                        if (obj.status && obj.status.description){
+                            $scope.checkoutErrorMessages.push({message : $sce.trustAsHtml(obj.status.description) });
+                            $scope.clearCheckoutErrorMessage();
+                        }
 
-                        $scope.checkoutErrorMessages.push({message : errMessage });
-                        $scope.clearCheckoutErrorMessage();
+                        if (obj.data && obj.data.reservation && obj.data.reservation.confirmation_id) {
+                            try{
+                                $http.get($scope.listIncludePages.checkoutSuccessTemplateDestination).then(function (response) {
+                                    if (response.statusText === 'OK') {
+                                        $scope.successCheckoutData = obj.data.reservation;
+                                        delete $scope.successCheckoutData.travelagent_name;
+
+                                        var compiledeHTML = $compile(response.data)($scope);
+
+                                        jQuery("#dynamic-template")
+                                            .hide(0)
+                                            .empty()
+                                            .append(compiledeHTML)
+                                            .fadeIn(600);
+                                    }
+                                });
+                            }catch(e){
+                                console.log('ERROR: Cant include checkout success template!');
+                            }
+                        }
                     })
                 } else {
                     $scope.checkoutErrorMessages.push({message : 'Server does not respond, try again later or contact the administrator.'});

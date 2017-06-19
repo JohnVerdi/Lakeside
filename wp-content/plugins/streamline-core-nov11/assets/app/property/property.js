@@ -437,7 +437,8 @@
       $scope.maxCalendarDate = null;
       $scope.listIncludePages = {
         checkoutTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/checkout.php",
-        termAndConditionsTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/term-conditions.php"
+        termAndConditionsTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/term-conditions.php",
+        checkoutSuccessTemplateDestination: "/wp-content/themes/traveler-childtheme/streamline_templates/includes/checkout_success.php"
       };
       $scope.aviabilityDaysStatus = true;
       $scope.errorMessages = {};
