@@ -2453,7 +2453,9 @@
 
       $scope.maxOptionalFees = (
           function () {
-              var max = 26, i = 1, result = [];
+              var max = 26,
+                  i = 0,
+                  result = [];
               for ( ; i < max; i++ ){
                   result.push(i);
               }

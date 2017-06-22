@@ -141,7 +141,7 @@
                            class="form-control"
                            placeholder="Postal code"
                            ng-model="user.postalCode"
-                           ng-pattern="/^\d{5}?$/"
+                           ng-pattern="/^\d{5,6}?$/"
                            required
                            name="userPostCode"
                     >

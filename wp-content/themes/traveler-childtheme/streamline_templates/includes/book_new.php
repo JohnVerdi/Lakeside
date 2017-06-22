@@ -114,10 +114,21 @@
                 <div id="extras_top" class="collapse in">
                     <table>
                         <tr ng-repeat="optional_fee in optional_fees">
-                            <td>{[optional_fee.name]} -<span class="fr">{[ optional_fee.value ]}$</span></td>
+                            <td>{[optional_fee.name]} -
+                                <span
+                                    class="fr"
+                                    ng-init="optional_fee.result_value = optional_fee.value"
+                                >
+                                    {[ optional_fee.result_value ]}$
+                                </span>
+                            </td>
                             <td class="optional-fee-container">
-                                <select ng-model="optionalFees" class="max-optional-fees" ng-options="item for item in maxOptionalFees">
-                                    <option value="">0</option>
+                                <select
+                                        ng-change="optional_fee.result_value = optional_fee.value * optional_fee.count"
+                                        ng-model="optional_fee.count"
+                                        class="max-optional-fees"
+                                        ng-options="item for item in maxOptionalFees"
+                                        ng-init="optional_fee.count = maxOptionalFees[1]">
                                 </select>
                             </td>
                         </tr>

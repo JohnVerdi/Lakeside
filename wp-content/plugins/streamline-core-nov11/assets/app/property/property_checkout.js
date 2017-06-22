@@ -149,7 +149,7 @@ angular.module('resortpro.property')
 
                                         var compiledeHTML = $compile(response.data)($scope);
 
-                                        jQuery("#dynamic-template")
+                                        jQuery("#single-room")
                                             .hide(0)
                                             .empty()
                                             .append(compiledeHTML)
