@@ -138,8 +138,10 @@ angular.module('resortpro.property')
 
                     // Send optional fees cound data, but API doesn't process yet.
                     angular.forEach($scope.optional_fees, function (fee) {
-                        var key = 'optional_fee_' + fee.id;
-                        prepearedMakeReservationData[key] = fee.count;
+                        if(fee.count > 0){
+                            var key = 'optional_fee_' + fee.id;
+                            prepearedMakeReservationData[key] = fee.count;
+                        }
                     });
 
                     rpapi.getWithParams('MakeReservation', prepearedMakeReservationData).success(function (obj) {
