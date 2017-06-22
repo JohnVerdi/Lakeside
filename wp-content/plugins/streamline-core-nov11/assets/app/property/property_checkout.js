@@ -99,7 +99,7 @@ angular.module('resortpro.property')
             }
         ];
 
-        $scope.testClick = function () {
+        $scope.submitCheckout = function () {
             rpapi.getWithParams('GetPreReservationPrice', {
                 'unit_id': $scope.book.unit_id,
                 'startdate': $scope.book.checkin,
@@ -110,31 +110,40 @@ angular.module('resortpro.property')
                 'coupon_code' : $scope.couponCode
             }).success(function (obj) {
                 if (obj.data !== undefined) {
-                    rpapi.getWithParams('MakeReservation', {
-                        'unit_id': $scope.book.unit_id,
-                        'startdate': $scope.book.checkin,
-                        'enddate': $scope.book.checkout,
-                        'occupants': $scope.book.occupants,
-                        'occupants_small' : $scope.book.occupants_small,
-                        'pets' : $scope.book.pets,
-                        'coupon_code' : $scope.couponCode,
-                        "first_name": $scope.user.firstName,
-                        "last_name": $scope.user.lastName,
-                        "address": $scope.user.adress,
-                        "city": $scope.user.city,
-                        "state_name": $scope.user.state,
-                        "zip": $scope.user.postalCode,
-                        "email": $scope.user.email,
-                        "client_comments": $scope.user.comments,
-                        "country_name": $scope.user.country,
-                        "credit_card_type_id": $scope.user.cardType,
-                        "credit_card_number": $scope.user.cardNumber,
-                        "credit_card_cid": $scope.user.svv,
-                        "credit_card_expiration_month": $scope.user.expMonth,
-                        "credit_card_expiration_year": $scope.user.expYear,
-                        "credit_card_amount": $scope.total_reservation
-                    }).success(function (obj) {
-                        console.log(obj);
+
+                    var prepearedMakeReservationData = {
+                        'unit_id': $scope.book.unit_id || '',
+                        'startdate': $scope.book.checkin || '',
+                        'enddate': $scope.book.checkout || '',
+                        'occupants': $scope.book.occupants || '',
+                        'occupants_small' : $scope.book.occupants_small || '',
+                        'pets' : $scope.book.pets || '',
+                        'coupon_code' : $scope.couponCode || '',
+                        "first_name": $scope.user.firstName || '',
+                        "last_name": $scope.user.lastName || '',
+                        "address": $scope.user.adress || '',
+                        "city": $scope.user.city || '',
+                        "state_name": $scope.user.state || '',
+                        "zip": $scope.user.postalCode || '',
+                        "email": $scope.user.email || '',
+                        "client_comments": $scope.user.comments || '',
+                        "country_name": $scope.user.country || '',
+                        "credit_card_type_id": $scope.user.cardType || '',
+                        "credit_card_number": $scope.user.cardNumber || '',
+                        "credit_card_cid": $scope.user.svv || '',
+                        "credit_card_expiration_month": $scope.user.expMonth || '',
+                        "credit_card_expiration_year": $scope.user.expYear || '',
+                        "credit_card_amount": $scope.total_reservation || ''
+                    };
+
+                    // Send optional fees cound data, but API doesn't process yet.
+                    angular.forEach($scope.optional_fees, function (fee) {
+                        var key = 'optional_fee_' + fee.id;
+                        prepearedMakeReservationData[key] = fee.count;
+                    });
+
+                    rpapi.getWithParams('MakeReservation', prepearedMakeReservationData).success(function (obj) {
+
                         if (obj.status && obj.status.description){
                             $scope.checkoutErrorMessages.push({message : $sce.trustAsHtml(obj.status.description) });
                             $scope.clearCheckoutErrorMessage();

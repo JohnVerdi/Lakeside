@@ -237,7 +237,7 @@
             </div>
 
             <button ng-disabled="checkForm.$invalid" class="btn btn-lg btn-block btn-success resortpro_unit_submit_blue"
-                    ng-click="testClick()">Checkout
+                    ng-click="submitCheckout()">Checkout
             </button>
         </div>
     </form>

@@ -2532,7 +2532,6 @@
 
       $scope.enableBookNowWidget = function () {
           $scope.isCheckoutProcess = false;
-
       };
 
     }
