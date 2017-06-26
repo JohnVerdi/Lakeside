@@ -124,8 +124,10 @@
             <div class="form-group col-md-4">
                 <label>
                     <span>State:</span>
-                    <input type="text" name="userState" required ng-minlength="2" class="form-control"
-                           placeholder="State" ng-model="user.state">
+                    <select required class="form-control" name="userCartType" ng-model="user.state"
+                            ng-options="obj.abbreviation as obj.name for obj in stateDictionaryUSA">
+                        <option value="" disabled >Select state</option>
+                    </select>
                 </label>
                 <div ng-if="checkForm.userState.$dirty" class="cust-alert alert-danger">
                     <ng-messages for="checkForm.userState.$error">
