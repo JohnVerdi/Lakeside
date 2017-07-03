@@ -320,7 +320,11 @@ h3.price {
 }
 
 .max-optional-fees {
-    min-width: 40px;
+    width: 50px;
+    text-align: center;
+    border-color: #999 !important;
+    padding-left: 0 !important;
+    background-color: #f9f9f9;
 }
 
 .fr {

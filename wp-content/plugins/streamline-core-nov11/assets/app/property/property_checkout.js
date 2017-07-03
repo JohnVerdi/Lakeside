@@ -317,7 +317,7 @@ angular.module('resortpro.property')
                         "credit_card_amount": $scope.total_reservation || ''
                     };
 
-                    // Send optional fees cound data, but API doesn't process yet.
+                    // Send optional fees count data, but API doesn't process yet.
                     angular.forEach($scope.optional_fees, function (fee) {
                         if(fee.count > 0){
                             var key = 'optional_fee_' + fee.id;
@@ -337,7 +337,7 @@ angular.module('resortpro.property')
                                 $http.get($scope.listIncludePages.checkoutSuccessTemplateDestination).then(function (response) {
                                     if (response.statusText === 'OK') {
                                         $scope.successCheckoutData = obj.data.reservation;
-                                        delete $scope.successCheckoutData.travelagent_name;
+                                        delete $scope.successCheckoutData.travelagent_name; // Always empty obj
 
                                         var compiledeHTML = $compile(response.data)($scope);
 

@@ -2534,6 +2534,40 @@
           $scope.isCheckoutProcess = false;
       };
 
+      $scope.$watch('optional_fees', function(newVal, oldVal){
+        if (newVal && oldVal){
+          for (var i = 0; i < newVal.length; i++) {
+            if (newVal[i].count === oldVal[i].count) {
+              continue;
+            }
+            if (newVal[i].count > oldVal[i].count){
+              $scope.isIncreaseExtras = 'plus';
+            } else {
+              $scope.isIncreaseExtras = 'minus';
+            }
+          }
+        }
+      }, true);
+
+      $scope.changeRequiredFees = function (newVal) {
+        if ($scope.isIncreaseExtras === 'plus'){
+          $scope.required_fees.push({
+              name: newVal.name,
+              id: newVal.id,
+              value: newVal.value
+          })
+        }
+
+        if ($scope.isIncreaseExtras === 'minus'){
+          for (var i = 0; i < $scope.required_fees.length; i++){
+            if ( $scope.required_fees[i].id === newVal.id) {
+                $scope.required_fees.splice(i, 1);
+                break;
+            }
+          }
+        }
+      };
+
     }
   ]);
 })();

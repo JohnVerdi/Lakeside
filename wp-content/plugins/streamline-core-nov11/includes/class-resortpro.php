@@ -1548,10 +1548,9 @@ class ResortPro extends SibersStrimlineAPI
      * @return array
      */
     public function getFavorites(){
-        $cookies = parse_ini_string( str_replace( ";" , "\n" , $_SERVER['HTTP_COOKIE']));
         $fav = array();
-        if(isset($cookies['favorites'])){
-            $fav = explode(',', $cookies['favorites']);
+        if(isset($_COOKIE['favorites'])){
+            $fav = explode(',', $_COOKIE['favorites']);
         }
         return $fav;
     }

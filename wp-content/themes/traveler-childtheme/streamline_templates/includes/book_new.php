@@ -115,21 +115,21 @@
                     <table>
                         <tr ng-repeat="optional_fee in optional_fees">
                             <td>{[optional_fee.name]} -
-                                <span
-                                    class="fr"
-                                    ng-init="optional_fee.result_value = optional_fee.value"
-                                >
-                                    {[ optional_fee.result_value ]}$
+                                <span class="fr"
+                                    ng-init="optional_fee.result_value = optional_fee.value">
+                                    {[ optional_fee.value ]}$
                                 </span>
                             </td>
                             <td class="optional-fee-container">
-                                <select
-                                        ng-change="optional_fee.result_value = optional_fee.value * optional_fee.count"
+                                <input
+                                        type="number"
+                                        min="0"
                                         ng-model="optional_fee.count"
+                                        ng-change="optional_fee.result_value = optional_fee.value * optional_fee.count"
+                                        ng-init="optional_fee.count = 1"
+                                        ng-click="changeRequiredFees(optional_fee)"
                                         class="max-optional-fees"
-                                        ng-options="item for item in maxOptionalFees"
-                                        ng-init="optional_fee.count = maxOptionalFees[1]">
-                                </select>
+                                >
                             </td>
                         </tr>
                     </table>
