@@ -198,13 +198,14 @@
             <div class="form-group col-md-2">
                 <label>
                     <span>Exp year:</span>
-                    <input type="number" name="userExpYear" required ng-minlength="4" class="form-control"
+                    <input type="number" name="userExpYear" required ng-minlength="4" ng-maxlength="4" class="form-control"
                            placeholder="Exp year" ng-model="user.expYear">
                 </label>
                 <div ng-if="checkForm.userExpYear.$dirty" class="cust-alert alert-danger">
                     <ng-messages for="checkForm.userExpYear.$error">
                         <ng-message when="required">Please fill in this field.</ng-message>
                         <ng-message when="minlength">Too short Exp year.</ng-message>
+                        <ng-message when="minlength">Wrong Exp year.</ng-message>
                     </ng-messages>
                 </div>
             </div>
