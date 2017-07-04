@@ -1283,8 +1283,8 @@
                     $scope.totalTaxesAndFees += (+tax.value);
                 });
 
-                $scope.totalRequiredExtras = (+$scope.totalRequiredExtras).toFixed(2);
-                $scope.totalTaxesAndFees = (+$scope.totalTaxesAndFees).toFixed(2);
+                // $scope.totalRequiredExtras = (+$scope.totalRequiredExtras).toFixed(2);
+                // $scope.totalTaxesAndFees = (+$scope.totalTaxesAndFees).toFixed(2);
 
                 if( $scope.discount > 0 ){
                   $scope.total_reservation -= $scope.discount;
@@ -2534,6 +2534,7 @@
           $scope.isCheckoutProcess = false;
       };
 
+      // Required for changeRequiredFees to understand which event currently fired, plus or minus.
       $scope.$watch('optional_fees', function(newVal, oldVal){
         if (newVal && oldVal){
           for (var i = 0; i < newVal.length; i++) {
@@ -2550,18 +2551,26 @@
       }, true);
 
       $scope.changeRequiredFees = function (newVal) {
+        if ( !$scope.required_fees[0] ) {
+            $scope.required_fees = [];
+        }
+
+        // add one item to extra
         if ($scope.isIncreaseExtras === 'plus'){
           $scope.required_fees.push({
               name: newVal.name,
               id: newVal.id,
               value: newVal.value
-          })
+          });
+          $scope.totalRequiredExtras = parseFloat($scope.totalRequiredExtras) + parseFloat(newVal.value);
         }
 
+        // remove one item from extra
         if ($scope.isIncreaseExtras === 'minus'){
           for (var i = 0; i < $scope.required_fees.length; i++){
             if ( $scope.required_fees[i].id === newVal.id) {
                 $scope.required_fees.splice(i, 1);
+                $scope.totalRequiredExtras = parseFloat($scope.totalRequiredExtras) - parseFloat(newVal.value);
                 break;
             }
           }

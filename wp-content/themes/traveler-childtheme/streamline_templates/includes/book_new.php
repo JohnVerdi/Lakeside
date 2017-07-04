@@ -114,10 +114,11 @@
                 <div id="extras_top" class="collapse in">
                     <table>
                         <tr ng-repeat="optional_fee in optional_fees">
-                            <td>{[optional_fee.name]} -
+                            <td>
+                                <span>{[optional_fee.name]} - </span>
                                 <span class="fr"
                                     ng-init="optional_fee.result_value = optional_fee.value">
-                                    {[ optional_fee.value ]}$
+                                    {[ optional_fee.value | currency: "$" : 2  ]}
                                 </span>
                             </td>
                             <td class="optional-fee-container">
@@ -126,9 +127,10 @@
                                         min="0"
                                         ng-model="optional_fee.count"
                                         ng-change="optional_fee.result_value = optional_fee.value * optional_fee.count"
-                                        ng-init="optional_fee.count = 1"
+                                        ng-init="optional_fee.count = 0"
                                         ng-click="changeRequiredFees(optional_fee)"
                                         class="max-optional-fees"
+                                        onkeydown="return false"
                                 >
                             </td>
                         </tr>
@@ -150,7 +152,7 @@
                     <table>
                         <tr ng-repeat="reservation_day in reservation_days">
                             <td>{[reservation_day.date]}</td>
-                            <td>{[reservation_day.price]}$</td>
+                            <td>{[reservation_day.price | currency: "$" : 2 ]}</td>
                         </tr>
                     </table>
 
@@ -165,13 +167,13 @@
                             <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isBotExtrasArrowActive" ng-cloak></i>
                         </h4>
                         <div class="extras-results">
-                            <span>{[totalRequiredExtras]}$</span>
+                            <span>{[totalRequiredExtras | currency: "$" : 2 ]}</span>
                         </div>
                         <div id="extras_bot" class="collapse">
                             <table>
                                 <tr ng-repeat="required_fee in required_fees">
                                     <td>{[required_fee.name]}</td>
-                                    <td>{[required_fee.value]}$</td>
+                                    <td>{[required_fee.value | currency: "$" : 2 ]}</td>
                                 </tr>
                             </table>
                         </div>
@@ -188,13 +190,13 @@
                             <i class="fa fa-angle-down fa-angle-button" aria-hidden="true" ng-hide="isTaxesFeesArrowActive" ng-cloak></i>
                         </h4>
                         <div class="extras-results">
-                            <span>{[totalTaxesAndFees]}$</span>
+                            <span>{[totalTaxesAndFees | currency: "$" : 2 ]}</span>
                         </div>
                         <div id="taxes_fees" class="collapse">
                             <table>
                                 <tr ng-repeat="taxes_detail in taxes_details">
                                     <td>{[taxes_detail.name]}</td>
-                                    <td>{[taxes_detail.value]}$</td>
+                                    <td>{[taxes_detail.value | currency: "$" : 2 ]}</td>
                                 </tr>
                             </table>
                         </div>
@@ -206,15 +208,15 @@
                 <table>
                     <tr>
                         <td>Total:</td>
-                        <td>${[total_reservation]}</td>
+                        <td>{[total_reservation | currency: "$" : 2 ]}</td>
                     </tr>
                     <tr ng-if="due_today">
                         <td>Due Today:</td>
-                        <td>${[due_today]}</td>
+                        <td>{[due_today | currency: "$" : 2 ]}</td>
                     </tr>
-                    <tr ng-if="coupon_discount" class="alert alert-success">
+                    <tr ng-if="coupon_discount > 0" class="alert alert-success">
                         <td>{[couponCode]}</td>
-                        <td>${[coupon_discount]}</td>
+                        <td>{[coupon_discount | currency: "$" : 2 ]}</td>
                     </tr>
                 </table>
             </div>

@@ -51,6 +51,11 @@
     background-image: none;
     border-color: #777777;
 }
+#single-room .resortpro_unit_submit_blue_spinner {
+    display: none;
+    font-size: 24px;
+}
+
 
 .fa-angle-button {
     float: right;

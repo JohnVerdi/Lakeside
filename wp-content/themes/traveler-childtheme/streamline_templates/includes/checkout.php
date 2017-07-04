@@ -101,9 +101,9 @@
             <div class="form-group col-md-4">
                 <label>
                     <span>Country:</span>
-                    <select required class="form-control" ng-model="user.country"
-                            ng-options="x for x in checkoutCountries"
-                            ng-init="user.country = checkoutCountries[0]">
+                    <select class="form-control" required ng-model="user.country" name="checkoutCountries">
+                        <option value="" disabled >Select a Country</option>-->
+                        <option ng-repeat="country in checkoutCountries" value="{[country.code]}">{[country.name]}</option>
                     </select>
                 </label>
             </div>
@@ -132,7 +132,6 @@
                 <div ng-if="checkForm.userState.$dirty" class="cust-alert alert-danger">
                     <ng-messages for="checkForm.userState.$error">
                         <ng-message when="required">Please fill in this field.</ng-message>
-                        <ng-message when="minlength">Too short state.</ng-message>
                     </ng-messages>
                 </div>
             </div>
@@ -239,8 +238,11 @@
             </div>
 
             <button ng-disabled="checkForm.$invalid" class="btn btn-lg btn-block btn-success resortpro_unit_submit_blue"
-                    ng-click="submitCheckout()">Checkout
+                    ng-click="submitCheckout()">
+                <span class="resortpro_unit_submit_blue_message">Checkout</span>
+                <i class="fa fa-refresh fa-spin fa-fw margin-bottom resortpro_unit_submit_blue_spinner"></i>
             </button>
+
         </div>
     </form>
 </div>
