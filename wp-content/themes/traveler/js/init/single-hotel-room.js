@@ -258,7 +258,13 @@ jQuery(document).ready(function($) {
                     });
                 },
                 eventClick: function(event, element, view) {
-                    var date = new Date(event.date),
+
+                    d = new Date(event.date);
+                    utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+                    date_formated = new Date(utc + (3600000*offset));
+
+                    var date = date_formated,
+
                         $scope = angular.element($('#single-room')).scope(),
                         checkInInput = $('#book_start_date'),
                         checkOutInput = $('#book_end_date'),
