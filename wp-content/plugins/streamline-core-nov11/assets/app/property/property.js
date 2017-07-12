@@ -1237,6 +1237,7 @@
                 }
 
                 $scope.total_reservation = obj.data.total;
+                $scope.total_reservation_api = obj.data.total;
                 $scope.total_fees = total_fees;
                 $scope.total_taxes = total_taxes;
                 $scope.rent = obj.data.price;
@@ -1253,6 +1254,7 @@
                 $scope.required_fees = obj.data.required_fees;
                 $scope.taxes_details = obj.data.taxes_details;
                 $scope.due_today = obj.data.due_today;
+                $scope.due_today_api = obj.data.due_today;
                 $scope.res = res;
 
                 if (obj.data.reservation_days[0] && obj.data.reservation_days[0].price) {
@@ -1282,6 +1284,10 @@
                 angular.forEach($scope.taxes_details, function(tax){
                     $scope.totalTaxesAndFees += (+tax.value);
                 });
+                  $scope.$watch('[totalRequiredExtras, totalTaxesAndFees]', function (new_value, $old_value) {
+                      $scope.total_reservation = $scope.total_reservation_api + $scope.totalRequiredExtras + $scope.totalTaxesAndFees;
+                      $scope.due_today = $scope.due_today_api + $scope.totalRequiredExtras + $scope.totalTaxesAndFees;
+                  }, true);
 
                 // $scope.totalRequiredExtras = (+$scope.totalRequiredExtras).toFixed(2);
                 // $scope.totalTaxesAndFees = (+$scope.totalTaxesAndFees).toFixed(2);
