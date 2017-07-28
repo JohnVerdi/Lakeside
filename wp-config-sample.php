@@ -1,89 +1,99 @@
 <?php
-/**
- * The base configuration for WordPress
- *
- * The wp-config.php creation script uses this file during the
- * installation. You don't have to use the web site, you can
- * copy this file to "wp-config.php" and fill in the values.
- *
- * This file contains the following configurations:
- *
- * * MySQL settings
- * * Secret keys
- * * Database table prefix
- * * ABSPATH
- *
- * @link https://codex.wordpress.org/Editing_wp-config.php
- *
- * @package WordPress
- */
+# Database Configuration
+define( 'DB_NAME', 'database_name_here' );
+define( 'DB_USER', 'username_here' );
+define( 'DB_PASSWORD', 'password_here' );
+define( 'DB_HOST', '127.0.0.1' );
+define( 'DB_HOST_SLAVE', '127.0.0.1' );
+define('DB_CHARSET', 'utf8mb4');
+define('DB_COLLATE', 'utf8_unicode_ci');
+$table_prefix = 'wp_';
 
-// ** MySQL settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
-define('DB_NAME', 'database_name_here');
+# Security Salts, Keys, Etc
+define('AUTH_KEY',         '^^]019Guz>8XV_@r^zwy0Ti7*^sgFiq|2u]+_Qq<Ki<4K/3kGvb-N[1XXL:V!}M^');
+define('SECURE_AUTH_KEY',  '+G4`i,y(-Z>PAGxISD-}Gr#<kK4^5yX:|Au>b#G%l}xdU pj-L(+JZR@iB?=~`[k');
+define('LOGGED_IN_KEY',    '`SE|y;z74;7:M(kq~3&m+`8@%w#xI?*Z=g0Pey|SGLYA q85V(u~t-WEFO^M}2}7');
+define('NONCE_KEY',        '+^!KztopkL^9oOiIGheC-s!vVkfvA2XG}Z:bVl(h|c[> C~T5Car$qY:>kw+$>xE');
+define('AUTH_SALT',        '|{jV824`P ([Fq1V9f2S}^Emp}|P|Hvj]Aflc7nyR+qTnhLk_=Lk4=05p>^w7Go;');
+define('SECURE_AUTH_SALT', 'W+tO?-v|1 ;ae&3Lobe 5KNghC_kw=Hf1a/dvBhKx];.NDv0y[cHy`yFX/^!~wgm');
+define('LOGGED_IN_SALT',   '@H)|aCH9+w)JDH4l/6`RKsv!]$1.h]A_h 6y<W4d4/-*3FeSzHANQrrJRjh2L|!k');
+define('NONCE_SALT',       '0;)_QZ=6f(Qd&/vY(Zr2_B`Zl]D?A]D>zMe|&1%n,E#;.ykz`<hTBB@FVg_4yl%t');
 
-/** MySQL database username */
-define('DB_USER', 'username_here');
 
-/** MySQL database password */
-define('DB_PASSWORD', 'password_here');
+# Localized Language Stuff
 
-/** MySQL hostname */
-define('DB_HOST', 'localhost');
+define( 'WP_CACHE', false );
+define( 'WP_AUTO_UPDATE_CORE', false );
+define( 'PWP_NAME', 'primbsdev' );
+define( 'FS_METHOD', 'direct' );
+define( 'FS_CHMOD_DIR', 0775 );
+define( 'FS_CHMOD_FILE', 0664 );
+define( 'PWP_ROOT_DIR', '/nas/wp' );
+define( 'WPE_APIKEY', '95b125c434217b4a717e756504ce54df2a801209' );
+define( 'WPE_CLUSTER_ID', '34709' );
+define( 'WPE_CLUSTER_TYPE', 'pod' );
+define( 'WPE_ISP', true );
+define( 'WPE_BPOD', false );
+define( 'WPE_RO_FILESYSTEM', false );
+define( 'WPE_LARGEFS_BUCKET', 'largefs.wpengine' );
+define( 'WPE_SFTP_PORT', 2222 );
+define( 'WPE_LBMASTER_IP', '' );
+define( 'WPE_CDN_DISABLE_ALLOWED', true );
+define( 'DISALLOW_FILE_MODS', FALSE );
+define( 'DISALLOW_FILE_EDIT', FALSE );
+define( 'DISABLE_WP_CRON', false );
+define( 'WPE_FORCE_SSL_LOGIN', false );
+define( 'FORCE_SSL_LOGIN', false );
+/*SSLSTART*/ if ( isset($_SERVER['HTTP_X_WPE_SSL']) && $_SERVER['HTTP_X_WPE_SSL'] ) $_SERVER['HTTPS'] = 'on'; /*SSLEND*/
+define( 'WPE_EXTERNAL_URL', false );
+define( 'WP_POST_REVISIONS', FALSE );
+define( 'WPE_WHITELABEL', 'wpengine' );
+define( 'WP_TURN_OFF_ADMIN_BAR', false );
+define( 'WPE_BETA_TESTER', false );
+umask(0002);
 
-/** Database Charset to use in creating database tables. */
-define('DB_CHARSET', 'utf8');
+$wpe_cdn_uris=array ( );
 
-/** The Database Collate type. Don't change this if in doubt. */
-define('DB_COLLATE', '');
+$wpe_no_cdn_uris=array ( );
 
-/**#@+
- * Authentication Unique Keys and Salts.
- *
- * Change these to different unique phrases!
- * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
- * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
- *
- * @since 2.6.0
- */
-define('AUTH_KEY',         'put your unique phrase here');
-define('SECURE_AUTH_KEY',  'put your unique phrase here');
-define('LOGGED_IN_KEY',    'put your unique phrase here');
-define('NONCE_KEY',        'put your unique phrase here');
-define('AUTH_SALT',        'put your unique phrase here');
-define('SECURE_AUTH_SALT', 'put your unique phrase here');
-define('LOGGED_IN_SALT',   'put your unique phrase here');
-define('NONCE_SALT',       'put your unique phrase here');
+$wpe_content_regexs=array ( );
 
-/**#@-*/
+$wpe_all_domains=array ( 0 => 'demo.lakeside.dev5.sibers.com', );
 
-/**
- * WordPress Database Table prefix.
- *
- * You can have multiple installations in one database if you give each
- * a unique prefix. Only numbers, letters, and underscores please!
- */
-$table_prefix  = 'wp_';
+$wpe_varnish_servers=array ( 0 => 'pod-34709', );
 
-/**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- *
- * For information on other constants that can be used for debugging,
- * visit the Codex.
- *
- * @link https://codex.wordpress.org/Debugging_in_WordPress
- */
+$wpe_special_ips=array ( 0 => '127.0.0.1', );
+
+$wpe_ec_servers=array ( );
+
+$wpe_largefs=array ( );
+
+$wpe_netdna_domains=array ( );
+
+$wpe_netdna_domains_secure=array ( );
+
+$wpe_netdna_push_domains=array ( );
+
+$wpe_domain_mappings=array ( );
+
+$memcached_servers=array ( 'default' =>  array ( 0 => 'unix:///tmp/memcached.sock', ), );
+
+
+# WP Engine ID
+
+# WP Engine Settings
+define('WPCACHEHOME', '/nas/content/live/primbsdev/wp-content/plugins/wp-super-cache/');
+define('WP_MEMORY_LIMIT', '64M');
 define('WP_DEBUG', false);
+define( 'SCRIPT_DEBUG', true );
 
-/* That's all, stop editing! Happy blogging. */
-
-/** Absolute path to the WordPress directory. */
+# That's It. Pencils down
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
-
-/** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
+
+$_wpe_preamble_path = null; if(false){}
+
+// DB
+define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'].'');
+define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST'].'');
