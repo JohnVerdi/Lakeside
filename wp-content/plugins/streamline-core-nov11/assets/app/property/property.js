@@ -2519,10 +2519,12 @@
           if ($scope.cookiesData.checkIn && $scope.cookiesData.checkOut) {
               $scope.book.checkin = $scope.DateMDYConventer( new Date($scope.cookiesData.checkIn) );
               $scope.book.checkout = $scope.DateMDYConventer( new Date($scope.cookiesData.checkOut) );
+
+              $scope.refreshCalendar($scope.book.checkin);
+              $scope.refreshCalendar($scope.book.checkin);
+              jQuery('#book_start_date').datepicker("setDate", new Date($scope.cookiesData.checkIn));
           }
-          $scope.refreshCalendar($scope.book.checkin);
-          $scope.refreshCalendar($scope.book.checkin);
-          jQuery('#book_start_date').datepicker("setDate", new Date($scope.cookiesData.checkIn));
+
       });
 
       $scope.DateMDYConventer = function(date) {
