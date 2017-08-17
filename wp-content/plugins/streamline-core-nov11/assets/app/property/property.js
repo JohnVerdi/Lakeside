@@ -2495,6 +2495,9 @@
       };
 
       $scope.refreshCalendar = function (date) {
+          dateObj = new Date(date);
+          utc = dateObj.getTime() + (dateObj.getTimezoneOffset() * 60000);
+          date = new Date(utc + (0000000 * offset));
         var $ = jQuery,
             goTo = $.fullCalendar.moment(date).format('YYYY-MM-DD'),
             dateTime = new Date(date),
