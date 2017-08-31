@@ -209,7 +209,7 @@ jQuery(document).ready(function($) {
         this.container = container;
         this.calendar= null;
         this.form_container = null;
-
+console.log(22);
         this.init = function(){
             self.container = container;
             self.calendar = $('.calendar-content', self.container);
@@ -229,6 +229,7 @@ jQuery(document).ready(function($) {
                         }
                     }
                 },
+                timezone: 'UTC',
                 header : {
                     left:   'prev',
                     center: 'title',
@@ -322,7 +323,6 @@ jQuery(document).ready(function($) {
                     var html_class = "btn-disabled";
                     var is_disabled = "disabled";
                     var today_y_m_d = new Date().getFullYear() +"-"+(new Date().getMonth()+1)+"-"+new Date().getDate();
-
                     if(event.status == 'booked'){
                         html_class = "btn-available bnt-booked";
                     }
@@ -366,7 +366,7 @@ jQuery(document).ready(function($) {
                         _class = 'next_month';
                     }
 
-                    html += "<button  "+is_disabled+" data-toggle='tooltip' data-placement='top' class= '"+html_class+" "+_class+" btn' title ='"+title+"''>"+event.day;
+                    html += "<button  "+is_disabled+" data-toggle='tooltip' data-placement='top' class= '"+html_class+" "+_class+" btn' title ='"+title+"' data-date ='"+event.date+"''>"+event.day;
                     if (today_y_m_d === event.date) {
                         html += "<span class='triangle'></span>";
                     }
@@ -377,22 +377,29 @@ jQuery(document).ready(function($) {
                     $('[data-toggle="tooltip"]').tooltip({html:true});
                     $scope = angular.element($('#single-room')).scope();
 
-                    if (! $scope.book.checkin || !$scope.book.checkin) {
-                        return
-                    }
+                    // if (! $scope.book.checkin || !$scope.book.checkin) {
+                    //     return
+                    // }
+                    //
+                    // if ($scope.aviabilityDaysStatus === false){
+                    //     return
+                    // }
 
-                    if ($scope.aviabilityDaysStatus === false){
-                        return
-                    }
+                    // var checkInDate = new Date($scope.book.checkin);
+                    // // console.log(checkInDate);
+                    // var checkOutDate = new Date($scope.book.checkout);
+                    // // console.log(checkOutDate);
+                    // var d = new Date(event.date);
+                    // d.setHours(0,0,0,0);
+                    // var dateEvent = new Date(d)
+                    var check_in =  $scope.book.checkin.split('/');
+                    var checkInDate = check_in[2]+'-'+check_in[0]+'-'+check_in[1];
 
-                    var checkInDate = new Date($scope.book.checkin);
-                    var checkOutDate = new Date($scope.book.checkout);
-                    var dateEvent = new Date(event.date);
+                    var check_out =  $scope.book.checkout.split('/');
+                    var checkOutDate = check_out[2]+'-'+check_out[0]+'-'+check_out[1];
 
-                    if (compareDates(checkInDate, dateEvent) || compareDates(checkOutDate, dateEvent)) {
-
+                    if (compareDates(checkInDate, event.date) || compareDates(checkOutDate, event.date)) {
                         element.find('button').addClass('blue');
-
                         // If defined check in and check out date, fill in the intermediate dates
                         if ($('.btn-available.blue').length === 2) {
                             var buttons = $('.btn-available'),
@@ -415,9 +422,7 @@ jQuery(document).ready(function($) {
                     // return true if dates the same or false
                     function compareDates(firstDate, secondDate) {
                         return (
-                            (firstDate.getDate()  === secondDate.getDate()) &&
-                            (firstDate.getMonth() === secondDate.getMonth()) &&
-                            (firstDate.getYear()  === secondDate.getYear())
+                            firstDate === secondDate
                         )
                     }
                 },
