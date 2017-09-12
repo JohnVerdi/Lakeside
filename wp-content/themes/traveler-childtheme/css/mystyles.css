@@ -1,0 +1,501 @@
+#resortpro-book-unit .book-now-title-wrap {
+    width: 100%;
+    height: 60px;
+    background-color: #4BB6E4;
+}
+
+#resortpro-book-unit * {
+    outline: none !important;
+}
+
+#resortpro-book-unit .book-now-title {
+    font-size: 20px;
+    line-height: 40px;
+    text-align: left;
+    color: #ffffff;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.nopadding {
+    padding: 0!important;;
+}
+
+.fa-calendar-wrapper {
+    position: relative;
+}
+
+.fa-calendar-wrapper .fa-calendar {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    display: block;
+     top: 29px;
+    left: 1px;
+    text-align: center;
+    color: #b3b3b3;
+}
+
+.fa-calendar-wrapper .form-control {
+    padding-left: 32px;
+}
+
+.brad-5 {
+    border-radius: 5px;
+}
+
+#single-room .resortpro_unit_submit_blue {
+    background-color: #4BB6E4;
+    border-radius: 7px;
+    background-image: none;
+    border-color: #777777;
+}
+#single-room .resortpro_unit_submit_blue_spinner {
+    display: none;
+    font-size: 24px;
+}
+
+
+.fa-angle-button {
+    float: right;
+    padding-right: 5px;
+}
+
+.book-now-collapse-toggle {
+    cursor: pointer;
+}
+
+.resortpro_form_checkout .collapse table {
+    width: 100%;
+}
+
+.resortpro_form_checkout table td:first-child {
+    width: 70%;
+}
+
+.resortpro_form_checkout table td:first-child label {
+    text-transform: capitalize;
+}
+
+.resortpro_form_checkout table td:last-child {
+    text-align: right;
+    width: 30%;
+}
+
+.resortpro_form_checkout table td:last-child input[type="number"] {
+    max-width: 80px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding-left: 10%;
+}
+
+.resortpro_form_checkout table td:last-child input[type="number"]:active, .resortpro_form_checkout table td:last-child input[type="number"]:focus, .resortpro_form_checkout table td:last-child input[type="number"]:hover {
+    outline: none; !important;
+}
+
+
+.resortpro_form_checkout .form-group h4 {
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.resortpro_form_checkout .form-group h4:hover{
+    text-decoration: underline;
+    /*transform: scale(1.02);*/
+}
+
+.thumb-img-pages {
+    background: 50% 75% no-repeat;
+    background-size: cover ;
+    height: 500px;
+    width: 100%;
+}
+.booking-item-details {
+    border: 1px solid #aaa;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    border-radius:6px;
+    padding: 15px;
+}
+
+#coupon-code-wrap {
+    margin: 15px 0;
+}
+
+#coupon-code-wrap .counpon {
+    width: 70%;
+}
+
+#coupon-code-wrap .counpon-line {
+    height: 40px;
+    border: 1px solid #eee;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 7px;
+}
+
+#coupon-code-wrap .check-counpon {
+    width: 30%;
+    float: right;
+    color: #ffffff;
+    background-color: #4BB6E4;
+}
+
+#coupon-code-wrap .check-counpon:hover {
+    background-color: #47a0cc;
+}
+
+#coupon-code-wrap p {
+    margin: 0;
+}
+
+.resortpro_form_checkout .form-group.sub-collapse h4 {
+    width: 70%;
+    float: left;
+    border: 1px solid #eee;
+    height: 42px;
+    line-height: 42px;
+    margin: 0;
+    padding: 0 5px;
+}
+
+.resortpro_form_checkout .form-group.sub-collapse h4 .fa {
+    line-height: 42px;
+}
+
+.extras-results {
+    height: 42px;
+    text-align: right;
+    float: left;
+    width: 30%;
+    border: 1px solid #eee;
+    padding: 5px;
+}
+
+.extras-results span {
+    line-height: 32px;
+}
+
+.sub-collapse.form-group {
+    margin-bottom: 0;
+}
+
+h3.price {
+    color: #4bb6e4;
+    text-align: center;
+}
+
+#total-price-code-wrap td {
+    font-weight: bold;
+}
+
+.resortpro_form_checkout h4 {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.discount {
+    color: green;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.discount-wrap {
+    margin: 20px auto;
+    text-align: center;
+    width: 100%;
+}
+
+.discount-failed {
+    color: red!important;
+}
+
+.inquiry h3.error {
+    color: red;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.booking-item-details {
+    border-top: 1px solid #aaa !important;
+}
+
+.wpb_wrapper h5.border-bottom {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.term-cond-wrap *, #term_and_cond_modal_container * {
+    outline: none !important;
+}
+
+.term-cond-wrap .term-cond-check{
+    width: 15px;
+    height: 20px;
+    vertical-align: bottom;
+}
+
+.term-cond-wrap .term-cond-check-label{
+    display: inline;
+}
+
+.term-cond-wrap .term-cond {
+    cursor: pointer;
+    display: inline-block;
+    color: #4bb6e4;
+}
+
+#term_cond_wrapper {
+    display: none;
+    position: fixed;
+    background-color: rgba(0,0,0, 0.55);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 99;
+}
+
+#term_and_cond_modal_container .pos-wrap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#term_cond_wrapper .bgc-wrap {
+    width: 94%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 15px;
+    max-height: 90%;
+    overflow: auto;
+}
+
+#term_cond_wrapper .term-close-btn {
+    position: absolute;
+    right: 1%;
+    top: 2%;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #777;
+    border-radius: 50%;
+    background-color: #fff;
+    font-weight: bold;
+    display: block;
+    padding: 1px 0 0 7px;
+    color: #000000;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+#term_cond_wrapper .term-close-btn:hover {
+    color: #777;
+    border-color: #808080;
+}
+
+#term_cond_wrapper .confirm-buttons {
+    width: 100%;
+    margin: 20px 0;
+    text-align: right;
+}
+#term_cond_wrapper .confirm-buttons button {
+    display: inline-block;
+    margin: 0 7px;
+    outline: none;
+}
+
+#extras_top .optional-fee-container {
+    text-align: center;
+}
+
+#extras_top .optional-fee-container label {
+    cursor: pointer;
+    margin: 0;
+}
+
+#extras_top .optional-fee-container input {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.max-optional-fees {
+    width: 50px;
+    text-align: center;
+    border-color: #999 !important;
+    padding-left: 0 !important;
+    background-color: #f9f9f9;
+}
+
+.fr {
+    float: right;
+}
+
+#main button.blue:not(.btn-disabled) {
+    background-color: #4ab6e4;
+    border-color: #4ab6e4;
+    color: #fff !important;
+}
+
+#main button.bnt-first.blue {
+    background-color: #4ab6e4 !important;
+    border-color: #4ab6e4 !important;
+}
+
+#main button.bnt-first.blue:before {
+    border-bottom: 43px solid #1E4673!important;
+}
+
+#main button.bnt-still.blue {
+    background-color: #1E4673 !important;
+    border-color: #1E4673 !important;
+}
+
+#main button.bnt-still.blue:before {
+    border-bottom: 43px solid #4ab6e4!important;
+}
+
+
+ul.amenities .list-group-item {
+    width: 100%;
+    text-align: center;
+}
+
+.wpb_wrapper h3 {
+    margin: 20px 0 !important;
+}
+
+.bnt-booked {
+    opacity: .75 !important;
+    border: 1px solid #7a0000 !important;
+    background-color: rgba(125, 0, 0, 0.12) !important;
+}
+
+.bnt-first, .bnt-still {
+    opacity: .75 !important;
+    border: 1px solid #7a0000 !important;
+    background-color: transparent !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.bnt-first:before, .bnt-still:before {
+    border-bottom: 43px solid rgba(125, 0, 0, 0.12);
+    border-left: 96px solid transparent;
+    content: "";
+    height: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: -1;
+}
+
+.bnt-still:before {
+    border-bottom: 43px solid transparent;
+    border-left: 96px solid rgba(125, 0, 0, 0.12);
+}
+
+.bnt-still:hover {
+    background-color: #1E4673 !important;
+    border: 1px solid #1C455B !important;
+}
+
+.bnt-first:hover{
+    background-color: #48a5d0 !important;
+    border: 1px solid #48a5d0 !important;
+}
+
+.bnt-still:hover:before {
+    border-bottom: 43px solid #48a5d0!important;
+}
+
+.bnt-first:hover::before {
+    border-bottom: 43px solid #1E4673!important;
+}
+
+.redopacity .color{
+    border: 1px solid #7a0000 !important;
+    background-color: rgba(125, 0, 0, 0.12);
+}
+
+.calendar-bottom .color {
+    margin-bottom: -4px;
+}
+
+body {
+    overflow: visible !important;
+}
+
+.calendar-bottom .item.still .color::before {
+    border-color: transparent rgba(125, 0, 0, 0.25) #ccc transparent !important;
+}
+.calendar-bottom .item.still .color {
+    border-color: #7a0000 !important;
+}
+
+.fotorama__wrap {
+    margin: 0 auto;
+}
+
+.cust-alert {
+    text-align: center;
+    position: absolute;
+    right: 15px;
+    left: 15px;
+    z-index: 3;
+}
+
+.cust-alert ng-message {
+    text-align: center;
+    padding: 5px;
+}
+
+#checkout-wrapper input.ng-invalid.ng-dirty{
+    border: 1px solid #a94442;
+}
+
+#checkout-wrapper input.ng-valid.ng-dirty{
+    border: 1px solid #3c763d;
+}
+
+#checkout-wrapper .form-group {
+    margin-bottom: 25px;
+}
+
+#checkout-wrapper label {
+    position: relative;
+}
+
+#checkout-wrapper .required-input-after {
+    position: absolute;
+    color: #a94442;
+    right: -11px;
+    top: 13px;
+    font-size: 20px;
+}
+
+#checkout-wrapper .user-comments {
+    width: 100%;
+    height: 200px;
+    resize: none;
+}
+
+#checkout-wrapper .form-group span {
+    white-space: nowrap;
+}
+
+#checkout-wrapper .checkout-err{
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+#checkout-success td {
+    text-transform: capitalize;
+}
